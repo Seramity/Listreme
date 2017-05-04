@@ -1,0 +1,22 @@
+<header>
+    <div class="topbar-responsive">
+        <a class="logo" href="{{ path_for('home') }}"><span class="icon ion-android-checkmark-circle"></span> <span class="name">Lists</span></a>
+        <nav class="nav-collapse">
+            <ul>
+                {% if not auth.check %}
+                    <li class="menu-item"><a href="{{ path_for('auth.signin') }}"><span class="icon ion-log-in"></span> <span class="text">Login</span></a></li>
+                    <li class="menu-item"><a href="{{ path_for('auth.signup') }}"><span class="icon ion-person-add"></span> <span class="text">Register</span></a></li>
+                {% else %}
+                    <li class="menu-item avatar">
+                        <a>{{ auth.user.username }} <span class="entypo entypo-down-dir"></span></a>
+                        <ul class="topbar_dropdown">
+                            <li class="dropdown-item"><a href="#"><span class="icon ion-person"></span> <span class="text">Profile</span></a></li>
+                            <li class="dropdown-item"><a href="#"><span class="icon ion-gear-a"></span> <span class="text">Settings</span></a></li>
+                            <li class="dropdown-item"><a href="{{ path_for('auth.signout') }}"><span class="icon ion-android-exit"></span> <span class="text">Sign out</span></a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>

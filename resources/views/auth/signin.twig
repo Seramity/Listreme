@@ -1,0 +1,32 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Sign in{% endblock %}
+
+
+{% block content %}
+    {% include 'templates/partials/nav.twig' %}
+
+    <div class="section group page">
+        <div class="col span_4_of_4">
+            <div class="col span_2_of_2 main form">
+                <div class="col span_2_of_2 header">
+                    <h2>Sign in</h2>
+                    <hr>
+                </div>
+
+
+                <form action="{{ path_for('auth.signin') }}" method="post" autocomplete="off">
+                    <input type="text" name="identifier" id="identifier" placeholder="Email/Username" value="{{ old_input.identifier }}">
+                    {% if errors.identifier %} <div class="form_errors">{{ errors.identifier | first }}</div> {% endif %}
+
+                    <input type="password" name="password" id="password" placeholder="Password"">
+                    {% if errors.password %} <div class="form_errors">{{ errors.password | first }}</div> {% endif %}
+
+                    <input type="submit" value="Create Account">
+
+                    {{ csrf.field | raw }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

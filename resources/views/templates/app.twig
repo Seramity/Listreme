@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'templates/partials/head.twig' %}
+    <title>{% block pageTitle %}{% endblock %} | Lists</title>
+</head>
+
+<body>
+    {% include 'templates/partials/flash.twig' %}
+    {% block content %} {% endblock %}
+    {% include 'templates/partials/footer.twig' %}
+</body>
+
+</html>

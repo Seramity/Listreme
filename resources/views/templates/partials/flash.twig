@@ -1,0 +1,17 @@
+{% if flash.getMessage('global_notice') %}
+    <script type="text/javascript">
+        notification("{{ flash.getMessage('global_notice') | first }}", 'information');
+    </script>
+{% endif %}
+
+{% if flash.getMessage('global_success') %}
+    <script type="text/javascript">
+        notification("{{ flash.getMessage('global_success')| first }}", 'success');
+    </script>
+{% endif %}
+
+{% if flash.getMessage('global_error') %}
+    <script type="text/javascript">
+        notification("{{ flash.getMessage('global_error') | first }}", 'error');
+    </script>
+{% endif %}
