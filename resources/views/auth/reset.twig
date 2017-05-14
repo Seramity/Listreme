@@ -1,0 +1,31 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Reset Password{% endblock %}
+
+
+{% block content %}
+    {% include 'templates/partials/nav.twig' %}
+
+    <div class="section group page">
+        <div class="col span_4_of_4">
+            <div class="col span_2_of_2 main form">
+                <div class="col span_2_of_2 header">
+                    <h2>Reset Password</h2>
+                    <hr>
+                </div>
+
+                <form action="{{ path_for('auth.reset', {identifier : identifier}) }}" method="post" autocomplete="off">
+                    <input type="password" name="password" id="password" placeholder="New Password" value="{{ old_input.password }}">
+                    {% if errors.password %} <div class="form_errors">{{ errors.password | first }}</div> {% endif %}
+
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" value="{{ old_input.confirm_password }}">
+                    {% if errors.confirm_password %} <div class="form_errors">{{ errors.confirm_password | first }}</div> {% endif %}
+
+                    <input type="submit" value="Reset Password">
+
+                    {{ csrf.field | raw }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

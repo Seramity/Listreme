@@ -11,6 +11,12 @@ $app = new \Slim\App([
     'settings' => [
         'displayErrorDetails' => true,
 
+        'app' => [
+            'name' => 'Lists',
+            'name_dev' => 'Lists v0.0.1-alpha',
+            'baseUrl' => 'http://localhost'
+        ],
+
         'db' => [
             'driver' => 'mysql',
             'host' => 'localhost',
@@ -57,6 +63,12 @@ $container['view'] = function ($container) {
         $container->request->getUri()
     ));
 
+    // APP GLOBALS
+    $view->getEnvironment()->addGlobal('app_title', $container['settings']['app']['name']);
+    $view->getEnvironment()->addGlobal('app_title_dev', $container['settings']['app']['name_dev']);
+    $view->getEnvironment()->addGlobal('baseUrl', $container['settings']['app']['baseUrl']);
+
+
     // SEND AUTH INTO VIEWS
     $view->getEnvironment()->addGlobal('auth', [
         'check' => $container->auth->check(),
@@ -74,26 +86,89 @@ $container['validator'] = function ($container) {
     return new App\Validation\Validator;
 };
 
-// CONTROLLERS
+
+// CONTROLLERS //
 
 $container['HomeController'] = function ($container) {
     return new \App\Controllers\HomeController($container);
 };
 
+// AUTH CONTROLLERS
 $container['AuthController'] = function ($container) {
     return new \App\Controllers\Auth\AuthController($container);
 };
-
 $container['PasswordController'] = function ($container) {
     return new \App\Controllers\Auth\PasswordController($container);
 };
+$container['RecoverController'] = function ($container) {
+    return new \App\Controllers\Auth\RecoverController($container);
+};
+$container['ProfileSettingsController'] = function ($container) {
+    return new \App\Controllers\Auth\Account\PRofileSettingsController($container);
+};
 
+// USER CONTROLLERS
+$container['ProfileController'] = function ($container) {
+    return new \App\Controllers\User\ProfileController($container);
+};
+
+
+// 404 ERROR HANDLING
+$container['notFoundHandler'] = function ($container) {
+    return function ($request, $response) use ($container) {
+        return $container->view->render($response, 'errors/404.twig')->withStatus(404);
+    };
+};
+// 500 ERROR HANDLING
+$container['phpErrorHandler'] = function ($container) {
+  return function ($request, $response) use ($container) {
+    return $container->view->render($response, 'errors/500.twig')->withStatus(500);
+  };
+};
 
 
 $container['csrf'] = function ($container) {
   return new \Slim\Csrf\Guard;
 };
 
+// RANDOMLIB FOR AUTH HASHING
+$container['hash'] = function ($container) {
+  return new \App\Hash\Hash;
+};
+$container['randomlib'] = function ($container) {
+  return new \RandomLib\Factory;
+};
+$container['securitylib'] = function ($container) {
+    return new SecurityLib\Strength(SecurityLib\Strength::MEDIUM);
+};
+
+
+// MAILER
+$container['mailer'] = function ($container) {
+    $mailer = new PHPMailer(true);
+    $mailer->IsSMTP();
+
+    $mailer->Host = '';
+    $mailer->SMTPAuth = true;
+    $mailer->SMTPSecure = 'tls';
+    $mailer->Port = 80;
+    $mailer->Username = '';
+    $mailer->Password = '';
+    $mailer->From = '';
+    $mailer->FromName = '';
+    $mailer->isHTML(true);
+
+    //  PHP 5.6+ SSL fix
+    $mailer->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => false
+        )
+    );
+
+    return new \App\Mail\Mailer($container->view, $mailer);
+};
 
 
 // MIDDLEWARE
@@ -102,6 +177,7 @@ $app->add(new \App\Middleware\FormInputMiddleware($container));
 $app->add(new \App\Middleware\CsrfMiddleware($container));
 
 $app->add($container->csrf);
+
 
 
 // SET CUSTOM RULES INTO RESPECT VALIDATOR

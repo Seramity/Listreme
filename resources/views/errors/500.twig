@@ -1,0 +1,16 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Internal Server Error{% endblock %}
+
+{% block content %}
+
+    {% include 'templates/partials/nav.twig' %}
+
+    <div class="section group page">
+        <div class="col span_4_of_4">
+            <h1>Oh no!</h1>
+            <h3>An unexpected error happened. Try refreshing the page? Or contact us if the problem continues.</h3>
+        </div>
+    </div>
+
+{% endblock %}

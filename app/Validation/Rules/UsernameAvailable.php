@@ -9,8 +9,19 @@ use Respect\Validation\Rules\AbstractRule;
 
 class UsernameAvailable extends AbstractRule
 {
+    protected $current_username;
+
+    public function __construct($current_username)
+    {
+        $this->current_username = $current_username;
+    }
+
     public function validate($input)
     {
-        return User::where('username', $input)->count() == 0;
+        if($this->current_username && $this->current_username === $input) {
+            return true;
+        } else {
+            return User::where('username', $input)->count() == 0;
+        }
     }
 }

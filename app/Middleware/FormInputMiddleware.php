@@ -10,6 +10,8 @@ class FormInputMiddleware extends Middleware
         if (isset($_SESSION['old_input'])) {
             $this->container->view->getEnvironment()->addGlobal('old_input', $_SESSION['old_input']);
             $_SESSION['old_input'] = $request->getParams();
+        } else {
+            unset($_SESSION['old_input']); // Removes bug of session never setting or stuck on empty
         }
 
         // CALL NEXT MIDDLEWARE

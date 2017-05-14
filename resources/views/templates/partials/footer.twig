@@ -1,9 +1,9 @@
 <footer class="section group footer">
     <div class="col span_4_of_4">
         <div class="col span_1_of_3">
-            <h3>Lists</h3>
+            <h3>{{ app_title_dev }}</h3>
             <p class="muted">
-                Made with <i class="icon ion-heart" style="color:rgb(234, 108, 108);"></i> by <a href="#">Nick</a>.
+                Made with <i class="icon ion-heart" style="color:rgb(234, 108, 108);"></i> by <a href="{{ path_for('userProfile', {user : "nick"}) }}">Nick</a>.
             </p>
         </div>
         <div class="col span_2_of_3">

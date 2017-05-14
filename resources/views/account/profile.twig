@@ -1,0 +1,84 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Profile Settings{% endblock %}
+
+{% block content %}
+
+    {% include 'templates/partials/nav.twig' %}
+
+    <div class="section group page">
+
+        <div class="col span_1_of_4">
+
+            {% include 'account/partials/sidenav.twig' %}
+
+        </div>
+
+        <div class="col span_3_of_4">
+
+            <div class="col span_4_of_4 main form">
+                <form action="{{ path_for('account.profile') }}" method="post" autocomplete="off" class="profile-settings-form">
+
+                    <div class="col span_2_of_2 header">
+                        <h2>Profile Settings</h2>
+                        <hr>
+                    </div>
+
+                    <div class="col span_2_of_2">
+
+                        <label>
+                            Username
+                            <input type="text" name="username" id="username" value="{% if old_input.username %}{{ old_input.username }}{% else %}{{ auth.user.username }}{% endif %}">
+                            {% if errors.username %} <div class="form_errors">{{ errors.username | first }}</div> {% endif %}
+                        </label>
+
+                        <label>
+                            Email
+                            <input type="email" name="email" id="email" value="{% if old_input.email %}{{ old_input.email }}{% else %}{{ auth.user.email }}{% endif %}">
+                            {% if errors.email %} <div class="form_errors">{{ errors.email | first }}</div> {% endif %}
+                        </label>
+
+                        <label>
+                            Name
+                            <input type="text" name="name" id="name" value="{% if old_input.name %}{{ old_input.name }}{% else %}{{ auth.user.name }}{% endif %}">
+                            {% if errors.name %} <div class="form_errors">{{ errors.name | first }}</div> {% endif %}
+                        </label>
+
+                        <label>
+                            Bio
+                            <textarea name="bio" placeholder="A few words about yourself.">{% if old_input.bio %}{{ old_input.bio }}{% else %}{{ auth.user.bio }}{% endif %}</textarea>
+                            {% if errors.bio %} <div class="form_errors">{{ errors.bio | first }}</div> {% endif %}
+                        </label>
+
+                    </div>
+
+                    <div class="col span_2_of_2">
+                        <input type="submit" value="Update" data-submit-value="Updating...">
+
+                        {{ csrf.field | raw }}
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+
+        $('.profile-settings-form').on('submit', function() {
+
+            var self = $(this),
+                button = self.find('input[type="submit"], button'),
+                submitValue = button.data('submit-value');
+
+            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
+
+        });
+    </script>
+
+{% endblock %}

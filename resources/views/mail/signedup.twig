@@ -1,0 +1,9 @@
+<p>Hello {{ user.username }},</p>
+<p>Thank you for signing up to {{ app_title }}.</p>
+<p>Before you can sign in, you'll first need to activate your account.</p>
+<p>
+    Go to the following link: <a href="{{ baseUrl }}{{ path_for('auth.activate') }}?email={{ user.email }}&id={{ identifier }}">Activate your account</a>
+</p>
+<p>
+    {{ baseUrl }}{{ path_for('auth.activate') }}?email={{ user.email }}&identifier={{ identifier }}
+</p>
