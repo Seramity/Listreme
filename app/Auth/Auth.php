@@ -5,21 +5,44 @@ namespace App\Auth;
 
 use App\Models\User;
 
-
+/**
+ * Class Auth
+ *
+ * This class is the basis for user authentication.
+ * Sets user sessions and provides data from User model.
+ *
+ * @package App\Auth
+ */
 class Auth
 {
-
+    /**
+     * Checks if user session exist and return the User.
+     *
+     * @return array User
+     */
     public function user()
     {
         if(isset($_SESSION['user'])) return User::find($_SESSION['user']);
     }
 
+    /**
+     * Checks if user session exists.
+     *
+     * @return bool
+     */
     public function check()
     {
         return isset($_SESSION['user']);
     }
 
-
+    /**
+     * Attempts user login with a given identifier (username or email) and password.
+     *
+     * @param string $identifier
+     * @param string $password
+     *
+     * @return bool
+     */
     public function attempt($identifier, $password)
     {
         $user = User::where('username', '=', $identifier)->orWhere('email', '=', $identifier)->first();
@@ -27,7 +50,7 @@ class Auth
         if(!$user) return false;
 
         if(password_verify($password, $user->password)) {
-            if(!$user->active) return $user; // IF ACCOUNT IS NOT ACTIVATED
+            if(!$user->active) return $user;
 
             $_SESSION['user'] = $user->id;
             return true;
@@ -35,6 +58,7 @@ class Auth
 
         return false;
     }
+
 
     public function signout()
     {

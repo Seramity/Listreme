@@ -2,7 +2,14 @@
 
 namespace App\Middleware;
 
-
+/**
+ * Class FormInputMiddleware
+ *
+ * Middleware that saves user input from forms into sessions in case form errors occur.
+ * This prevents users having to re-enter data that is not sensitive.
+ *
+ * @package App\Middleware
+ */
 class FormInputMiddleware extends Middleware
 {
     public function __invoke($request, $response, $next)

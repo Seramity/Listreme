@@ -2,7 +2,13 @@
 
 namespace App\Middleware;
 
-
+/**
+ * Class GuestMiddleware
+ *
+ * Middleware that checks if a user is not logged in to grant permission to certain pages.
+ *
+ * @package App\Middleware
+ */
 class GuestMiddleware extends Middleware
 {
     public function __invoke($request, $response, $next)

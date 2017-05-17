@@ -2,7 +2,13 @@
 
 namespace App\Middleware;
 
-
+/**
+ * Class ValidationErrorsMiddleware
+ *
+ * Checks if there are form validation errors and sets them into the Slim Twig view.
+ *
+ * @package App\Middleware
+ */
 class ValidationErrorsMiddleware extends Middleware
 {
     public function __invoke($request, $response, $next)

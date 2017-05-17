@@ -2,7 +2,13 @@
 
 namespace App\Middleware;
 
-
+/**
+ * Class CsrfMiddleware
+ *
+ * Middleware that sets cross-site request forgery tokens for forms into the Slim Twig view.
+ *
+ * @package App\Middleware
+ */
 class CsrfMiddleware extends Middleware
 {
     public function __invoke($request, $response, $next)
