@@ -4,10 +4,10 @@
 
 <p>Before you can sign in, you'll first need to activate your account.</p>
 <p>
-    Go to the following link to reset your password: <a href="{{ baseUrl }}{{ path_for('auth.reset', {identifier : identifier}) }}">Reset password</a>
+    Go to the following link to reset your password: <a href="{{ app.baseUrl }}{{ path_for('auth.reset', {identifier : identifier}) }}">Reset password</a>
 </p>
 <p>
-    {{ baseUrl }}{{ path_for('auth.reset', {identifier : identifier}) }}
+    {{ app.baseUrl }}{{ path_for('auth.reset', {identifier : identifier}) }}
 </p>
 
 <p>

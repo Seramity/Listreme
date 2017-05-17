@@ -10,7 +10,7 @@ class ConfirmPasswordException extends ValidationException
 {
     public static $defaultTemplates = [
         self::MODE_DEFAULT => [
-            self::STANDARD => "Both passwords fields must match each other"
+            self::STANDARD => "Both new password fields must match each other"
         ]
     ];
 }

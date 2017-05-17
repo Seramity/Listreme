@@ -28,10 +28,12 @@ class User extends Model
 
     public $MIN_PASSWORD_CHAR = 6;
 
+    public $PASS_STRENGTH = ['cost' => 12];
+
 
     public function setPassword($password, $reset)
     {
-        $query = ['password' => password_hash($password, PASSWORD_DEFAULT)];
+        $query = ['password' => password_hash($password, PASSWORD_BCRYPT, $this->PASS_STRENGTH)];
         if ($reset) $query += array('recover_hash' => NULL); // For password resets
 
         $this->update($query);
@@ -49,12 +51,29 @@ class User extends Model
     public function getAvatar($options = [])
     {
         $size = isset($options['size']) ? $options['size'] : 45;
+        $adminClass = "";
 
         if($this->gravatar) {
             $email = md5(strtolower($this->email));
             $src = 'https://www.gravatar.com/avatar/'.$email.'?s='.$size.'&amp;d=identicon';
         }
+        if($this->isAdmin()) $adminClass = 'class="admin_avatar"';
 
-        return '<img id="user-avatar" src="'.$src.'" alt="'.$this->username.'" style="width:'.$size.'px;">';
+        return '<img id="user-avatar" '.$adminClass.' src="'.$src.'" alt="'.$this->username.'" style="width:'.$size.'px;">';
+    }
+
+
+    public function hasPermission($permission)
+    {
+        return (bool) $this->permissions->{$permission};
+    }
+    public function isAdmin()
+    {
+        return $this->hasPermission('is_admin');
+    }
+
+    public function permissions()
+    {
+        return $this->hasOne('App\Models\UserPermission', 'user_id');
     }
 }

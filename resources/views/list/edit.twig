@@ -1,0 +1,84 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Edit List{% endblock %}
+
+{% block content %}
+
+{% include 'templates/partials/nav.twig' %}
+
+<div class="section group page">
+
+    <div class="col span_4_of_4 main form">
+        <form action="{{ path_for('list.edit', {id : list.id}) }}" method="post" autocomplete="off" class="editlist-form">
+
+            <div class="col span_2_of_2 header">
+                <h2>Edit List</h2>
+                <hr>
+            </div>
+
+            <div class="col span_2_of_2">
+                <div class="col span_1_of_3">
+                    <label>
+                        Title
+                        <input type="text" name="title" id="title" placeholder="A good, short title" value="{% if old_input.title %}{{ old_input.title }}{% else %}{{ list.title }}{% endif %}">
+                        {% if errors.title %} <div class="form_errors">{{ errors.title | first }}</div> {% endif %}
+                    </label>
+                </div>
+                <div class="col span_1_of_3">
+                    <label>
+                        Category
+                        <input type="text" name="category" id="category" placeholder="Organize this list with others" value="{% if old_input.category %}{{ old_input.category }}{% else %}{{ list.category }}{% endif %}">
+                        {% if errors.category %} <div class="form_errors">{{ errors.category | first }}</div> {% endif %}
+                    </label>
+                </div>
+                <div class="col span_1_of_3">
+                    <label>
+                        List Size [<span class="tooltip-bottom" data-tooltip="How large your list will display (This can be changed anytime after creation)">?</span>]
+                        <select name="size" id="size">
+                            <option value="0" {% if old_input.size == 0 or list.size == 0 %}selected{% endif %}>Small</option>
+                            <option value="1" {% if old_input.size == 1 or list.size == 1 %}selected{% endif %}>Medium</option>
+                            <option value="2" {% if old_input.size == 2 or list.size == 2 %}selected{% endif %}>Large</option>
+                        </select>
+                        {% if errors.size %} <div class="form_errors">{{ errors.size | first }}</div> {% endif %}
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="col span_2_of_2">
+                <label>
+                    Content
+                    <textarea name="content" id="content">{% if old_input.content %}{{ old_input.content }}{% else %}{{ list.content }}{% endif %}</textarea>
+                    {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
+                    <div style="text-align:right">Lists support <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a></div>
+                </label>
+            </div>
+
+            <div class="col span_2_of_2">
+                <input type="submit" value="Save" data-submit-value="Saving...">
+
+                {{ csrf.field | raw }}
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    $('.editlist-form').on('submit', function() {
+
+        var self = $(this),
+            button = self.find('input[type="submit"], button'),
+            submitValue = button.data('submit-value');
+
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+        document.getElementById("ajax-loader").style.visibility = "visible";
+
+    });
+</script>
+
+{% endblock %}

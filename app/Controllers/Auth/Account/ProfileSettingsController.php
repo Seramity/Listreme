@@ -19,7 +19,7 @@ class ProfileSettingsController extends Controller
         $validation = $this->validator->validate($request, [
             'username' => v::noWhitespace()->notEmpty()->length(3, $this->auth->user()->MAX_USERNAME_CHAR)->usernameAvailable($this->auth->user()->username),
             'email' => v::noWhitespace()->notEmpty()->email()->length(NULL, $this->auth->user()->MAX_EMAIL_CHAR)->emailAvailable($this->auth->user()->email),
-            'name' => v::alpha()->length(NULL, $this->auth->user()->MAX_NAME_CHAR),
+            'name' => v::optional(v::alpha())->length(NULL, $this->auth->user()->MAX_NAME_CHAR),
             'bio' => v::length(NULL, $this->auth->user()->MAX_BIO_CHAR),
         ]);
 

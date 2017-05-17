@@ -1,28 +1,33 @@
 <?php
 
 use Respect\Validation\Validator as v;
+use Dotenv\Dotenv as dotenv;
 
 
 session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
 
+//GET ENV VARIABLES
+$dotenv = new Dotenv(__DIR__ . '/../');
+$dotenv->load();
+
 $app = new \Slim\App([
     'settings' => [
         'displayErrorDetails' => true,
 
         'app' => [
-            'name' => 'Lists',
-            'name_dev' => 'Lists v0.0.1-alpha',
-            'baseUrl' => 'http://localhost'
+            'name' => $_ENV['APP_NAME'],
+            'version' => $_ENV['APP_VERSION'],
+            'baseUrl' => $_ENV['APP_BASEURL']
         ],
 
         'db' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
-            'database' => 'lists',
-            'username' => 'root',
-            'password' => '',
+            'host' => $_ENV['DB_HOST'],
+            'database' => $_ENV['DB_DATABASE'],
+            'username' => $_ENV['DB_USERNAME'],
+            'password' => $_ENV['DB_PASSWORD'],
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
@@ -64,9 +69,7 @@ $container['view'] = function ($container) {
     ));
 
     // APP GLOBALS
-    $view->getEnvironment()->addGlobal('app_title', $container['settings']['app']['name']);
-    $view->getEnvironment()->addGlobal('app_title_dev', $container['settings']['app']['name_dev']);
-    $view->getEnvironment()->addGlobal('baseUrl', $container['settings']['app']['baseUrl']);
+    $view->getEnvironment()->addGlobal('app', $container['settings']['app']);
 
 
     // SEND AUTH INTO VIEWS
@@ -74,6 +77,7 @@ $container['view'] = function ($container) {
         'check' => $container->auth->check(),
         'user' => $container->auth->user(),
     ]);
+
 
     // SEND FLASH MESSAGES INTO VIEWS
     $view->getEnvironment()->addGlobal('flash', $container->flash);
@@ -112,6 +116,18 @@ $container['ProfileController'] = function ($container) {
     return new \App\Controllers\User\ProfileController($container);
 };
 
+// LIST CONTROLLERS
+$container['NewListController'] = function ($container) {
+  return new \App\Controllers\Lists\NewListController($container);
+};
+$container['EditListController'] = function ($container) {
+    return new \App\Controllers\Lists\EditListController($container);
+};
+$container['DeleteListController'] = function ($container) {
+    return new \App\Controllers\Lists\DeleteListController($container);
+};
+
+
 
 // 404 ERROR HANDLING
 $container['notFoundHandler'] = function ($container) {
@@ -148,14 +164,14 @@ $container['mailer'] = function ($container) {
     $mailer = new PHPMailer(true);
     $mailer->IsSMTP();
 
-    $mailer->Host = '';
+    $mailer->Host = $_ENV['MAIL_HOST'];
     $mailer->SMTPAuth = true;
-    $mailer->SMTPSecure = 'tls';
-    $mailer->Port = 80;
-    $mailer->Username = '';
-    $mailer->Password = '';
-    $mailer->From = '';
-    $mailer->FromName = '';
+    $mailer->SMTPSecure = $_ENV['MAIL_SMTPSECURE'];
+    $mailer->Port = $_ENV['MAIL_PORT'];
+    $mailer->Username = $_ENV['MAIL_USERNAME'];
+    $mailer->Password = $_ENV['MAIL_PASSWORD'];
+    $mailer->From = $_ENV['MAIL_FROM'];
+    $mailer->FromName = $_ENV['MAIL_FROMNAME'];
     $mailer->isHTML(true);
 
     //  PHP 5.6+ SSL fix

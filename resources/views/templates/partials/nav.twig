@@ -1,6 +1,6 @@
 <header>
     <div class="topbar-responsive">
-        <a class="logo" href="{{ path_for('home') }}"><span class="icon ion-android-checkmark-circle"></span> <span class="name">{{ app_title }}</span></a>
+        <a class="logo" href="{{ path_for('home') }}"><div class="name">Listreme<span class="light">.i<span class="icon ion-android-checkmark-circle"></span></span></div></a>
         <nav class="nav-collapse">
             <ul>
                 {% if not auth.check %}
@@ -9,6 +9,7 @@
                 {% else %}
                     <li class="menu-item"><a href="#"><span class="icon ion-home"></span> <span class="text">Home</span></a></li>
                     <li class="menu-item"><a href="#"><span class="icon ion-compass"></span> <span class="text">Explore</span></a></li>
+                    <li class="menu-item"><a href="{{ path_for('list.new') }}"><span class="icon ion-compose"></span> <span class="text">New List</span></a></li>
 
                     <li class="menu-item avatar">
 

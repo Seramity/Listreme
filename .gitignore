@@ -1,2 +1,6 @@
 .idea
 /vendor
+.env
+public/assets/
+public/css/
+public/js/

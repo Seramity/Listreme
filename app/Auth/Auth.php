@@ -27,7 +27,7 @@ class Auth
         if(!$user) return false;
 
         if(password_verify($password, $user->password)) {
-            if(!$user->active) return $user; // IF ACCOUNT IF NOT ACTIVATED
+            if(!$user->active) return $user; // IF ACCOUNT IS NOT ACTIVATED
 
             $_SESSION['user'] = $user->id;
             return true;

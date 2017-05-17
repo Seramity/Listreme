@@ -19,39 +19,25 @@
         </div>
 
         <div class="col span_4_of_4">
-            <div class="col span_1_of_3 box">
-                <h2 class="muted">List 1</h2>
-                <hr>
+            <h1 class="muted">Lists</h1>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin aliquam vel velit non bibendum. Nullam porta, tellus id gravida eleifend, augue est maximus ante, ut vestibulum quam nisl at eros. Aenean eros sapien, scelerisque non erat non, elementum consequat sem. Nam ac tortor vitae est malesuada faucibus et in felis. Aenean in finibus elit, quis pulvinar lectus. Vivamus congue auctor ante. Sed vitae nisl id lacus porta semper quis ac ligula. Morbi nec nulla orci. Suspendisse suscipit facilisis sodales. Nulla posuere risus sed erat vehicula feugiat. Sed eget felis et ipsum vulputate scelerisque id non purus. Morbi non nunc id metus luctus ultrices. In quis fermentum neque.</p>
-                <ul>
-                    <li>Proin aliquam vel velit non bibendum.</li>
-                    <li>Aenean in finibus elit, quis pulvinar lectus.</li>
-                    <li>Sed bibendum rutrum sodales.</li>
-                    <li>Cras sit amet pharetra tortor.</li>
-                    <li>Phasellus convallis viverra urna, eget pharetra lorem dictum quis.</li>
-                </ul>
-            </div>
-            <div class="col span_1_of_3 box">
-                <h2 class="muted">List 2</h2>
-                <hr>
+            {% for list in lists %}
+                <div class="col listbox {% if list.size == 0 %}span_1_of_3{% elseif list.size == 1 %}span_2_of_3{% else %}span_3_of_3{% endif %}">
+                    <h2 class="title muted">{{ list.title }}</h2>
+                    <div class="category">{{ list.category }}</div>
+                    <hr>
 
-                <ul>
-                    <li>Proin aliquam vel velit non bibendum.</li>
-                    <li>Aenean in finibus elit, quis pulvinar lectus.</li>
-                    <li>Sed bibendum rutrum sodales.</li>
-                    <li>Cras sit amet pharetra tortor.</li>
-                    <li>Phasellus convallis viverra urna, eget pharetra lorem dictum quis.</li>
-                </ul>
-            </div>
-            <div class="col span_1_of_3 box">
-                <h2 class="muted">List 3</h2>
-                <hr>
+                    <div class="content">{{ list.markdownContent() | raw }}</div>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin aliquam vel velit non bibendum. Nullam porta, tellus id gravida eleifend, augue est maximus ante, ut vestibulum quam nisl at eros. Aenean eros sapien, scelerisque non erat non, elementum consequat sem. Nam ac tortor vitae est malesuada faucibus et in felis. Aenean in finibus elit, quis pulvinar lectus. Vivamus congue auctor ante. Sed vitae nisl id lacus porta semper quis ac ligula. Morbi nec nulla orci. Suspendisse suscipit facilisis sodales. Nulla posuere risus sed erat vehicula feugiat. Sed eget felis et ipsum vulputate scelerisque id non purus. Morbi non nunc id metus luctus ultrices. In quis fermentum neque.</p>
+                    <div class="date">{{ list.created_at }}</div>
+                    <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
+                    <a href="{{ path_for('list.delete', {id : list.id}) }}">Delete</a>
+                </div>
+            {% endfor %}
 
-            </div>
         </div>
+
+
     </div>
 
 {% endblock %}

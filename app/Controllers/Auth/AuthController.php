@@ -4,6 +4,7 @@ namespace App\Controllers\Auth;
 
 
 use App\Models\User;
+use App\Models\UserPermission;
 use App\Controllers\Controller;
 use Respect\Validation\Validator as v;
 
@@ -67,6 +68,8 @@ class AuthController extends Controller
             'active_hash' => $this->hash->hash($identifier),
             'gravatar' => 1
         ]);
+
+        $user->permissions()->create(UserPermission::$defaults);
 
         $this->mailer->send($response, 'mail/signedup.twig', ['user' => $user, 'identifier' => $identifier], function ($message) use ($user) {
             $message->to($user->email);
