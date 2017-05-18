@@ -126,6 +126,9 @@ $container['EditListController'] = function ($container) {
 $container['DeleteListController'] = function ($container) {
     return new \App\Controllers\Lists\DeleteListController($container);
 };
+$container['FavoriteListController'] = function ($container) {
+    return new \App\Controllers\Lists\FavoriteListController($container);
+};
 
 
 
@@ -136,11 +139,11 @@ $container['notFoundHandler'] = function ($container) {
     };
 };
 // 500 ERROR HANDLING
-$container['phpErrorHandler'] = function ($container) {
+/*$container['phpErrorHandler'] = function ($container) {
   return function ($request, $response) use ($container) {
     return $container->view->render($response, 'errors/500.twig')->withStatus(500);
   };
-};
+};*/ // REMOVED TEMPORARILY FOR IMPROVED ERROR REPORTING
 
 
 $container['csrf'] = function ($container) {

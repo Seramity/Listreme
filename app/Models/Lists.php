@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ListFavorite;
 use Illuminate\Database\Eloquent\Model;
 use Michelf\Markdown;
 
@@ -21,7 +22,7 @@ class Lists extends Model
      * @var array $fillable
      */
     protected $fillable = [
-        'uid',
+        'user_id',
         'title',
         'content',
         'category',
@@ -54,6 +55,35 @@ class Lists extends Model
     public function markdownContent()
     {
         return Markdown::defaultTransform($this->content);
+    }
+
+    /**
+     * Finds ListFavorite with List ID and then allows access through the Lists model.
+     *
+     * @return Object ListFavorite
+     */
+    public function favorite()
+    {
+        return ListFavorite::where('list_id', $this->id)->first();
+    }
+
+    public function favorited($uid)
+    {
+        $favorite = ListFavorite::where(['list_id' => $this->id, 'user_id' => $uid])->first();
+        return (bool) $favorite;
+    }
+
+    /**
+     * Deletes all list favorites and then deletes list.
+     */
+    public function deleteList()
+    {
+        $favorites = ListFavorite::where('list_id', $this->id)->get();
+        foreach ($favorites as $favorite) {
+            $favorite->delete();
+        }
+
+        $this->delete();
     }
 
 }

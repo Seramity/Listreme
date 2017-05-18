@@ -14,7 +14,7 @@ class AuthMiddleware extends Middleware
     public function __invoke($request, $response, $next)
     {
         if(!$this->container->auth->check()) {
-            $this->container->flash->addMessage('global_notice', 'You must be signed in to access that page');
+            $this->container->flash->addMessage('global_notice', 'You must be signed in to do that');
             return $response->withRedirect($this->container->router->pathFor('auth.signin'));
         }
 

@@ -15,23 +15,22 @@
                     <h2>Create New List</h2>
                     <hr>
                 </div>
-
                 <div class="col span_2_of_2">
-                    <div class="col span_1_of_3">
+                    <div class="col span_1_of_3 input_field">
                         <label>
                             Title
                             <input type="text" name="title" id="title" placeholder="A good, short title" value="{% if old_input.title %}{{ old_input.title }}{% endif %}">
                             {% if errors.title %} <div class="form_errors">{{ errors.title | first }}</div> {% endif %}
                         </label>
                     </div>
-                    <div class="col span_1_of_3">
+                    <div class="col span_1_of_3 input_field">
                         <label>
                             Category
                             <input type="text" name="category" id="category" placeholder="Organize this list with others" value="{% if old_input.category %}{{ old_input.category }}{% endif %}">
                             {% if errors.category %} <div class="form_errors">{{ errors.category | first }}</div> {% endif %}
                         </label>
                     </div>
-                    <div class="col span_1_of_3">
+                    <div class="col span_1_of_3 input_field">
                         <label>
                             List Size [<span class="tooltip-bottom" data-tooltip="How large your list will display (This can be changed anytime after creation)">?</span>]
                             <select name="size" id="size">
@@ -43,7 +42,6 @@
                         </label>
                     </div>
                 </div>
-
 
                 <div class="col span_2_of_2">
                     <label>

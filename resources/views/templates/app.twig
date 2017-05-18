@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     {% include 'templates/partials/head.twig' %}
-    <title>{% block pageTitle %}{% endblock %} | {{ app_title }}</title>
+    <title>{% block pageTitle %}{% endblock %} | {{ app.name }}</title>
 </head>
 
 <body>
-    {% include 'templates/partials/flash.twig' %}
     {% block content %} {% endblock %}
     {% include 'templates/partials/footer.twig' %}
+    {% include 'templates/partials/flash.twig' %}
 </body>
 
 </html>

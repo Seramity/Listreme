@@ -22,12 +22,14 @@ $app->group('', function () {
     $this->post('/account/profile', 'ProfileSettingsController:postProfileSettings');
 
 
-    // LIST PAGES
+    // LIST ROUTES
     $this->get('/list/new', 'NewListController:getNewList')->setName('list.new');
     $this->post('/list/new', 'NewListController:postNewList');
     $this->get('/list/edit/{id}', 'EditListController:getEditList')->setName('list.edit');
     $this->post('/list/edit/{id}', 'EditListController:postEditList');
     $this->get('/list/delete/{id}', 'DeleteListController:getDeleteList')->setName('list.delete');
+    $this->get('/list/favorite/{id}', 'FavoriteListController:createFavorite')->setName('list.favorite');
+    $this->get('/list/unfavorite/{id}', 'FavoriteListController:deleteFavorite')->setName('list.unfavorite');
 
 
 })->add(new AuthMiddleware($container));

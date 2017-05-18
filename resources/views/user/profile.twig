@@ -7,7 +7,7 @@
     {% include 'templates/partials/nav.twig' %}
 
     <div class="section group page profile">
-        <div class="col span_4_of_4 main">
+        <div class="col span_4_of_4 profile-main">
             <div class="col span_1_of_7">
                 {{ user.getAvatar({size : 150}) | raw }}
             </div>
@@ -24,14 +24,12 @@
             {% for list in lists %}
                 <div class="col listbox {% if list.size == 0 %}span_1_of_3{% elseif list.size == 1 %}span_2_of_3{% else %}span_3_of_3{% endif %}">
                     <h2 class="title muted">{{ list.title }}</h2>
-                    <div class="category">{{ list.category }}</div>
-                    <hr>
 
                     <div class="content">{{ list.markdownContent() | raw }}</div>
 
                     <div class="date">{{ list.created_at }}</div>
-                    <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
-                    <a href="{{ path_for('list.delete', {id : list.id}) }}">Delete</a>
+                    <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a> | <a onclick="confirmDeleteList({{ list.id }});">Delete</a>
+                     | {% if not list.favorite().exists(list.id, auth.user.id) %}<a href="{{ path_for('list.favorite', {id : list.id}) }}">Favorite</a>{% else %}<a href="{{ path_for('list.unfavorite', {id : list.id}) }}">Unfavorite</a>{% endif %}
                 </div>
             {% endfor %}
 
