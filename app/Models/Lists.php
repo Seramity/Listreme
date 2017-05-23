@@ -47,6 +47,7 @@ class Lists extends Model
      */
     public $DEFAULT_SIZE = 1; // 0: SMALL, 1: MEDIUM, 2: LARGE
 
+
     /**
      * Takes list content and throws it through a markdown parser.
      *
@@ -60,16 +61,16 @@ class Lists extends Model
     /**
      * Finds ListFavorite with List ID and then allows access through the Lists model.
      *
-     * @return Object ListFavorite
+     * @return ListFavorite
      */
     public function favorite()
     {
         return ListFavorite::where('list_id', $this->id)->first();
     }
 
-    public function favorited($uid)
+    public function favorited($user_id)
     {
-        $favorite = ListFavorite::where(['list_id' => $this->id, 'user_id' => $uid])->first();
+        $favorite = ListFavorite::where(['list_id' => $this->id, 'user_id' => $user_id])->first();
         return (bool) $favorite;
     }
 

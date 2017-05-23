@@ -22,15 +22,7 @@
             <h1 class="muted">Lists</h1>
 
             {% for list in lists %}
-                <div class="col listbox {% if list.size == 0 %}span_1_of_3{% elseif list.size == 1 %}span_2_of_3{% else %}span_3_of_3{% endif %}">
-                    <h2 class="title muted">{{ list.title }}</h2>
-
-                    <div class="content">{{ list.markdownContent() | raw }}</div>
-
-                    <div class="date">{{ list.created_at }}</div>
-                    <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a> | <a onclick="confirmDeleteList({{ list.id }});">Delete</a>
-                     | {% if not list.favorite().exists(list.id, auth.user.id) %}<a href="{{ path_for('list.favorite', {id : list.id}) }}">Favorite</a>{% else %}<a href="{{ path_for('list.unfavorite', {id : list.id}) }}">Unfavorite</a>{% endif %}
-                </div>
+                {% include 'templates/list/list_template.twig' %}
             {% endfor %}
 
         </div>

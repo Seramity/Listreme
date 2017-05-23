@@ -83,6 +83,7 @@ class AuthController extends Controller
     public function getSignOut($request, $response)
     {
         $this->auth->signout();
+        $this->flash->addMessage('global_success', 'You have been logged out');
         return $response->withRedirect($this->router->pathFor('home'));
     }
 

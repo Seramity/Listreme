@@ -18,7 +18,7 @@ class Auth
     /**
      * Checks if user session exist and return the User to be accessed through Auth.
      *
-     * @return array User
+     * @return User
      */
     public function user()
     {

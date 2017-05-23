@@ -12,7 +12,7 @@ class EditListController extends Controller
     public function getEditList($request, $response, $args)
     {
         $list = Lists::where('id', $args['id'])->first();
-        $list_owner = User::where('id', $list->uid)->first();
+        $list_owner = User::where('id', $list->user_id)->first();
 
         if(!$list) {
             $this->flash->addMessage('global_error', 'That list does not exist');
@@ -23,14 +23,13 @@ class EditListController extends Controller
             return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
         }
 
-
         return $this->view->render($response, 'list/edit.twig', ['list' => $list]);
     }
 
     public function postEditList($request, $response, $args)
     {
         $list = Lists::where('id', $args['id'])->first();
-        $list_owner = User::where('id', $list->uid)->first();
+        $list_owner = User::where('id', $list->user_id)->first();
 
         if(!$list) {
             $this->flash->addMessage('global_error', 'That list does not exist');
@@ -49,7 +48,7 @@ class EditListController extends Controller
         ]);
 
         if($validation->failed()) {
-            return $response->withRedirect($this->router->pathFor('list.edit'));
+            return $response->withRedirect($this->router->pathFor('list.edit', ['id' => $args['id']]));
         }
 
         $list->update([
@@ -58,8 +57,6 @@ class EditListController extends Controller
             'size' => $request->getParam('size'),
             'content' => $request->getParam('content'),
         ]);
-
-        $list_owner = User::where('id', $list->uid)->first();
 
         $this->flash->addMessage('global_success', 'Your list has been updated');
         return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
