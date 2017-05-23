@@ -59,6 +59,16 @@ class Lists extends Model
     }
 
     /**
+     * Formats list title for URL use.
+     *
+     * @return string
+     */
+    public function urlTitle()
+    {
+        return urlencode($this->title);
+    }
+
+    /**
      * Finds ListFavorite with List ID and then allows access through the Lists model.
      *
      * @return ListFavorite

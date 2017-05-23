@@ -117,6 +117,9 @@ $container['ProfileController'] = function ($container) {
 };
 
 // LIST CONTROLLERS
+$container['ListController'] = function ($container) {
+    return new \App\Controllers\Lists\ListController($container);
+};
 $container['NewListController'] = function ($container) {
   return new \App\Controllers\Lists\NewListController($container);
 };

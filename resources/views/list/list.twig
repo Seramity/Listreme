@@ -1,0 +1,14 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}{{ user.username }}: {{ list.title }}{% endblock %}
+
+
+{% block content %}
+    {% include 'templates/partials/nav.twig' %}
+
+    <div class="section group page list">
+        <div class="col span_4_of_4">
+           {% include 'templates/list/list_template.twig' %}
+        </div>
+    </div>
+{% endblock %}

@@ -5,8 +5,8 @@ use App\Middleware\GuestMiddleware;
 
 // GENERAL PAGES
 $app->get('/', 'HomeController:index')->setName('home');
-
 $app->get('/{user}','ProfileController:index')->setName('userProfile');
+$app->get('/{user}/list/{id}', 'ListController:index')->setName('list');
 
 
 
