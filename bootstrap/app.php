@@ -138,15 +138,26 @@ $container['FavoriteListController'] = function ($container) {
 // 404 ERROR HANDLING
 $container['notFoundHandler'] = function ($container) {
     return function ($request, $response) use ($container) {
-        return $container->view->render($response, 'errors/404.twig')->withStatus(404);
+        return $container->view->render($response, 'errors/404.twig')
+            ->withStatus(404);
     };
 };
 // 500 ERROR HANDLING
 /*$container['phpErrorHandler'] = function ($container) {
   return function ($request, $response) use ($container) {
-    return $container->view->render($response, 'errors/500.twig')->withStatus(500);
+    return $container->view->render($response, 'errors/500.twig')
+->withStatus(500);
   };
-};*/ // REMOVED TEMPORARILY FOR IMPROVED ERROR REPORTING
+};
+// APP ERROR HANDLING
+$container['errorHandler'] = function ($container) {
+    return function ($request, $response, $exception) use ($container) {
+        $data = ['error' => $exception->getMessage()];
+        return $container->view->render($response, 'errors/app_error.twig', $data)
+            ->withStatus(500);
+    };
+};*/// REMOVED TEMPORARILY FOR IMPROVED ERROR REPORTING
+    // REMOVE THIS FOR PRODUCTION
 
 
 $container['csrf'] = function ($container) {

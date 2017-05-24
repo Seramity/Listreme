@@ -1,0 +1,22 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}General Error{% endblock %}
+
+{% block content %}
+
+    {% include 'templates/partials/nav.twig' %}
+
+    <div class="section group page">
+        <div class="col span_4_of_4" style="text-align:center;">
+            <h1>Woops</h1>
+            <h3>An unexpected error happened.</h3>
+            <h3>If the problem continues, please contact us and provide us the following error message:</h3>
+
+            <hr>
+            <p class="muted">{{ error }}</p>
+
+            <a onclick="javascript:history.back(1)">Go Back</a>
+        </div>
+    </div>
+
+{% endblock %}
