@@ -25,7 +25,7 @@ class FavoriteListController extends Controller
 
         if($list_favorite->exists($args['id'], $this->auth->user()->id)) {
             $this->flash->addMessage('global_notice', 'That list is already in your favorites');
-            return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
+            return $response->withRedirect($this->router->pathFor('list', ['user' => $list_owner->username, 'id' => $list->id]));
         }
 
         $list_favorite->create([
@@ -34,7 +34,7 @@ class FavoriteListController extends Controller
         ]);
 
         $this->flash->addMessage('global_success', 'List added to favorites');
-        return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
+        return $response->withRedirect($this->router->pathFor('list', ['user' => $list_owner->username, 'id' => $list->id]));;
     }
 
     public function deleteFavorite($request, $response, $args)
@@ -51,12 +51,12 @@ class FavoriteListController extends Controller
 
         if(!$list_favorite) {
             $this->flash->addMessage('global_notice', 'That list is not in your favorites');
-            return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
+            return $response->withRedirect($this->router->pathFor('list', ['user' => $list_owner->username, 'id' => $list->id]));
         }
 
         $list_favorite->delete();
 
         $this->flash->addMessage('global_success', 'List was removed from your favorites');
-        return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
+        return $response->withRedirect($this->router->pathFor('list', ['user' => $list_owner->username, 'id' => $list->id]));
     }
 }

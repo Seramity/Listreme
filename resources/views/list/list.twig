@@ -7,8 +7,120 @@
     {% include 'templates/partials/nav.twig' %}
 
     <div class="section group page list">
-        <div class="col span_4_of_4">
-           {% include 'templates/list/list_template.twig' %}
+        <div class="col span_2_of_4">
+            <div class="col listbox span_4_of_4">
+                <h2 class="title muted">
+                    {{ list.title }}
+                </h2>
+
+                <div class="content">{{ list.markdownContent() | raw }}</div>
+
+                <hr>
+                <div class="footer">
+                    <div class="date">{{ list.timeStamp() }}</div>
+                    {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
+                        <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
+                        | <a onclick="confirmDeleteList({{ list.id }});">Delete</a> |
+                    {% endif %}
+                    {% if not list.favorite().exists(list.id, auth.user.id) %}<a href="{{ path_for('list.favorite', {id : list.id}) }}">Favorite</a>{% else %}<a href="{{ path_for('list.unfavorite', {id : list.id}) }}">Unfavorite</a>{% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if auth.check %}
+            <div class="col span_2_of_4 main">
+                <div class="col span_2_of_2 header">
+                    <h2>New Comment</h2>
+                    <hr>
+                </div>
+
+
+                <form action="{{ path_for('comment.list', {id : list.id}) }}" method="post" autocomplete="off" class="comment-form" id="comment-form">
+                    <div class="col span_2_of_2">
+                        <textarea name="content" id="content" placeholder="Comment on this list">{% if old_input.content %}{{ old_input.content }}{% else %}{% endif %}</textarea>
+                        {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
+                        <div style="text-align:right">Comments support <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a></div>
+                    </div>
+
+                    <input type="hidden" name="reply_to" id="reply_to" value="">
+
+                    <div class="col span_2_of_2">
+                        <input type="submit" value="Comment" data-submit-value="Creating...">
+
+                        {{ csrf.field | raw }}
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+
+        <div class="col span_2_of_4 main" style="float:right;">
+            <div class="col span_2_of_2 header">
+                <h2>Comments</h2>
+                <hr>
+            </div>
+
+            {% for comment in list.comments('asc') %}
+                {% include 'templates/comment/comment_template.twig' %}
+            {% endfor %}
+
+            {% if not list.hasComments() %}
+                <h2 class="muted">There are no comments on this list</h2>
+            {% endif %}
+
         </div>
     </div>
+
+<script type="text/javascript">
+
+    function replyForm(comment_id, comment_user) {
+        if(!$('.cancel-reply-button').length) {
+            $('input[type=submit]').after('<div class="cancel-reply-button"><a onclick="cancelReply();">Cancel reply</a></div>');
+        }
+        $('textarea').attr('placeholder','Reply to '+comment_user+'\'s comment');
+        $('input[type=submit]').val("Reply");
+        $('#reply_to').val(comment_id);
+    }
+
+    function cancelReply() {
+        $('textarea').attr('placeholder','Comment on this list');
+        $('.cancel-reply-button').remove();
+        $('input[type=submit]').val("Comment");
+        $('#reply_to').val("");
+
+    }
+
+    $('.comment-form').on('submit', function() {
+
+        var self = $(this),
+            button = self.find('input[type="submit"], button'),
+            submitValue = button.data('submit-value');
+
+        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+        document.getElementById("ajax-loader").style.visibility = "visible";
+
+    });
+
+    // TABBING IN TEXTAREAS
+    HTMLTextAreaElement.prototype.getCaretPosition = function() { //return the caret position of the textarea
+        return this.selectionStart;
+    };
+    HTMLTextAreaElement.prototype.setCaretPosition = function(position) { //change the caret position of the textarea
+        this.selectionStart = position;
+        this.selectionEnd = position;
+        this.focus();
+    };
+
+    var textarea = document.getElementsByTagName('textarea')[0];
+
+    textarea.onkeydown = function(event) {
+        //support tab on textarea
+        if (event.keyCode == 9) { //tab was pressed
+            var newCaretPosition;
+            newCaretPosition = textarea.getCaretPosition() + "    ".length;
+            textarea.value = textarea.value.substring(0, textarea.getCaretPosition()) + "    " + textarea.value.substring(textarea.getCaretPosition(), textarea.value.length);
+            textarea.setCaretPosition(newCaretPosition);
+            return false;
+        }
+    }
+</script>
 {% endblock %}

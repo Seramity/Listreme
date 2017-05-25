@@ -16,6 +16,9 @@ class ListController extends Controller
 
         $list = Lists::where(['id' => $args['id'], 'user_id' => $user->id])->first();
 
+        if(!$list) return $this->view->render($response, 'errors/404.twig')->withStatus(404);
+
+
         $data = ['user' => $user, 'list' => $list];
         return $this->view->render($response, 'list/list.twig', $data);
     }

@@ -31,6 +31,12 @@ $app->group('', function () {
     $this->get('/list/favorite/{id}', 'FavoriteListController:createFavorite')->setName('list.favorite');
     $this->get('/list/unfavorite/{id}', 'FavoriteListController:deleteFavorite')->setName('list.unfavorite');
 
+    // COMMENT ROUTES
+    $this->post('/comment/list/{id}', 'CommentController:createListComment')->setName('comment.list');
+    //$this->post('/comment/profile/{id}', 'CommentController:createProfileComment')->setName('comment.profile');
+    //$this->post('/comment/reply/{id}', 'CommentController:createReplyComment')->setName('comment.reply');
+    $this->get('/comment/delete/{id}', 'CommentController:deleteComment')->setName('comment.delete');
+
 
 })->add(new AuthMiddleware($container));
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\ListFavorite;
 use Illuminate\Database\Eloquent\Model;
 use Michelf\Markdown;
+use Carbon\Carbon;
 
 /**
  * Class Lists
@@ -85,6 +86,27 @@ class Lists extends Model
     }
 
     /**
+     * Finds comments associated with a list and then allows access through the Lists model.
+     *
+     * @return Comment
+     */
+    public function comments($order = NULL)
+    {
+        if(!$order) $order = 'asc';
+        return Comment::where('list_id', $this->id)->orderBy('created_at', $order)->get();
+    }
+
+    /**
+     * Checks if the list has comments.
+     *
+     * @return bool
+     */
+    public function hasComments()
+    {
+        return (bool) Comment::where('list_id', $this->id)->get()->count();
+    }
+
+    /**
      * Deletes all list favorites and then deletes list.
      */
     public function deleteList()
@@ -97,4 +119,15 @@ class Lists extends Model
         $this->delete();
     }
 
+
+    /**
+     * Takes timestamp and converts it to a user friendly timestamp.
+     * Ex: "Wednesday 25 May 2017"
+     *
+     * @return string
+     */
+    public function timeStamp()
+    {
+        return Carbon::createFromTimeStamp(strtotime($this->created_at))->formatLocalized('%A %d %B %Y');
+    }
 }

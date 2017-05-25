@@ -1,13 +1,13 @@
-<div class="col listbox {% if list.size == 0 %}span_1_of_3{% elseif list.size == 1 %}span_2_of_3{% else %}span_3_of_3{% endif %}">
+<div class="col listbox {% if list.size == 0 %}span_1_of_3{% elseif list.size == 1 %}span_2_of_3{% else %}span_3_of_3{% endif %}" id="list-{{list.id}}">
     <h2 class="title muted">
         <a href="{{ path_for('list', {user : user.username, id : list.id}) }}">{{ list.title }}</a>
     </h2>
 
     <div class="content">{{ list.markdownContent() | raw }}</div>
 
-
+    <hr>
     <div class="footer">
-        <div class="date">{{ list.created_at }}</div>
+        <div class="date">{{ list.timeStamp() }}</div>
         {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
             <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
             | <a onclick="confirmDeleteList({{ list.id }});">Delete</a> |
