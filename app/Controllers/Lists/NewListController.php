@@ -32,10 +32,10 @@ class NewListController extends Controller
             'title' => $request->getParam('title'),
             'category' => $request->getParam('category'),
             'size' => $request->getParam('size'),
-            'content' => $request->getParam('content'),
+            'content' => $request->getParam('content')
         ]);
 
         $this->flash->addMessage('global_success', 'Your list has been created');
-        return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $this->auth->user()->username]));
+        return $response->withRedirect($this->router->pathFor('list', ['user' => $this->auth->user()->username, 'id' => $list->id]));
     }
 }

@@ -18,9 +18,9 @@ class EditListController extends Controller
             $this->flash->addMessage('global_error', 'That list does not exist');
             return $response->withRedirect($this->router->pathFor('home'));
         }
-        if($list->uid !== $this->auth->user()->id && !$this->auth->user()->isAdmin()) {
+        if($list->user_id !== $this->auth->user()->id && !$this->auth->user()->isAdmin()) {
             $this->flash->addMessage('global_error', 'You do not own that list');
-            return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
+            return $response->withRedirect($this->router->pathFor('list', ['user' => $list_owner->username, 'id' => $list->id]));
         }
 
         return $this->view->render($response, 'list/edit.twig', ['list' => $list]);
@@ -35,9 +35,9 @@ class EditListController extends Controller
             $this->flash->addMessage('global_error', 'That list does not exist');
             return $response->withRedirect($this->router->pathFor('home'));
         }
-        if($list->uid !== $this->auth->user()->id && !$this->auth->user()->isAdmin()) {
+        if($list->user_id !== $this->auth->user()->id && !$this->auth->user()->isAdmin()) {
             $this->flash->addMessage('global_error', 'You do not own that list');
-            return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
+            return $response->withRedirect($this->router->pathFor('list', ['user' => $list_owner->username, 'id' => $list->id]));
         }
 
         $validation = $this->validator->validate($request, [
@@ -59,6 +59,6 @@ class EditListController extends Controller
         ]);
 
         $this->flash->addMessage('global_success', 'Your list has been updated');
-        return $response->withRedirect($this->router->pathFor('userProfile', ['user' => $list_owner->username]));
+        return $response->withRedirect($this->router->pathFor('list', ['user' => $list_owner->username, 'id' => $list->id]));
     }
 }
