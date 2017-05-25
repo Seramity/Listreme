@@ -60,7 +60,9 @@
             </div>
 
             {% for comment in list.comments('asc') %}
-                {% include 'templates/comment/comment_template.twig' %}
+                {% if not comment.isReply() %}
+                    {% include 'templates/comment/comment_template.twig' %}
+                {% endif %}
             {% endfor %}
 
             {% if not list.hasComments() %}

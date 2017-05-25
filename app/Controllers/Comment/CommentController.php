@@ -44,9 +44,7 @@ class CommentController extends Controller
 
         $list_id = $list->id;
         $reply_to = $request->getParam('reply_to');
-        if($request->getParam('reply_to')) {
-            $list_id = NULL; // MAKE LIST ID NULL IF USER IS REPLYING
-        } else {
+        if(!$request->getParam('reply_to')) {
             $reply_to = NULL; // MAKE REPLY_TO NULL IF USER IS COMMENTING
         }
 
