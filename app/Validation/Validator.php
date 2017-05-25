@@ -36,6 +36,12 @@ class Validator
             try {
                 $rule->setName(ucfirst($field))->assert($request->getParam($field));
             } catch(NestedValidationException $e) {
+
+                // CUSTOM ERROR MESSAGES
+                $this->errors[$field] = $e->findMessages([
+                    'regex' => '{{name}} must contain only letters (a-z), digits (0-9), and dashes or underscores.'
+                ]);
+
                 $this->errors[$field] = $e->getMessages();
             }
         }

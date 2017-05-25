@@ -1,0 +1,28 @@
+<div class="col span_2_of_2 commentbox {% if comment.isReply() %}reply{% endif %}" id="comment-{{comment.id}}">
+    <div class="col span_2_of_2 userbox">
+        <a href="{{ path_for('userProfile', {user : comment.user().username }) }}">
+            {{ comment.user().getAvatar({size : 30}) | raw }}
+            <h3 class="username">{{ comment.user().username }}</h3>
+        </a>
+        <h5 class="timestamp muted" title="{{ comment.timeStamp() }}">({{ comment.readableTime() }})</h5>
+        {% if auth.user.id == comment.user_id or auth.user.isAdmin() %}
+            <a onclick="confirmDeleteComment({{ comment.id }});"><span class="icon ion-trash-b delete"></span></a>
+        {% endif %}
+    </div>
+
+    <div class="col span_2_of_2 content">
+        {{ comment.markdownContent() | raw }}
+    </div>
+
+    <div class="col span_2_of_2 footer">
+        {% if not comment.isReply() %}
+            <a href="#comment-form" onclick="replyForm({{ comment.id }}, '{{comment.user().username}}');" class="reply-button">Reply</a>
+        {% endif %}
+    </div>
+
+    <div class="col span_2_of_2">
+        {% for comment in comment.replies() %}
+            {% include 'templates/comment/comment_template.twig' %}
+        {% endfor %}
+    </div>
+</div>

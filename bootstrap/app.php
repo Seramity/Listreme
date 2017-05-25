@@ -133,6 +133,9 @@ $container['FavoriteListController'] = function ($container) {
     return new \App\Controllers\Lists\FavoriteListController($container);
 };
 
+$container['CommentController'] = function ($container) {
+    return new \App\Controllers\Comment\CommentController($container);
+};
 
 
 // 404 ERROR HANDLING
@@ -144,10 +147,10 @@ $container['notFoundHandler'] = function ($container) {
 };
 // 500 ERROR HANDLING
 /*$container['phpErrorHandler'] = function ($container) {
-  return function ($request, $response) use ($container) {
-    return $container->view->render($response, 'errors/500.twig')
-->withStatus(500);
-  };
+return function ($request, $response) use ($container) {
+        return $container->view->render($response, 'errors/500.twig')
+            ->withStatus(500);
+    };
 };
 // APP ERROR HANDLING
 $container['errorHandler'] = function ($container) {
