@@ -18,22 +18,48 @@
         </div>
 
         <div class="col span_2_of_4 main statbox">
-            <a href="{{ path_for('userProfile', {user : list.owner().username}) }}">
-                {{ list.owner().getAvatar({size : 70}) | raw }}
-                <h2 class="username">{{ list.owner().username }}</h2>
-            </a>
-            <div class="date" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.updated_at %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</div>
+            <div class="col span_2_of_4">
+                <a href="{{ path_for('userProfile', {user : list.owner().username}) }}">
+                    {{ list.owner().getAvatar({size : 70}) | raw }}
+                    <h2 class="username">{{ list.owner().username }}</h2>
+                </a>
+                <div class="date" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.updated_at %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</div>
+            </div>
 
-            <hr>
-            {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
-                <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
-                | <a onclick="confirmDeleteList({{ list.id }});">Delete</a> |
+            <div class="col span_2_of_4 buttons">
+                {% if not list.favorite().exists(list.id, auth.user.id) %}
+                    <a href="{{ path_for('list.favorite', {id : list.id}) }}"><button class="notfaved" id="fav-button" title="Favorite"><span class="icon ion-star"></span></button></a>
+                {% else %}
+                    <a href="{{ path_for('list.unfavorite', {id : list.id}) }}"><button class="green faved" id="fav-button" title="Unfavorite"><span class="icon ion-star"></span> Favorited</button></a>
+                {% endif %}
+                {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
+                    <a href="{{ path_for('list.edit', {id : list.id}) }}"><button class="blue" title="Edit"><span class="icon ion-edit"></span></button></a>
+                    <a onclick="confirmDeleteList({{ list.id }});"><button class="red" title="Delete"><span class="icon ion-trash-b"></span></button></a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col span_2_of_4 main">
+            <div class="col span_2_of_2 header">
+                <h2>Comments</h2>
+                <hr>
+            </div>
+
+            <div id="comment-container">
+                {% for comment in list.comments('asc') %}
+                    {% if not comment.isReply() %}
+                        {% include 'templates/comment/comment_template.twig' %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            {% if not list.hasComments() %}
+                <h2 class="muted">There are no comments on this list</h2>
             {% endif %}
-            {% if not list.favorite().exists(list.id, auth.user.id) %}<a href="{{ path_for('list.favorite', {id : list.id}) }}">Favorite</a>{% else %}<a href="{{ path_for('list.unfavorite', {id : list.id}) }}">Unfavorite</a>{% endif %}
         </div>
 
         {% if auth.check %}
-            <div class="col span_2_of_4 main form" id="form">
+            <div class="col span_2_of_4 main form" id="form" style="float:right;">
                 <div class="col span_2_of_2 header">
                     <h2>New Comment</h2>
                     <hr>
@@ -42,7 +68,7 @@
 
                 <form action="{{ path_for('comment.list', {id : list.id}) }}" method="post" autocomplete="off" class="comment-form" id="comment-form">
                     <div class="col span_2_of_2">
-                        <textarea name="content" id="content" placeholder="Comment on this list">{% if old_input.content %}{{ old_input.content }}{% else %}{% endif %}</textarea>
+                        <textarea name="content" class="comment" id="content" placeholder="Comment on this list">{% if old_input.content %}{{ old_input.content }}{% else %}{% endif %}</textarea>
                         {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
                         <div style="text-align:right">Comments support <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a></div>
                     </div>
@@ -57,24 +83,6 @@
                 </form>
             </div>
         {% endif %}
-
-        <div class="col span_2_of_4 main" style="float:right;">
-            <div class="col span_2_of_2 header">
-                <h2>Comments</h2>
-                <hr>
-            </div>
-
-            {% for comment in list.comments('asc') %}
-                {% if not comment.isReply() %}
-                    {% include 'templates/comment/comment_template.twig' %}
-                {% endif %}
-            {% endfor %}
-
-            {% if not list.hasComments() %}
-                <h2 class="muted">There are no comments on this list</h2>
-            {% endif %}
-
-        </div>
     </div>
 
 <script type="text/javascript">
@@ -106,6 +114,34 @@
         document.getElementById("ajax-loader").style.visibility = "visible";
 
     });
+
+    var div = document.getElementById('comment-container');
+    div.scrollTop = div.scrollHeight;
+
+    $("#fav-button.notfaved")
+        .mouseover(function() {
+            $('#fav-button').addClass('green');
+            $('#fav-button').empty();
+            $('#fav-button').html('<span class="icon ion-star"></span> Favorite');
+        })
+        .mouseout(function() {
+            $('#fav-button').removeClass('green');
+            $('#fav-button').empty();
+            $('#fav-button').html('<span class="icon ion-star"></span>');
+        });
+    $('#fav-button.faved')
+        .mouseover(function() {
+            $('#fav-button').removeClass('green');
+            $('#fav-button').addClass('red');
+            $('#fav-button').empty();
+            $('#fav-button').html('<span class="icon ion-close-round"></span> Unfavorite');
+        })
+        .mouseout(function() {
+            $('#fav-button').removeClass('red');
+            $('#fav-button').addClass('green');
+            $('#fav-button').empty();
+            $('#fav-button').html('<span class="icon ion-star"></span> Favorited');
+        });
 
     // TABBING IN TEXTAREAS
     HTMLTextAreaElement.prototype.getCaretPosition = function() { //return the caret position of the textarea
