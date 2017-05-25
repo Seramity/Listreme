@@ -48,6 +48,18 @@ class Lists extends Model
      */
     public $DEFAULT_SIZE = 1; // 0: SMALL, 1: MEDIUM, 2: LARGE
 
+    /**
+     * Prevents Eloquent setting 'updated_at' during List creation.
+     * This will help signify whether the list was actually edited.
+     *
+     * @param mixed $value
+     */
+    public function setUpdatedAt($value)
+    {
+        if($this->updating()) {
+            $this->updated_at = Carbon::now();
+        }
+    }
 
     /**
      * Takes list content and throws it through a markdown parser.
@@ -67,6 +79,16 @@ class Lists extends Model
     public function urlTitle()
     {
         return urlencode($this->title);
+    }
+
+    /**
+     * Finds the list owner and then allows access through the Lists model.
+     *
+     * @return User
+     */
+    public function owner()
+    {
+        return User::where('id', $this->user_id)->first();
     }
 
     /**
@@ -119,15 +141,25 @@ class Lists extends Model
         $this->delete();
     }
 
-
     /**
-     * Takes timestamp and converts it to a user friendly timestamp.
-     * Ex: "Wednesday 25 May 2017"
+     * Takes a timestamp and converts it to a user friendly timestamp.
+     * Ex: "2 hours ago"
      *
      * @return string
      */
-    public function timeStamp()
+    public function readableTime($field)
     {
-        return Carbon::createFromTimeStamp(strtotime($this->created_at))->formatLocalized('%A %d %B %Y');
+        return Carbon::createFromTimeStamp(strtotime($this->{$field}))->diffForHumans();
+    }
+
+    /**
+     * Takes a timestamp and converts it to a organized timestamp.
+     * Ex: "25 May 2017 08:00 PM UTC"
+     *
+     * @return string
+     */
+    public function timestamp($field)
+    {
+        return Carbon::createFromTimeStamp(strtotime($this->{$field}))->format('j F Y h:i A T');
     }
 }

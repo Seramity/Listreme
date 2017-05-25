@@ -14,21 +14,26 @@
                 </h2>
 
                 <div class="content">{{ list.markdownContent() | raw }}</div>
-
-                <hr>
-                <div class="footer">
-                    <div class="date">{{ list.timeStamp() }}</div>
-                    {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
-                        <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
-                        | <a onclick="confirmDeleteList({{ list.id }});">Delete</a> |
-                    {% endif %}
-                    {% if not list.favorite().exists(list.id, auth.user.id) %}<a href="{{ path_for('list.favorite', {id : list.id}) }}">Favorite</a>{% else %}<a href="{{ path_for('list.unfavorite', {id : list.id}) }}">Unfavorite</a>{% endif %}
-                </div>
             </div>
         </div>
 
+        <div class="col span_2_of_4 main statbox">
+            <a href="{{ path_for('userProfile', {user : list.owner().username}) }}">
+                {{ list.owner().getAvatar({size : 70}) | raw }}
+                <h2 class="username">{{ list.owner().username }}</h2>
+            </a>
+            <div class="date" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.updated_at %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</div>
+
+            <hr>
+            {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
+                <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
+                | <a onclick="confirmDeleteList({{ list.id }});">Delete</a> |
+            {% endif %}
+            {% if not list.favorite().exists(list.id, auth.user.id) %}<a href="{{ path_for('list.favorite', {id : list.id}) }}">Favorite</a>{% else %}<a href="{{ path_for('list.unfavorite', {id : list.id}) }}">Unfavorite</a>{% endif %}
+        </div>
+
         {% if auth.check %}
-            <div class="col span_2_of_4 main">
+            <div class="col span_2_of_4 main form" id="form">
                 <div class="col span_2_of_2 header">
                     <h2>New Comment</h2>
                     <hr>

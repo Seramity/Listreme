@@ -48,14 +48,20 @@ class Comment extends Model
         return User::where('id', $this->user_id)->first();
     }
 
-
-    public function replies()
+    /**
+     * Find replies of a comment and return them through the Comment model.
+     * Order (asc, desc) can be set manually. Default: desc
+     *
+     * @param string $order
+     * @return Comment
+     */
+    public function replies($order = 'desc')
     {
-        return Comment::where('reply_to', $this->id)->get();
+        return Comment::where('reply_to', $this->id)->orderBy('created_at', $order)->get();
     }
 
     /**
-     * Takes timestamp and converts it to a user friendly timestamp.
+     * Takes a timestamp and converts it to a user friendly timestamp.
      * Ex: "2 hours ago"
      *
      * @return string
@@ -66,14 +72,14 @@ class Comment extends Model
     }
 
     /**
-     * Takes timestamp and converts it to a user friendly timestamp.
-     * Ex: "Wednesday 25 May 2017"
+     * Takes a timestamp and converts it to a organized timestamp.
+     * Ex: "25 May 2017 08:00 PM UTC"
      *
      * @return string
      */
-    public function timeStamp()
+    public function timestamp()
     {
-        return Carbon::createFromTimeStamp(strtotime($this->created_at))->formatLocalized('%A %d %B %Y');
+        return Carbon::createFromTimeStamp(strtotime($this->created_at))->format('j F Y h:i A T');
     }
 
     /**

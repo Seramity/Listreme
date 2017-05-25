@@ -7,7 +7,7 @@
 
     <hr>
     <div class="footer">
-        <div class="date">{{ list.timeStamp() }}</div>
+        <div class="date" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.updated_at %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</div>
         {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
             <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
             | <a onclick="confirmDeleteList({{ list.id }});">Delete</a> |
