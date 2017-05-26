@@ -1,0 +1,25 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}{% endblock %}
+
+{% block content %}
+
+    {% include 'templates/partials/nav.twig' %}
+
+    <div class="section group page profile">
+        <div class="col span_4_of_4 profile-main">
+            <div class="col span_1_of_7">
+                {{ user.getAvatar({size : 150}) | raw }}
+            </div>
+            <div class="col span_6_of_7">
+                <a href="{{ path_for('userProfile', {user : user.username}) }}"><h1 class="username">{{ user.username }}</h1></a>
+                <h3 class="name muted">{{ user.name }}</h3>
+                <p class="bio">{{ user.bio }}</p>
+            </div>
+        </div>
+
+        {% block profile_content %}{% endblock %}
+
+    </div>
+
+{% endblock %}

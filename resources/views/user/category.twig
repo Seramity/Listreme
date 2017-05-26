@@ -1,18 +1,18 @@
 {% extends 'templates/user/profile_template.twig' %}
 
-{% block pageTitle %}{{ user.username }}'s Lists{% endblock %}
+{% block pageTitle %}{{ user.username }}'s Lists: {{ category }}{% endblock %}
 
 {% block profile_content %}
 
     <div class="col span_4_of_4">
-        <h1 class="muted">Lists</h1>
+        <h1 class="muted">Lists: {{ category }}</h1>
 
         {% if not lists.isEmpty() %}
             {% for list in lists %}
                 {% include 'templates/list/list_template.twig' %}
             {% endfor %}
         {% else %}
-            <h2>This user does not have any lists yet.</h2>
+            <h2>This user does not have any lists in this category.</h2>
         {% endif %}
 
     </div>

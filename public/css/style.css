@@ -353,13 +353,28 @@ button.subscribe-button, button.unsubscribe-button {
     margin: 0 auto;
     float: none;
 }
-.col.listbox .title {
-	margin-bottom: 0.8em;
-	padding-bottom: 0.5em;
-	border-bottom: 3px solid #ccc;
+.col.listbox .header .title {
+	padding-bottom: 0.3em;
 }
-.col.listbox .title a {color: inherit;}
-.col.listbox .title a:hover {text-decoration: underline;}
+.col.listbox .header .title a {color: inherit;}
+.col.listbox .header .title a:hover {text-decoration: underline;}
+
+.col.listbox .header .category {float: right;}
+.col.listbox .header .category a {color: inherit;}
+@media only screen and (max-width: 960px) {
+	.col.listbox .header .category {float: left;}
+}
+
+
+.col.listbox .content {
+	border-top: 3px solid #ccc;
+	padding: 1rem 0.4rem;
+}
+
+.col.listbox .footer {
+	border-top: 3px solid #ccc;
+	padding: 1rem 0.4rem 0;
+}
 
 .col.listbox p {line-height: 2;}
 
