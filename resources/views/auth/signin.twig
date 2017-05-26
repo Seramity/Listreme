@@ -14,7 +14,7 @@
                     <hr>
                 </div>
 
-                <form action="{{ path_for('auth.signin') }}" method="post" autocomplete="off">
+                <form action="{{ path_for('auth.signin') }}" method="post" autocomplete="off" class="login-form">
                     <input type="text" name="identifier" id="identifier" placeholder="Email/Username" value="{{ old_input.identifier }}">
                     {% if errors.identifier %} <div class="form_errors">{{ errors.identifier | first }}</div> {% endif %}
 
@@ -23,11 +23,25 @@
 
 
                     <a href="{{ path_for('auth.recover') }}">Forgot my Password</a>
-                    <input type="submit" value="Sign in">
+                    <input type="submit" value="Sign in" data-submit-value="Signing in...">
 
                     {{ csrf.field | raw }}
                 </form>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+
+        $('.login-form').on('submit', function() {
+
+            var self = $(this),
+                button = self.find('input[type="submit"], button'),
+                submitValue = button.data('submit-value');
+
+            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
+
+        });
+    </script>
 {% endblock %}

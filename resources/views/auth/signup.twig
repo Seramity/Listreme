@@ -16,7 +16,7 @@
                 </div>
 
 
-                <form action="{{ path_for('auth.signup') }}" method="post" autocomplete="off">
+                <form action="{{ path_for('auth.signup') }}" method="post" autocomplete="off" class="signup-form">
                     <input type="email" name="email" id="email" placeholder="Email" value="{{ old_input.email }}">
                     {% if errors.email %} <div class="form_errors">{{ errors.email | first }}</div> {% endif %}
 
@@ -26,11 +26,25 @@
                     <input type="password" name="password" id="password" placeholder="Password"">
                     {% if errors.password %} <div class="form_errors">{{ errors.password | first }}</div> {% endif %}
 
-                    <input type="submit" value="Create Account">
+                    <input type="submit" value="Create Account" data-submit-value="Creating...">
 
                     {{ csrf.field | raw }}
                 </form>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+
+        $('.signup-form').on('submit', function() {
+
+            var self = $(this),
+                button = self.find('input[type="submit"], button'),
+                submitValue = button.data('submit-value');
+
+            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
+
+        });
+    </script>
 {% endblock %}

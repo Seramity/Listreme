@@ -14,18 +14,32 @@
                     <hr>
                 </div>
 
-                <form action="{{ path_for('auth.reset', {identifier : identifier}) }}" method="post" autocomplete="off">
+                <form action="{{ path_for('auth.reset', {identifier : identifier}) }}" method="post" autocomplete="off" class="reset-form">
                     <input type="password" name="password" id="password" placeholder="New Password">
                     {% if errors.password %} <div class="form_errors">{{ errors.password | first }}</div> {% endif %}
 
                     <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password">
                     {% if errors.confirm_password %} <div class="form_errors">{{ errors.confirm_password | first }}</div> {% endif %}
 
-                    <input type="submit" value="Reset Password">
+                    <input type="submit" value="Reset Password" data-submit-value="Resetting...">
 
                     {{ csrf.field | raw }}
                 </form>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+
+        $('.reset-form').on('submit', function() {
+
+            var self = $(this),
+                button = self.find('input[type="submit"], button'),
+                submitValue = button.data('submit-value');
+
+            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
+
+        });
+    </script>
 {% endblock %}

@@ -43,7 +43,7 @@ class Comment extends Model
      *
      * @return User
      */
-    public function user()
+    public function owner()
     {
         return User::where('id', $this->user_id)->first();
     }
@@ -84,12 +84,19 @@ class Comment extends Model
 
     /**
      * Takes comment content and throws it through a markdown parser.
+     * Also checks if the user is an admin in order to use HTML tags.
      *
      * @return string
      */
     public function markdownContent()
     {
-        return Markdown::defaultTransform($this->content);
+        $markdown = new Markdown;
+
+        if(!$this->owner()->isAdmin()) {
+            $markdown->no_markup = true;
+        }
+
+        return $markdown->transform($this->content);
     }
 
     /**
