@@ -1,8 +1,8 @@
 <div class="col span_2_of_2 commentbox {% if comment.isReply() %}reply{% endif %}" id="comment-{{comment.id}}">
     <div class="col span_2_of_2 userbox">
-        <a href="{{ path_for('userProfile', {user : comment.user().username }) }}">
-            {{ comment.user().getAvatar({size : 30}) | raw }}
-            <h3 class="username">{{ comment.user().username }}</h3>
+        <a href="{{ path_for('userProfile', {user : comment.owner().username }) }}">
+            {{ comment.owner().getAvatar({size : 30}) | raw }}
+            <h3 class="username">{{ comment.owner().username }}</h3>
         </a>
         <h5 class="timestamp muted" title="{{ comment.timestamp() }}">({{ comment.readableTime() }})</h5>
         {% if auth.user.id == comment.user_id or auth.user.isAdmin() %}
@@ -16,7 +16,7 @@
 
     {% if not comment.isReply() %}
         <div class="col span_2_of_2 footer">
-            [<a href="#form" onclick="replyForm({{ comment.id }}, '{{comment.user().username}}');" class="reply-button">Reply</a>]
+            [<a href="#form" onclick="replyForm({{ comment.id }}, '{{comment.owner().username}}');" class="reply-button">Reply</a>]
         </div>
     {% endif %}
 

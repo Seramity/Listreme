@@ -6,6 +6,8 @@
 
     {% include 'templates/partials/nav.twig' %}
 
+    {% include 'templates/modalboxes/markdown_help.twig' %}
+
     <div class="section group page">
 
         <div class="col span_4_of_4 main form">
@@ -51,8 +53,8 @@
 
 Or freely type whatever{% endif %}</textarea>
                         {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
-                        <div style="text-align:right">Lists support <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a></div>
                     </label>
+                    <div style="text-align:right">Lists support <a onclick="markdownModalBox();">Markdown</a></div>
                 </div>
 
                 <div class="col span_2_of_2">

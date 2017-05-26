@@ -6,6 +6,9 @@
 {% block content %}
     {% include 'templates/partials/nav.twig' %}
 
+    {% include 'templates/modalboxes/markdown_help.twig' %}
+
+
     <div class="section group page list">
         <div class="col span_2_of_4">
             <div class="col listbox span_4_of_4">
@@ -39,21 +42,21 @@
             </div>
         </div>
 
-        <div class="col span_2_of_4 main">
+        <div class="col span_2_of_4 main" style="float:right;">
             <div class="col span_2_of_2 header">
                 <h2>Comments</h2>
                 <hr>
             </div>
 
-            <div id="comment-container">
-                {% for comment in list.comments('asc') %}
-                    {% if not comment.isReply() %}
-                        {% include 'templates/comment/comment_template.twig' %}
-                    {% endif %}
-                {% endfor %}
-            </div>
-
-            {% if not list.hasComments() %}
+            {% if list.hasComments() %}
+                <div id="comment-container">
+                    {% for comment in list.comments('asc') %}
+                        {% if not comment.isReply() %}
+                            {% include 'templates/comment/comment_template.twig' %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% else %}
                 <h2 class="muted">There are no comments on this list</h2>
             {% endif %}
         </div>
@@ -70,7 +73,7 @@
                     <div class="col span_2_of_2">
                         <textarea name="content" class="comment" id="content" placeholder="Comment on this list">{% if old_input.content %}{{ old_input.content }}{% else %}{% endif %}</textarea>
                         {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
-                        <div style="text-align:right">Comments support <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a></div>
+                        <div style="text-align:right">Comments support <a onclick="markdownModalBox();">Markdown</a></div>
                     </div>
 
                     <input type="hidden" name="reply_to" id="reply_to" value="">
@@ -85,85 +88,85 @@
         {% endif %}
     </div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    function replyForm(comment_id, comment_user) {
-        if(!$('.cancel-reply-button').length) {
-            $('input[type=submit]').after('<div class="cancel-reply-button"><a onclick="cancelReply();">Cancel reply</a></div>');
+        function replyForm(comment_id, comment_user) {
+            if(!$('.cancel-reply-button').length) {
+                $('input[type=submit]').after('<div class="cancel-reply-button"><a onclick="cancelReply();">Cancel reply</a></div>');
+            }
+            $('textarea').attr('placeholder','Reply to '+comment_user+'\'s comment');
+            $('input[type=submit]').val("Reply");
+            $('#reply_to').val(comment_id);
         }
-        $('textarea').attr('placeholder','Reply to '+comment_user+'\'s comment');
-        $('input[type=submit]').val("Reply");
-        $('#reply_to').val(comment_id);
-    }
 
-    function cancelReply() {
-        $('textarea').attr('placeholder','Comment on this list');
-        $('.cancel-reply-button').remove();
-        $('input[type=submit]').val("Comment");
-        $('#reply_to').val("");
+        function cancelReply() {
+            $('textarea').attr('placeholder','Comment on this list');
+            $('.cancel-reply-button').remove();
+            $('input[type=submit]').val("Comment");
+            $('#reply_to').val("");
 
-    }
+        }
 
-    $('.comment-form').on('submit', function() {
+        $('.comment-form').on('submit', function() {
 
-        var self = $(this),
-            button = self.find('input[type="submit"], button'),
-            submitValue = button.data('submit-value');
+            var self = $(this),
+                button = self.find('input[type="submit"], button'),
+                submitValue = button.data('submit-value');
 
-        button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
-        document.getElementById("ajax-loader").style.visibility = "visible";
+            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
 
-    });
-
-    var div = document.getElementById('comment-container');
-    div.scrollTop = div.scrollHeight;
-
-    $("#fav-button.notfaved")
-        .mouseover(function() {
-            $('#fav-button').addClass('green');
-            $('#fav-button').empty();
-            $('#fav-button').html('<span class="icon ion-star"></span> Favorite');
-        })
-        .mouseout(function() {
-            $('#fav-button').removeClass('green');
-            $('#fav-button').empty();
-            $('#fav-button').html('<span class="icon ion-star"></span>');
-        });
-    $('#fav-button.faved')
-        .mouseover(function() {
-            $('#fav-button').removeClass('green');
-            $('#fav-button').addClass('red');
-            $('#fav-button').empty();
-            $('#fav-button').html('<span class="icon ion-close-round"></span> Unfavorite');
-        })
-        .mouseout(function() {
-            $('#fav-button').removeClass('red');
-            $('#fav-button').addClass('green');
-            $('#fav-button').empty();
-            $('#fav-button').html('<span class="icon ion-star"></span> Favorited');
         });
 
-    // TABBING IN TEXTAREAS
-    HTMLTextAreaElement.prototype.getCaretPosition = function() { //return the caret position of the textarea
-        return this.selectionStart;
-    };
-    HTMLTextAreaElement.prototype.setCaretPosition = function(position) { //change the caret position of the textarea
-        this.selectionStart = position;
-        this.selectionEnd = position;
-        this.focus();
-    };
+        var div = document.getElementById('comment-container');
+        div.scrollTop = div.scrollHeight;
 
-    var textarea = document.getElementsByTagName('textarea')[0];
+        $("#fav-button.notfaved")
+            .mouseover(function() {
+                $('#fav-button').addClass('green');
+                $('#fav-button').empty();
+                $('#fav-button').html('<span class="icon ion-star"></span> Favorite');
+            })
+            .mouseout(function() {
+                $('#fav-button').removeClass('green');
+                $('#fav-button').empty();
+                $('#fav-button').html('<span class="icon ion-star"></span>');
+            });
+        $('#fav-button.faved')
+            .mouseover(function() {
+                $('#fav-button').removeClass('green');
+                $('#fav-button').addClass('red');
+                $('#fav-button').empty();
+                $('#fav-button').html('<span class="icon ion-close-round"></span> Unfavorite');
+            })
+            .mouseout(function() {
+                $('#fav-button').removeClass('red');
+                $('#fav-button').addClass('green');
+                $('#fav-button').empty();
+                $('#fav-button').html('<span class="icon ion-star"></span> Favorited');
+            });
 
-    textarea.onkeydown = function(event) {
-        //support tab on textarea
-        if (event.keyCode == 9) { //tab was pressed
-            var newCaretPosition;
-            newCaretPosition = textarea.getCaretPosition() + "    ".length;
-            textarea.value = textarea.value.substring(0, textarea.getCaretPosition()) + "    " + textarea.value.substring(textarea.getCaretPosition(), textarea.value.length);
-            textarea.setCaretPosition(newCaretPosition);
-            return false;
+        // TABBING IN TEXTAREAS
+        HTMLTextAreaElement.prototype.getCaretPosition = function() { //return the caret position of the textarea
+            return this.selectionStart;
+        };
+        HTMLTextAreaElement.prototype.setCaretPosition = function(position) { //change the caret position of the textarea
+            this.selectionStart = position;
+            this.selectionEnd = position;
+            this.focus();
+        };
+
+        var textarea = document.getElementsByTagName('textarea')[0];
+
+        textarea.onkeydown = function(event) {
+            //support tab on textarea
+            if (event.keyCode == 9) { //tab was pressed
+                var newCaretPosition;
+                newCaretPosition = textarea.getCaretPosition() + "    ".length;
+                textarea.value = textarea.value.substring(0, textarea.getCaretPosition()) + "    " + textarea.value.substring(textarea.getCaretPosition(), textarea.value.length);
+                textarea.setCaretPosition(newCaretPosition);
+                return false;
+            }
         }
-    }
-</script>
+    </script>
 {% endblock %}

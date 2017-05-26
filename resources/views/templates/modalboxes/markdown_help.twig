@@ -1,0 +1,75 @@
+<div class="modalbox">
+
+    <div class="background"></div>
+
+    <!-- POST BOX -->
+    <div class="container markdown">
+        <div class="closeBox" onClick="closeModalBox('markdown')">X</div>
+        <div class="title">
+            <h1>Markdown Help</h1>
+        </div>
+
+        <div class="body">
+            <div class="section group page">
+                <div class="col span_4_of_4">
+                    <p>
+                        Markdown allows you to stylize your content with minimal formatting.
+                        Below are the following examples you can use to help format your content.
+                    </p>
+
+                    <table class="format-table">
+                        <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Result</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td data-label="Code">- item #1
+                            - item #2</td>
+                            <td data-label="Result"><ul><li>item #1</li><li>item #2</li></ul></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Code">1. numbered item #1
+                                2. numbered item #2</td>
+                            <td data-label="Result"><ol><li>numbered item #1</li><li>numbered item #2</li></ol></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Code"># Header 1
+                            ## Header 2
+                            ### Header 3</td>
+                            <td data-label="Result"><h1>Header 1</h1><h2>Header 2</h2><h3>Header 3</h3></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Code">**bold**</td>
+                            <td data-label="Result"><strong>bold</strong></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Code">*italics*</td>
+                            <td data-label="Result"><em>italics</em></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Code">> I'm a quote!</td>
+                            <td data-label="Result"><blockquote>I'm a quote!</blockquote></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Code">[Google](https://google.com)</td>
+                            <td data-label="Result"><a href="https://google.com" target="_blank">Google</a></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Code">![Image Title](url/to/image)</td>
+                            <td data-label="Result"><img src="{{ base_url() }}/assets/favicon.png"></td>
+                        </tr>
+                        <tr>
+                            <td data-label="Code">\*escape\*</td>
+                            <td data-label="Result">*escape*</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
