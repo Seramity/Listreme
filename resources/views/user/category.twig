@@ -5,16 +5,12 @@
 {% block profile_content %}
 
     <div class="col span_4_of_4">
-        <h1 class="muted">Lists: {{ category }}</h1>
+        <h3><a href="{{ path_for('userProfile', {user : user.username}) }}" class="muted"><span class="icon ion-arrow-left-c"></span> Return to profile</a></h3>
+        <h1>Lists: {{ category }}</h1>
 
-        {% if not lists.isEmpty() %}
-            {% for list in lists %}
-                {% include 'templates/list/list_template.twig' %}
-            {% endfor %}
-        {% else %}
-            <h2>This user does not have any lists in this category.</h2>
-        {% endif %}
-
+        {% for list in lists %}
+            {% include 'templates/list/list_template.twig' %}
+        {% endfor %}
     </div>
 
 {% endblock %}

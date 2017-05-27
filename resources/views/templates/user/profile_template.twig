@@ -12,7 +12,7 @@
                 {{ user.getAvatar({size : 150}) | raw }}
             </div>
             <div class="col span_6_of_7">
-                <a href="{{ path_for('userProfile', {user : user.username}) }}"><h1 class="username">{{ user.username }}</h1></a>
+                <h1 class="username">{{ user.username }}</h1>
                 <h3 class="name muted">{{ user.name }}</h3>
                 <p class="bio">{{ user.bio }}</p>
             </div>

@@ -352,6 +352,7 @@ button.subscribe-button, button.unsubscribe-button {
 .section.page.list .col.listbox {
     margin: 0 auto;
 }
+
 .col.listbox .header .title {
 	padding-bottom: 0.3em;
 }
@@ -368,11 +369,25 @@ button.subscribe-button, button.unsubscribe-button {
 .col.listbox .content {
 	border-top: 3px solid #ccc;
 	padding: 1rem 0.4rem;
+    position: relative;
 }
 .section.page.profile .col.listbox .content {
     height: 500px;
     overflow-y: auto;
 }
+.col.listbox .content::-webkit-scrollbar {
+    width: 0.4em;
+}
+.col.listbox .content::-webkit-scrollbar-thumb {
+    background-color: rgba(153, 153, 153, 0);
+    outline: 1px solid slategrey;
+    border-radius: 5px;
+	-webkit-transition: background-color 0.5s ease;
+}
+.col.listbox .content:hover::-webkit-scrollbar-thumb {
+	background-color: rgba(153, 153, 153, 1);
+}
+
 
 .col.listbox .footer {
 	border-top: 3px solid #ccc;
@@ -436,6 +451,15 @@ button.subscribe-button, button.unsubscribe-button {
     overflow-y: auto;
     overflow-x: hidden;
 }
+#comment-container::-webkit-scrollbar {
+    width: 0.4em;
+}
+#comment-container::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+    border-radius: 5px;
+}
+
 .section.page.list .commentbox .reply {margin: 0 0 0 .4%;border-left: 3px solid #ccc;}
 .section.page.list .commentbox .userbox {margin-bottom: 0;}
 .section.page.list .commentbox .userbox #user-avatar {position: relative;top: 8px;}

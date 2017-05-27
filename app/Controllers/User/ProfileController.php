@@ -30,6 +30,10 @@ class ProfileController extends Controller
 
         $lists = Lists::where(['user_id' => $user->id, 'category' => $args['category']])->orderBy('created_at', 'asc')->get();
 
+        if($lists->isEmpty()) {
+            return $this->view->render($response, 'errors/404.twig')->withStatus(404);
+        }
+
         $data = ['user' => $user, 'lists' => $lists, 'category' => $args['category']];
         return $this->view->render($response, 'user/category.twig', $data);
     }
