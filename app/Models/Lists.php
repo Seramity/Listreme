@@ -26,8 +26,7 @@ class Lists extends Model
         'user_id',
         'title',
         'content',
-        'category',
-        'size'
+        'category'
     ];
 
     /**
@@ -41,12 +40,6 @@ class Lists extends Model
     public $MAX_CONTENT_CHAR = 10000;
     public $MAX_CATEGORY_CHAR = 24;
 
-    /**
-     * Default display size for Lists in HTML.
-     *
-     * @var int $DEFAULT_SIZE
-     */
-    public $DEFAULT_SIZE = 1; // 0: SMALL, 1: MEDIUM, 2: LARGE
 
     /**
      * Prevents Eloquent setting 'updated_at' during List creation.

@@ -20,29 +20,18 @@
                 </div>
 
                 <div class="col span_2_of_2">
-                    <div class="col span_1_of_3">
+                    <div class="col span_1_of_2">
                         <label>
                             Title
                             <input type="text" name="title" id="title" placeholder="A good, short title" value="{% if old_input.title %}{{ old_input.title }}{% else %}{{ list.title }}{% endif %}">
                             {% if errors.title %} <div class="form_errors">{{ errors.title | first }}</div> {% endif %}
                         </label>
                     </div>
-                    <div class="col span_1_of_3">
+                    <div class="col span_1_of_2">
                         <label>
                             Category
                             <input type="text" name="category" id="category" placeholder="Organize this list with others" value="{% if old_input.category %}{{ old_input.category }}{% else %}{{ list.category }}{% endif %}">
                             {% if errors.category %} <div class="form_errors">{{ errors.category | first }}</div> {% endif %}
-                        </label>
-                    </div>
-                    <div class="col span_1_of_3">
-                        <label>
-                            List Size [<span class="tooltip-top" data-tooltip="How large your list will display (This can be changed anytime after creation)">?</span>]
-                            <select name="size" id="size">
-                                <option value="0" {% if old_input.size == 0 or list.size == 0 %}selected{% endif %}>Small</option>
-                                <option value="1" {% if old_input.size == 1 or list.size == 1 %}selected{% endif %}>Medium</option>
-                                <option value="2" {% if old_input.size == 2 or list.size == 2 %}selected{% endif %}>Large</option>
-                            </select>
-                            {% if errors.size %} <div class="form_errors">{{ errors.size | first }}</div> {% endif %}
                         </label>
                     </div>
                 </div>
