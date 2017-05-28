@@ -102,7 +102,7 @@ table {
 
 body {
 	background-color: #2A363B;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Lato', 'Open Sans', sans-serif;
 	font-weight: 400;
   	color: #dedede;
 }
@@ -171,9 +171,9 @@ textarea.comment {height: 100px;}
 input[type="submit"] {
 	background-color: #1dce79;
 	color: #fff;
-	font-family: 'Fantasque Sans Mono', monospace;
-	text-transform: uppercase;
-	font-weight: 500;
+    font-family: 'Lato', 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
 	border: none;
 	cursor: pointer;
 }
@@ -243,10 +243,10 @@ input[type="submit"]:focus.red {background-color: #bf3535;}
 /* BUTTON STYLE */
 button.full, .button.full {width: 100%;}
 button, .button {
-	color: #FFF;
-	font-family: 'Fantasque Sans Mono', monospace;
+	color: #2A363B;
+	font-family: 'Lato', 'Open Sans', sans-serif;
 	text-transform: uppercase;
-	font-weight: 500;
+	font-weight: bold;
 	border: medium none;
 	padding: 10px 20px;
 	font-size: 1em;
@@ -256,19 +256,19 @@ button, .button {
     min-width: 54px;
     transition: all 0.2s ease-in 0s;
 }
-button.green, .button.green {background-color: #1DCE79;}
+button.green, .button.green {color: #FFF;background-color: #1DCE79;}
 button.green:hover, .button.green:hover {background-color: #22c577;}
 button.green:active, .button.green:active {background-color: #2ca66c;}
 
-button.red, .button.red {background-color: #e54040;}
+button.red, .button.red {color: #FFF;background-color: #e54040;}
 button.red:hover, .button.red:hover  {background-color: #d83c3c;}
 button.red:active, .button.red:active {background-color: #bf3535;}
 
-button.orange, .button.orange {background-color: #CC6439;}
+button.orange, .button.orange {color: #FFF;background-color: #CC6439;}
 button.orange:hover, .button.orange:hover  {background-color: #c35d33;}
 button.orange:active, .button.orange:active {background-color: #B45730;}
 
-button.blue, .button.blue {background-color: #78C5E7;}
+button.blue, .button.blue {color: #FFF;background-color: #78C5E7;}
 button.blue:hover, .button.blue:hover  {background-color: #68b7da;}
 button.blue:active, .button.blue:active {background-color: #4591b3;}
 
@@ -293,11 +293,51 @@ button.subscribe-button, button.unsubscribe-button {
 	margin: 0px;
 	max-width: 90rem;
 }
+.section.centered {text-align: center;}
 
 .section.page, .section.footer {
 	margin: 12px auto;
 	padding: 0px 20px;
 }
+
+/* LANDING PAGE SECTION */
+.section.landing-page {
+    max-width: 100%;
+    margin: 0 auto;
+    height: 100vh;
+    background-color: #fff;
+}
+.section.landing-page .landing-container {
+    text-align: center;
+    padding-top: 30vh;
+    color: #2A363B;
+}
+.section.landing-page .landing-container .col {margin-left: 0;}
+.section.landing-page .landing-container h1 {color: #ff6161;font-size: 4em;}
+.section.landing-page .landing-container .scroll-arrow {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    z-index: 1000;
+    width: 99%;
+    font-size: 2em;
+}
+.section.landing-page .landing-container .scroll-arrow a {color: inherit;}
+.section.landing-page .landing-container h1 {font-size: 4em;}
+
+.section.page .landing-span {margin: 3em 0;margin-left: 0;}
+.section.page .landing-span .span_1_of_3 {margin: 1% 0 1% 1%;}
+.section.page .landing-span p {line-height: 2;}
+.section.page .landing-span .icon {font-size: 4em;margin-bottom: 0.2em;}
+
+.section.page .listbox {
+    text-align: left;
+}
+.section.page .landing-span .listbox .content {height:auto;}
+
 
 /*  COLUMN SETUP  */
 .col {
@@ -361,17 +401,12 @@ button.subscribe-button, button.unsubscribe-button {
 
 .col.listbox .header .category {float: right;}
 .col.listbox .header .category a {color: inherit;}
-@media only screen and (max-width: 960px) {
-	.col.listbox .header .category {float: left;}
-}
 
 
 .col.listbox .content {
 	border-top: 3px solid #ccc;
 	padding: 1rem 0.4rem;
     position: relative;
-}
-.section.page.profile .col.listbox .content {
     height: 500px;
     overflow-y: auto;
 }
@@ -418,7 +453,7 @@ button.subscribe-button, button.unsubscribe-button {
 }
 
 .col.listbox .content h1, .col.listbox .content h2, .col.listbox .content h3, .col.listbox .content h4, .col.listbox .content h5, .col.listbox .content h6 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Lato', 'Open Sans', sans-serif;
 	color: inherit;
 }
 .col.listbox h1 { font-size: 2em; }
@@ -428,6 +463,10 @@ button.subscribe-button, button.unsubscribe-button {
 .col.listbox h5 { font-size: .83em; }
 .col.listbox h6 { font-size: .75em; }
 
+@media only screen and (max-width: 960px) {
+	.col.listbox .content {height: 400px;}
+	.col.listbox .header .category {float: left;}
+}
 
 .col > .col.main, .col > .col.side {
 	margin: 0%;
@@ -770,25 +809,37 @@ ul.classic-list, ol.classic-list {
     margin-top: 1em;
     white-space: pre-line;
 }
+.section.page.profile nav.profile-tabs {
+    width: auto;
+    margin: 1% 0.3% 1% 1.0%;
+}
+.section.page.profile nav.profile-tabs ul {float: left;width: 100%;border-bottom: 2px solid #f3f3f3;}
+.section.page.profile nav.profile-tabs li {float: left;margin: 20px 0px 10px;}
+.section.page.profile nav.profile-tabs li a {
+    color: inherit;
+    font-family: 'Fantasque Sans Mono', monospace;
+    font-size: 1.2em;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    transition: all 0.2s ease-in 0s;
+    padding: 10px 10px;
+    margin-right: 10px;
+}
+.section.page.profile nav.profile-tabs li a:hover {color: #2A363B;background-color: #f3f3f3;border-color: #f3f3f3;}
+@media only screen and (max-width: 960px) {
+    .section.page.profile nav.profile-tabs ul {
+        margin-bottom: 10px;
+    }
+    .section.page.profile nav.profile-tabs li a {
+        font-size: 0.7em;
+    }
+}
+
 
 /* SETTINGS PAGES STYLES */
 .settings-sidebar {text-align:center;}
-
-
-/* ARTIST & ALBUM STYLES */
-.page.artist .artist_image, .page.album .artist_image {border-radius:100%;}
-.artist-header .name, .album-header .name  {display:inline-block;margin-bottom: 3px;}
-.album-header .artist {display:inline-block;}
-.artist-header .summary, .album-header .summary  {margin-top: 10px;}
-.artist-header .tags, .album-header .tags  {margin-top: 10px;}
-.artist-side-info {text-align:center;}
-
-.page.album .album-cover {text-align:center;}
-.page.album .album-cover .love-button {margin-top:20px;font-size:3em;color:#FF6161;}
-.album-playtime {border-top: 3px solid #e1e1e1;}
-.album-playtime h5 {float:right;}
-.col.album-track .span_1_of_12 {width: 6.86%;} /* keep original sizes */
-.col.album-track .span_10_of_12 {width: 83.06%;}
 
 
 /* ABOUT PAGES STYLES */

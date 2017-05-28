@@ -1,0 +1,137 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Welcome{% endblock %}
+
+{% block content %}
+
+    <div class="section group landing-page">
+
+        <div class="col span_4_of_4 landing-container" style="text-align:center;">
+            <div class="col span_2_of_2">
+                <h1>
+                    {{ app.name }}
+                </h1>
+                <h2 class="muted">Create and organize personalized lists all in one place</h2>
+            </div>
+            <div class="col span_2_of_2">
+                <a href="{{ path_for('auth.signup') }}"><button class="blue">Register</button></a>
+                <h5>Have an account? <a href="{{ path_for('auth.signin') }}">Sign in</a></h5>
+            </div>
+
+            <div class="col span_2_of_2 scroll-arrow"><a href="#landing-info"><div class="icon ion-chevron-down"></div></a></div>
+        </div>
+
+    </div>
+
+    <div class="section group page centered" id="landing-info">
+        <div class="col span_2_of_2 landing-span">
+            <h1>What is {{ app.name }}?</h1>
+
+            <p>{{ app.name }} is a listing platform that allows users to create various lists based on anything of their choosing.</p>
+            <p>With {{ app.name }}, users can also interact with each other, where they can follow users, favorite lists, and much more.</p>
+        </div>
+
+        <div class="col span_2_of_2 landing-span">
+            <h1>What is a list?</h1>
+
+            <div class="col span_1_of_3"></div>
+            <div class="col listbox span_1_of_3">
+                <div class="header">
+                    <div class="col span_10_of_12">
+                        <h2 class="title muted">This is a list</h2>
+                    </div>
+                    <div class="col span_2_of_12">
+                        <h5 class="category">
+                            [category]
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="col span_2_of_2 content">
+                    <p>You can add whatever in this list!</p>
+
+                    <ul>
+                        <li>Including lists</li>
+                        <li>like this!</li>
+                    </ul>
+
+                    <ol>
+                        <li>Or lists</li>
+                        <li>that are ordered</li>
+                        <li>like this!</li>
+                    </ol>
+
+                    <p>This list can also be put into categories, like seen above near the title.</p>
+
+                    <hr>
+                    <h3>More info below.</h3>
+                </div>
+            </div>
+            <div class="col span_1_of_3"></div>
+        </div>
+
+        <div class="col span_2_of_2 landing-span">
+            <div class="col span_2_of_2">
+                <h1>Why {{ app.name }}?</h1>
+                <p>
+                    While there are other platforms that provide a similar service, the goal of {{ app.name }} is to provide a more modern
+                    and friendly approach to the creating and organizing lists.
+                </p>
+                <hr>
+            </div>
+
+            <div class="col span_1_of_3">
+                <div class="icon ion-android-list"></div>
+                <h2>Profiles</h2>
+                <p>
+                    Creating an account will grant you your own personalized space where all your lists and favorites will be collected.
+                    You can easily customize how your lists look and how they are organized on your profile to your liking.
+            </div>
+            <div class="col span_1_of_3">
+                <div class="icon ion-android-share-alt"></div>
+                <h2>Share</h2>
+                <p>
+                    Share your lists to anyone on or off the site, which your profile can publicly showcase all of your lists.
+                    Other users can check out your lists, favorite them, and comment on them.
+                </p>
+            </div>
+            <div class="col span_1_of_3">
+                <div class="icon ion-social-github"></div>
+                <h2>Open Source</h2>
+                <p>
+                    At {{ app.name }}, we believe that transparency is important. Therefore, {{ app.name }} is fully open source and anyone can look at the code
+                    and even help contribute to its development.
+                    If you are a developer, you can help contribute at our <a href="https://github.com/Seramity/Listreme" target="_blank">Github</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="col span_2_of_2 landing-span">
+            <div class="col span_2_of_2">
+                <h2>Sounds good?</h2>
+                <a href="{{ path_for('auth.signup') }}"><button class="">Let's get started</button></a>
+            </div>
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+    // SMOOTH SCROLLING
+    $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}
