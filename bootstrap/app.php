@@ -231,3 +231,9 @@ Paginator::viewFactoryResolver(function() {
 Paginator::defaultSimpleView('templates/pagination/default_simple.twig');
 Paginator::defaultView('templates/pagination/default.twig');
 
+Paginator::currentPathResolver(function() {
+    return isset($_SERVER['REQUEST_URI']) ? strtok($_SERVER['REQUEST_URI'], '?') : '/';
+});
+Paginator::currentPageResolver(function() {
+    return isset($_GET['page']) ? $_GET['page'] : 1;
+});

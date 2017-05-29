@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\ListFavorite;
 use Illuminate\Database\Eloquent\Model;
 use Michelf\Markdown;
 use Carbon\Carbon;
@@ -101,10 +100,35 @@ class Lists extends Model
         return ListFavorite::where('list_id', $this->id)->first();
     }
 
+    /**
+     * Checks whether the user has a list in their favorites.
+     *
+     * @param $user_id
+     * @return bool
+     */
     public function favorited($user_id)
     {
         $favorite = ListFavorite::where(['list_id' => $this->id, 'user_id' => $user_id])->first();
         return (bool) $favorite;
+    }
+
+    /**
+     * Finds lists that a user has in their favorites.
+     *
+     * @param $user_id
+     * @return Lists
+     */
+    public function favoriteLists($user_id, $paginate)
+    {
+        $favorites = ListFavorite::where('user_id', $user_id)->get();
+        $favoriteIds = array();
+        foreach($favorites as $favorite) {
+            $favoriteIds[] = $favorite->list_id;
+        }
+
+        $lists = $this->whereIn('id', $favoriteIds)->orderBy('title', 'asc')->simplePaginate($paginate);
+
+        return $lists;
     }
 
     /**

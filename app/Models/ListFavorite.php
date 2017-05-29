@@ -45,4 +45,15 @@ class ListFavorite extends Model
         $favorite = $this->where(['user_id' => $user_id, 'list_id' => $list_id])->first();
         return (bool) $favorite;
     }
+
+    /**
+     * Count the number of favorite lists a user has.
+     *
+     * @param $user_id
+     * @return int
+     */
+    public function count($user_id)
+    {
+        return count($this->where('user_id', $user_id)->get());
+    }
 }

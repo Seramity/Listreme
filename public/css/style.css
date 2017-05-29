@@ -409,15 +409,16 @@ button.subscribe-button, button.unsubscribe-button {
     position: relative;
     height: 500px;
     overflow-y: auto;
+	overflow-x: hidden;
 }
+.section.page.list .listbox .content {height: auto;}
 .col.listbox .content::-webkit-scrollbar {
     width: 0.4em;
 }
 .col.listbox .content::-webkit-scrollbar-thumb {
-    background-color: rgba(153, 153, 153, 0);
+    background-color: rgba(153, 153, 153, 0.5);
     outline: 1px solid slategrey;
     border-radius: 5px;
-	-webkit-transition: background-color 0.5s ease;
 }
 .col.listbox .content:hover::-webkit-scrollbar-thumb {
 	background-color: rgba(153, 153, 153, 1);
@@ -468,6 +469,27 @@ button.subscribe-button, button.unsubscribe-button {
 	.col.listbox .header .category {float: left;}
 }
 
+/* FAVORITEBOX STYLES */
+.col.favoritebox.span_1_of_3 {margin: 1% 0 1% 1%;}
+.col.favoritebox {
+	padding: 24px 20px;
+	border-radius: 5px;
+	color: #404A53;
+	background-color: #f3f3f3;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.col.favoritebox .title {display: inline-block;}
+.col.favoritebox .title a {color:inherit;}
+.col.favoritebox .username a {color:inherit;}
+.col.favoritebox .category {display: inline-block;}
+.col.favoritebox .category a {color: inherit;}
+.col.favoritebox .date {float: right;}
+@media only screen and (max-width: 960px) {
+    .col.favoritebox .date {float: left;}
+}
+
+
+
 .col > .col.main, .col > .col.side {
 	margin: 0%;
 	margin-bottom: 1%;
@@ -491,12 +513,15 @@ button.subscribe-button, button.unsubscribe-button {
     overflow-x: hidden;
 }
 #comment-container::-webkit-scrollbar {
-    width: 0.4em;
+	width: 0.4em;
 }
 #comment-container::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
-    outline: 1px solid slategrey;
-    border-radius: 5px;
+	background-color: rgba(153, 153, 153, 0.5);
+	outline: 1px solid slategrey;
+	border-radius: 5px;
+}
+#comment-container::-webkit-scrollbar-thumb {
+	background-color: rgba(153, 153, 153, 1);
 }
 
 .section.page.list .commentbox .reply {margin: 0 0 0 .4%;border-left: 3px solid #ccc;}
@@ -827,7 +852,7 @@ ul.classic-list, ol.classic-list {
     padding: 10px 10px;
     margin-right: 10px;
 }
-.section.page.profile nav.profile-tabs li a:hover {color: #2A363B;background-color: #f3f3f3;border-color: #f3f3f3;}
+.section.page.profile nav.profile-tabs li a:hover, .section.page.profile nav.profile-tabs li a.active {color: #2A363B;background-color: #f3f3f3;border-color: #f3f3f3;}
 @media only screen and (max-width: 960px) {
     .section.page.profile nav.profile-tabs ul {
         margin-bottom: 10px;
@@ -836,7 +861,6 @@ ul.classic-list, ol.classic-list {
         font-size: 0.7em;
     }
 }
-
 
 /* SETTINGS PAGES STYLES */
 .settings-sidebar {text-align:center;}
@@ -859,55 +883,6 @@ dl {
 dt {font-weight: bold;}
 dd {padding-left: 2em;}
 
-/* PROGRESS BAR */
-.progressbar-container {
-  width:100%;
-  display:block;
-  margin-top:20px;
-}
-.progressbar {counter-reset: step;}
-.progressbar li {
-  list-style-type: none;
-  float: left;
-  width: 25%;
-  position: relative;
-  text-align: center;
-}
-.progressbar li:before {
-  content: counter(step);
-  counter-increment: step;
-  width: 40px;
-  height: 40px;
-  line-height: 33px;
-  border: 3px solid #ddd;
-  border-radius: 50%;
-  display: block;
-  text-align: center;
-  margin: 0 auto 10px auto;
-  background-color: #fff;
-  font-family: "Ionicons";
-  font-size: 1.4em;
-}
-.progressbar li:after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 3px;
-  background-color: #ddd;
-  top: 18px;
-  left: -50%;
-  z-index: -1;
-}
-.progressbar li:first-child:after {content:none;}
-.progressbar li.active {color:#1DCE79;}
-.progressbar li.active:before {color:#fff;border-color:#1DCE79;background-color:#1DCE79;}
-.progressbar li.active + li:after {background:#1DCE79;}
-
-.progressbar li.home:before {content: "\f38f";}
-.progressbar li.info:before {content: "\f127";}
-.progressbar li.stremes:before {content: "\f3ce";}
-.progressbar li.finish:before {content: "\f13a";}
-.progressbar li.completed:before {content: "\f121" !important;}
 
 /* CUSTOM NOTY STYLES */
 ul#noty_topCenter_layout_container {}
@@ -1132,6 +1107,11 @@ table.format-table blockquote {
     margin-left: 20px;
 }
 table.format-table img {width: 25%;}
+
+
+/* PAGINATOR STYLES */
+.paginator button.previous {float: left;}
+.paginator button.next {float: right;}
 
 
 /* COMFIRM BOX */

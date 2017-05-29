@@ -1,0 +1,8 @@
+<div class="col span_4_of_4">
+    <nav class="profile-tabs">
+        <ul>
+            <li><a href="{{ path_for('userProfile', {user: user.username}) }}">Lists</a></li>
+            <li><a href="{{ path_for('userProfile.favorites', {user: user.username}) }}">Favorites</a></li>
+        </ul>
+    </nav>
+</div>

@@ -9,6 +9,7 @@ $app->get('/', 'HomeController:index')->setName('home');
 // PROFILE ROUTES
 $app->get('/{user}','ProfileController:index')->setName('userProfile');
 $app->get('/{user}/category/{category}','ProfileController:category')->setName('userProfile.category');
+$app->get('/{user}/favorites[/{page}]', 'ProfileController:favorites')->setName('userProfile.favorites'); // [{ARG}] = optional
 
 $app->get('/{user}/list/{id}', 'ListController:index')->setName('list');
 

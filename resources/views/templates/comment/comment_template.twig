@@ -14,7 +14,7 @@
         {{ comment.markdownContent() | raw }}
     </div>
 
-    {% if not comment.isReply() %}
+    {% if not comment.isReply() and auth.check %}
         <div class="col span_2_of_2 footer">
             [<a href="#form" onclick="replyForm({{ comment.id }}, '{{comment.owner().username}}');" class="reply-button">Reply</a>]
         </div>

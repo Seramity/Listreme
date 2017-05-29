@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Lists;
 use Illuminate\Database\Eloquent\Model;
 use Michelf\Markdown;
 use Carbon\Carbon;
