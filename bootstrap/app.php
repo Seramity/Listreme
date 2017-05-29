@@ -18,17 +18,18 @@ $app = new \Slim\App([
         'displayErrorDetails' => true,
 
         'app' => [
-            'name' => $_ENV['APP_NAME'],
-            'version' => $_ENV['APP_VERSION'],
-            'baseUrl' => $_ENV['APP_BASEURL']
+            'name' => getenv('APP_NAME'),
+            'version' => getenv('APP_VERSION'),
+            'baseUrl' => getenv('APP_BASEURL')
         ],
 
         'db' => [
             'driver' => 'mysql',
-            'host' => $_ENV['DB_HOST'],
-            'database' => $_ENV['DB_DATABASE'],
-            'username' => $_ENV['DB_USERNAME'],
-            'password' => $_ENV['DB_PASSWORD'],
+            'host' => getenv('DB_HOST'),
+            'port' => getenv('DB_PORT'),
+            'database' => getenv('DB_DATABASE'),
+            'username' => getenv('DB_USERNAME'),
+            'password' => getenv('DB_PASSWORD'),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
@@ -183,14 +184,14 @@ $container['mailer'] = function ($container) {
     $mailer = new PHPMailer(true);
     $mailer->IsSMTP();
 
-    $mailer->Host = $_ENV['MAIL_HOST'];
+    $mailer->Host = getenv('MAIL_HOST');
     $mailer->SMTPAuth = true;
-    $mailer->SMTPSecure = $_ENV['MAIL_SMTPSECURE'];
-    $mailer->Port = $_ENV['MAIL_PORT'];
-    $mailer->Username = $_ENV['MAIL_USERNAME'];
-    $mailer->Password = $_ENV['MAIL_PASSWORD'];
-    $mailer->From = $_ENV['MAIL_FROM'];
-    $mailer->FromName = $_ENV['MAIL_FROMNAME'];
+    $mailer->SMTPSecure = getenv('MAIL_SMTPSECURE');
+    $mailer->Port = getenv('MAIL_PORT');
+    $mailer->Username = getenv('MAIL_USERNAME');
+    $mailer->Password = getenv('MAIL_PASSWORD');
+    $mailer->From = getenv('MAIL_FROM');
+    $mailer->FromName = getenv('MAIL_FROMNAME');
     $mailer->isHTML(true);
 
     //  PHP 5.6+ SSL fix
