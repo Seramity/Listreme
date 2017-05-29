@@ -1,8 +1,9 @@
 <?php
 
+use App\View\Factory;
 use Respect\Validation\Validator as v;
 use Dotenv\Dotenv as dotenv;
-
+use Illuminate\Pagination\Paginator;
 
 session_start();
 
@@ -59,9 +60,7 @@ $container['flash'] = function ($container) {
 
 // SET VIEWS TO TWIG
 $container['view'] = function ($container) {
-    $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
-        'cache' => false,
-    ]);
+    $view = Factory::getEngine();
 
     $view->addExtension(new \Slim\Views\TwigExtension(
         $container->router,
@@ -221,3 +220,14 @@ v::with('App\\Validation\\Rules\\');
 
 
 require __DIR__ . '/../app/routes.php';
+
+
+// PAGINATION
+Paginator::viewFactoryResolver(function() {
+    return new Factory;
+});
+// USE defaultSimpleView FOR Paginator
+// USE defaultView FOR LengthAwarePaginator
+Paginator::defaultSimpleView('templates/pagination/default_simple.twig');
+Paginator::defaultView('templates/pagination/default.twig');
+
