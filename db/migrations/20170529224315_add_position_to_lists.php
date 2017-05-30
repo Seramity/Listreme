@@ -8,7 +8,7 @@ class AddPositionToLists extends Migration
     public function up()
     {
         $this->schema->table('lists', function (Blueprint $table) {
-            $table->integer('position');
+            $table->integer('position')->nullable();
         });
     }
 
