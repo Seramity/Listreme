@@ -1,5 +1,10 @@
 {
+    "name": "seramity/listreme",
+    "description": "Create and organize personalized lists all in one place",
+    "minimum-stability": "alpha",
+    "type": "project",
     "require": {
+        "php": ">=7.0.0",
         "slim/slim": "^3.0",
         "slim/twig-view": "^2.2",
         "illuminate/database": "^5.4",
