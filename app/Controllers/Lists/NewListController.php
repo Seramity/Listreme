@@ -33,6 +33,9 @@ class NewListController extends Controller
             'content' => $request->getParam('content')
         ]);
 
+        $list->createPosition();
+
+
         $this->flash->addMessage('global_success', 'Your list has been created');
         return $response->withRedirect($this->router->pathFor('list', ['user' => $this->auth->user()->username, 'id' => $list->id]));
     }

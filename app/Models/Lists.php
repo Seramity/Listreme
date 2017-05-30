@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Auth\Auth;
 use Michelf\Markdown;
 use Carbon\Carbon;
 
@@ -25,7 +26,8 @@ class Lists extends Model
         'user_id',
         'title',
         'content',
-        'category'
+        'category',
+        'position'
     ];
 
     /**
@@ -51,6 +53,89 @@ class Lists extends Model
         if($this->updating()) {
             $this->updated_at = Carbon::now();
         }
+    }
+
+
+    /**
+     * When creating a new list, this helps find any missing positions and fills the new list into it.
+     * If not, place the list after all the existing one.
+     */
+    public function createPosition()
+    {
+        $auth = new Auth;
+
+        $listsPositions = $this->where('user_id', $auth->user()->id)->get()->pluck('position')->toArray();
+        $positionNums = range(0, max($listsPositions));
+        $missingNums = array_diff($positionNums, $listsPositions);
+
+
+        if($missingNums) {
+            $this->update(['position' => $missingNums[0]]); // Grabs the first missing number
+        } else {
+            $this->update(['position' => (max($listsPositions) + 1)]); // Inserts a number higher than the highest existing position
+        }
+    }
+
+    /**
+     * Helps arrange the positions of other lists when a user changes the position of a list.
+     *
+     * @param $user_id
+     * @param $list_id
+     * @param $position
+     */
+    public function changePositions($user_id, $list_id, $position)
+    {
+        $changingList = $this->where('id', $list_id)->first();
+
+        if ($position < $changingList->position) {    // IF POSITION IS DECREASING
+
+            // Find lists with positions, greater than or equal to the new position and less than the old position,
+            // and increase their position.
+            $this->where('position', '>=', $position)
+                    ->where('position', '<', $changingList->position)
+                    ->where('user_id', $user_id)
+                    ->whereNotIn('id', [$list_id])
+                    ->increment('position');
+
+        } elseif ($position > $changingList->position) {    // IF POSITION IS INCREASING
+
+            // Find lists with positions, lower than or equal to the new position and greater than the old position,
+            // and decrease their position.
+            $this->where('position', '<=', $position)
+                    ->where('position', '>', $changingList->position)
+                    ->whereNotIn('position', [0])
+                    ->where('user_id', $user_id)
+                    ->whereNotIn('id', [$list_id])
+                    ->decrement('position');
+
+        } else {
+
+            if ($position == 0) {    // IF POSITION IS SET TO 0
+
+                // increase the positions equal to or above 0
+                $this->where('position', '>=', $position)
+                        ->where('user_id', $user_id)
+                        ->whereNotIn('id', [$list_id])
+                        ->increment('position');
+            }
+
+        }
+
+    }
+
+    /**
+     * When deleting a list, it finds all of the user's lists whose positions are higher than the one that
+     * is being deleted, and decreases their positions to fill in the lost positions.
+     *
+     * @param List $list
+     */
+    public function deletePosition($list)
+    {
+        $auth = new Auth;
+        $this->where('position', ">", $list->position)
+            ->where('user_id', $auth->user()->id)
+            ->whereNotIn('id', [$list->id])
+            ->decrement('position');
     }
 
     /**
@@ -162,6 +247,7 @@ class Lists extends Model
             $favorite->delete();
         }
 
+        $this->deletePosition($this);
         $this->delete();
     }
 

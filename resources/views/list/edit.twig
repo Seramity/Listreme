@@ -20,18 +20,30 @@
                 </div>
 
                 <div class="col span_2_of_2">
-                    <div class="col span_1_of_2">
+                    <div class="col span_1_of_3">
                         <label>
                             Title
                             <input type="text" name="title" id="title" placeholder="A good, short title" value="{% if old_input.title %}{{ old_input.title }}{% else %}{{ list.title }}{% endif %}">
                             {% if errors.title %} <div class="form_errors">{{ errors.title | first }}</div> {% endif %}
                         </label>
                     </div>
-                    <div class="col span_1_of_2">
+                    <div class="col span_1_of_3">
                         <label>
                             Category
                             <input type="text" name="category" id="category" placeholder="Organize this list with others" value="{% if old_input.category %}{{ old_input.category }}{% else %}{{ list.category }}{% endif %}">
                             {% if errors.category %} <div class="form_errors">{{ errors.category | first }}</div> {% endif %}
+                        </label>
+                    </div>
+                    <div class="col span_1_of_3">
+                        <label>
+                            Position  [<span class="tooltip-top" data-tooltip="The order of which your list is displayed on your profile (Ex: 0 = First list)">?</span>]
+                            <input name="position" list="positions" placeholder="Position of this list" value="{% if old_input.position %}{{ old_input.position }}{% else %}{{ list.position }}{% endif %}">
+                            <datalist id="positions">
+                                {% for key, position in user_lists %}
+                                    <option value="{{ key }}">
+                                {% endfor %}
+                            </datalist>
+                            {% if errors.position %} <div class="form_errors">{{ errors.position | first }}</div> {% endif %}
                         </label>
                     </div>
                 </div>

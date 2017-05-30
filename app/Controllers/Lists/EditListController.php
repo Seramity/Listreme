@@ -23,7 +23,9 @@ class EditListController extends Controller
             return $response->withRedirect($this->router->pathFor('list', ['user' => $list_owner->username, 'id' => $list->id]));
         }
 
-        return $this->view->render($response, 'list/edit.twig', ['list' => $list]);
+        $user_lists = Lists::where('user_id', $list_owner->id)->get();
+
+        return $this->view->render($response, 'list/edit.twig', ['list' => $list, 'user_lists' => $user_lists]);
     }
 
     public function postEditList($request, $response, $args)
@@ -43,17 +45,23 @@ class EditListController extends Controller
         $validation = $this->validator->validate($request, [
             'title' => v::notEmpty()->length(3, $list->MAX_TITLE_CHAR),
             'category' => v::notEmpty()->noWhiteSpace()->alNum()->length(3, $list->MAX_CATEGORY_CHAR),
-            'content' => v::notEmpty()->length(NULL, $list->MAX_CONTENT_CHAR)
+            'content' => v::notEmpty()->length(NULL, $list->MAX_CONTENT_CHAR),
+            'position' => v::min(0)->numeric()
         ]);
 
         if($validation->failed()) {
             return $response->withRedirect($this->router->pathFor('list.edit', ['id' => $args['id']]));
         }
 
+        if($request->getParam('position') != $list->position) {
+           $list->changePositions($list_owner->id, $list->id, $request->getParam('position'));
+        }
+
         $list->update([
             'title' => $request->getParam('title'),
             'category' => $request->getParam('category'),
             'content' => $request->getParam('content'),
+            'position' => $request->getParam('position')
         ]);
 
         $this->flash->addMessage('global_success', 'Your list has been updated');
