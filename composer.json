@@ -1,7 +1,7 @@
 {
     "name": "seramity/listreme",
     "description": "Create and organize personalized lists all in one place",
-    "minimum-stability": "alpha",
+    "minimum-stability": "dev",
     "type": "project",
     "require": {
         "php": ">=7.0.0",
