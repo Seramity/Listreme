@@ -30,7 +30,7 @@ class NewListController extends Controller
             'user_id' => $this->auth->user()->id,
             'title' => $request->getParam('title'),
             'category' => $request->getParam('category'),
-            'content' => $request->getParam('content')
+            'content' => strtolower($request->getParam('content'))
         ]);
 
         $list->createPosition();

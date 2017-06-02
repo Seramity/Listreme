@@ -1,6 +1,12 @@
 {% extends 'templates/user/profile_template.twig' %}
 
-{% block pageTitle %}{{ user.username }}'s Lists{% endblock %}
+{% block pageTitle %}
+    {% if user.username ends with 's' %}
+        {{ user.username }}' Lists
+    {% else %}
+        {{ user.username }}'s Lists
+    {% endif %}
+{% endblock %}
 
 {% block profile_content %}
 
