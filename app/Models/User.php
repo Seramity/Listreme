@@ -35,7 +35,8 @@ class User extends Model
         'recover_hash',
         'name',
         'bio',
-        'gravatar'
+        'gravatar',
+        'uploaded_avatar'
     ];
 
     /**
@@ -92,12 +93,17 @@ class User extends Model
      */
     public function getAvatar($options = [])
     {
+        $container = new \Slim\Container;
         $size = isset($options['size']) ? $options['size'] : 45;
         $adminClass = "";
 
         if($this->gravatar) {
             $email = md5(strtolower($this->email));
-            $src = 'https://www.gravatar.com/avatar/'.$email.'?s='.$size.'&amp;d=identicon';
+            $src = 'https://www.gravatar.com/avatar/' . $email . '?s=' . $size . '&amp;d=identicon';
+        } elseif(!$this->gravatar && !$this->uploaded_avatar) {
+            $src = $container->request->getUri()->getBaseUrl() . "/assets/default_avatar.png";
+        } else {
+            $src = $container->request->getUri()->getBaseUrl() . "/assets/uploads/avatars/" . $this->uploaded_avatar;
         }
         if($this->isAdmin()) $adminClass = 'class="admin_avatar"';
 

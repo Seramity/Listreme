@@ -27,7 +27,7 @@ class ProfileController extends Controller
 
         if(!$user) return $this->view->render($response, 'errors/404.twig')->withStatus(404);
 
-        $lists = Lists::where(['user_id' => $user->id, 'category' => $args['category']])->orderBy('created_at', 'asc')->get();
+        $lists = Lists::where(['user_id' => $user->id, 'category' => $args['category']])->orderBy('title', 'asc')->get();
 
         $data = ['user' => $user, 'lists' => $lists, 'category' => $args['category']];
         return $this->view->render($response, 'user/category.twig', $data)->withStatus(404);

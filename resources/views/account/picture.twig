@@ -1,0 +1,128 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Picture Settings{% endblock %}
+
+{% block content %}
+
+    {% include 'templates/partials/nav.twig' %}
+
+    <div class="section group page">
+
+        <div class="col span_1_of_4">
+
+            {% include 'account/partials/sidenav.twig' %}
+
+        </div>
+
+        <div class="col span_3_of_4">
+
+            <div class="col span_4_of_4 main form">
+                <div class="col span_2_of_2 header">
+                    <h2>Picture Settings</h2>
+                    <hr>
+                </div>
+
+                <div class="col span_1_of_2">
+                    <form action="{{ path_for('account.picture') }}" method="post" enctype="multipart/form-data" autocomplete="off" class="picture-settings-form">
+                        <h3 class="header">Upload</h3>
+
+                        <input type="file" name="avatar" id="avatar" accept="image/*">
+
+                        <p>Pick a image (.jpg, .png, .gif) under a size of 2MB.</p>
+                        <p class="muted">(We suggest to upload a picture that is at least 500px x 500px)</p>
+                        {% if errors.avatar %} <div class="form_errors">{{ errors.avatar | first }}</div> {% endif %}
+
+                        <input type="submit" value="Upload" data-submit-value="Uploading...">
+                        {{ csrf.field | raw }}
+                    </form>
+
+                    {% if auth.user.uploaded_avatar %}
+                        <form action="{{ path_for('account.picture.delete') }}" method="post" class="delete-picture-form">
+                            <input type="submit" class="red" value="Delete Avatar" data-submit-value="Deleting...">
+                            {{ csrf.field | raw }}
+                        </form>
+                    {% endif %}
+                </div>
+
+                <div class="col span_1_of_2">
+                    <h3 class="header">Avatars</h3>
+
+                    <div class="col span_1_of_2">
+                        {% if auth.user.uploaded_avatar %}
+                            <img src="{{ base_url() }}/assets/uploads/avatars/{{ auth.user.uploaded_avatar }}" width="150px">
+                        {% else %}
+                            <img src="{{ base_url() }}/assets/default_avatar.png" width="150px">
+                        {% endif %}
+                        <h5>Custom Avatar</h5>
+                    </div>
+                    <div class="col span_1_of_2">
+                        <img src="http://www.gravatar.com/avatar/{{ md5_email }}?s=150&amp;d=identicon" width="150px">
+                        <h5>Gravatar</h5>
+                    </div>
+
+                    <form action="{{ path_for('account.picture.change') }}" method="post" class="change-settings-form">
+
+                        <div class="col span_2_of_2">
+                            <div class="radio-buttons">
+                                <label for="uploaded" class="control control--radio">Custom Avatar
+                                    <input type="radio" name="switch_avatar" id="uploaded" value="0" {% if not auth.user.gravatar %}checked{% endif %}/>
+                                    <div class="control__indicator"></div>
+                                </label>
+
+                                <label for="gravatar" class="control control--radio">Gravatar [<a href="http://gravatar.com" target="_blank" class="tooltip-bottom" data-tooltip="A globally recognized avatar that can be used anywhere. Gravatars are determined by your email. (Click for more info)">?</a>]
+                                    <input type="radio" name="switch_avatar" id="gravatar" value="1" {% if auth.user.gravatar %}checked{% endif %}/>
+                                    <div class="control__indicator"></div>
+                                </label>
+
+                                {% if errors.switch_avatar %} <div class="form_errors">{{ errors.switch_avatar | first }}</div> {% endif %}
+                            </div>
+
+                            <input type="submit" value="Update" data-submit-value="Updating...">
+                            {{ csrf.field | raw }}
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+
+        $('.picture-settings-form').on('submit', function() {
+
+            var self = $(this),
+                button = self.find('input[type="submit"], button'),
+                submitValue = button.data('submit-value');
+
+            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
+
+        });
+        $('.delete-picture-form').on('submit', function() {
+
+            var self = $(this),
+                button = self.find('input[type="submit"], button'),
+                submitValue = button.data('submit-value');
+
+            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
+
+        });
+        $('.change-settings-form').on('submit', function() {
+
+            var self = $(this),
+                button = self.find('input[type="submit"], button'),
+                submitValue = button.data('submit-value');
+
+            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
+
+        });
+    </script>
+
+{% endblock %}

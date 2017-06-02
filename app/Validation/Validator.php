@@ -30,16 +30,21 @@ class Validator
      *
      * @return $this
      */
-    public function validate($request, array $rules)
+    public function validate($request, array $rules, $file_upload = false)
     {
         foreach($rules as $field => $rule) {
             try {
-                $rule->setName(ucfirst($field))->assert($request->getParam($field));
+                if(!$file_upload) {
+                    $rule->setName(ucfirst($field))->assert($request->getParam($field));
+                } else {
+                    $rule->setName(ucfirst($field))->assert($request->getUploadedFiles()[$field]->file);
+                }
             } catch(NestedValidationException $e) {
 
                 // CUSTOM ERROR MESSAGES
                 $this->errors[$field] = $e->findMessages([
-                    'regex' => '{{name}} must contain only letters (a-z), digits (0-9), and dashes or underscores.'
+                    'regex' => '{{name}} must contain only letters (a-z), digits (0-9), and dashes or underscores.',
+                    'image' => "Your image must be a valid file type (jpg, png, gif)."
                 ]);
 
                 $this->errors[$field] = $e->getMessages();

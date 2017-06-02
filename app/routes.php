@@ -21,11 +21,14 @@ $app->group('', function () use ($app) {
     $app->get('/auth/signout', 'AuthController:getSignOut')->setName('auth.signout');
 
     // ACCOUNT ROUTES
-    $app->get('/account/password', 'PasswordController:getChangePassword')->setName('account.password');
-    $app->post('/account/password', 'PasswordController:postChangePassword');
     $app->get('/account/profile', 'ProfileSettingsController:getProfileSettings')->setName('account.profile');
     $app->post('/account/profile', 'ProfileSettingsController:postProfileSettings');
-
+    $app->get('/account/picture', 'PictureSettingsController:getPictureSettings')->setName('account.picture');
+    $app->post('/account/picture', 'PictureSettingsController:postPictureSettings');
+    $app->post('/account/picture/delete', 'PictureSettingsController:deletePicture')->setName('account.picture.delete');
+    $app->post('/account/picture/change', 'PictureSettingsController:changePicture')->setName('account.picture.change');
+    $app->get('/account/password', 'PasswordController:getChangePassword')->setName('account.password');
+    $app->post('/account/password', 'PasswordController:postChangePassword');
 
     // LIST ROUTES
     $app->get('/list/new', 'NewListController:getNewList')->setName('list.new');

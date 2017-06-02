@@ -1,10 +1,10 @@
 <div class="col span_4_of_4 side settings-sidebar">
     {{ auth.user.getAvatar({size : 50}) | raw }}
-    <h3>{{ auth.user.username }}'s Account</h3>
+    <h3>My Account</h3>
     <hr>
     <ul class="link-list">
         <a href="{{ path_for('account.profile') }}"><li>Profile Settings</li></a>
-        <a href="#"><li>Profile Picture</li></a>
+        <a href="{{ path_for('account.picture') }}"><li>Profile Picture</li></a>
         <a href="#"><li>Privacy Settings</li></a>
     </ul>
 

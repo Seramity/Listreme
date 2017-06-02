@@ -7,7 +7,17 @@
     <div class="section group page profile">
         <div class="col span_4_of_4 profile-main">
             <div class="col span_1_of_7">
-                {{ user.getAvatar({size : 150}) | raw }}
+
+                {% if auth.check and auth.user.id ==  user.id %}
+                    <a href="{{ path_for('account.picture') }}">
+                        <div class="avatar-container" data-content="Update Avatar">
+                            {{ user.getAvatar({size : 150}) | raw }}
+                        </div>
+                    </a>
+                {% else %}
+                    {{ user.getAvatar({size : 150}) | raw }}
+                {% endif %}
+
             </div>
             <div class="col span_6_of_7">
                 <h1 class="username">{{ user.username }}</h1>

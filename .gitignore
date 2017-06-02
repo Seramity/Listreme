@@ -1,5 +1,6 @@
 .idea
 /vendor
 .env
-.travis.yml
 composer.lock
+
+/public/assets/uploads/avatars/*

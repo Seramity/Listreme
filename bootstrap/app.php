@@ -108,7 +108,10 @@ $container['RecoverController'] = function ($container) {
     return new \App\Controllers\Auth\RecoverController($container);
 };
 $container['ProfileSettingsController'] = function ($container) {
-    return new \App\Controllers\Auth\Account\PRofileSettingsController($container);
+    return new \App\Controllers\Auth\Account\ProfileSettingsController($container);
+};
+$container['PictureSettingsController'] = function ($container) {
+    return new \App\Controllers\Auth\Account\PictureSettingsController($container);
 };
 
 // USER CONTROLLERS
