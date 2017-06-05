@@ -17,7 +17,8 @@
         "vlucas/phpdotenv": "^2.4",
         "illuminate/pagination": "^5.4",
         "robmorgan/phinx": "0.7.2",
-        "coldume/imagecraft": "~1.0"
+        "coldume/imagecraft": "~1.0",
+        "league/commonmark": "^0.15.4"
     },
     "autoload": {
         "psr-4": {

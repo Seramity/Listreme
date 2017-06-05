@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Auth\Auth;
-use Michelf\Markdown;
+use App\Helpers\Markdown;
 use Carbon\Carbon;
 
 /**
@@ -146,13 +146,10 @@ class Lists extends Model
      */
     public function markdownContent()
     {
-        $markdown = new Markdown;
+        $allow_html = false;
+        if($this->owner()->isAdmin()) $allow_html = true;
 
-        if(!$this->owner()->isAdmin()) {
-            $markdown->no_markup = true;
-        }
-
-        return $markdown->transform($this->content);
+        return Markdown::convert($this->content, $allow_html);
     }
 
     /**
