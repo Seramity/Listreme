@@ -126,6 +126,10 @@ class User extends Model
     {
         return $this->hasPermission('is_admin');
     }
+    public function isSubscriber()
+    {
+        return $this->hasPermission('is_subscriber');
+    }
 
 
     public function permissions()

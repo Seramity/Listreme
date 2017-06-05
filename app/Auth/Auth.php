@@ -20,7 +20,7 @@ class Auth
      *
      * @return User
      */
-    public function user()
+    public static function user()
     {
         if(isset($_SESSION['user'])) return User::find($_SESSION['user']);
     }

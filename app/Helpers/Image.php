@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Auth\Auth;
+use Imagecraft\ImageBuilder;
+
 /**
  * Class Image
  *
@@ -12,6 +15,13 @@ namespace App\Helpers;
  */
 class Image
 {
+    /**
+     * Variables used for validation.
+     *
+     * @var int
+     */
+    private $MAX_FILE_SIZE = 2048; // 2MB
+
     protected $container;
 
     public function __construct()
@@ -32,7 +42,13 @@ class Image
         /* new file name */
         $path = $_SERVER['DOCUMENT_ROOT'] . $this->container->request->getUri()->getBasePath() . '/assets/uploads/avatars/' . $file_name;
 
-        $img = $this->resize($image, $size);
+        if ($image->getClientMediaType() == "image/gif" && Auth::user()->isSubscriber()) {
+            $is_animated = true;
+            $img = $this->resizeGif($image, $size);
+        } else {
+            $is_animated = false;
+            $img = $this->resize($image, $size);
+        }
 
         /* Save image */
         switch ($image->getClientMediaType()) {
@@ -45,7 +61,12 @@ class Image
                 break;
 
             case 'image/gif':
-                imagegif($img, $path);
+                if ($is_animated) {
+                    file_put_contents($path, $img);
+                } else {
+                    imagegif($img, $path);
+                }
+
                 break;
 
             default:
@@ -89,5 +110,26 @@ class Image
         imagedestroy($newImage);
 
         return $tmp;
+    }
+
+    /**
+     * Resizes gif files so the gif does not lose its animation when resizing (if there is animation).
+     *
+     * @param $image
+     * @param $size
+     *
+     * @return mixed
+     */
+    private function resizeGif($image, $size)
+    {
+        $gif = new ImageBuilder();
+
+        $gif = $gif->addBackgroundLayer()
+            ->filename($image->file)
+            ->resize($size, $size, 'fill_crop')
+            ->done()
+            ->save();
+
+        return $gif->getContents();
     }
 }
