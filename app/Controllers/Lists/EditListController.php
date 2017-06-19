@@ -53,15 +53,23 @@ class EditListController extends Controller
             return $response->withRedirect($this->router->pathFor('list.edit', ['id' => $args['id']]));
         }
 
+        $new_position = $request->getParam('position');
+
         if($request->getParam('position') != $list->position) {
-           $list->changePositions($list_owner->id, $list->id, $request->getParam('position'));
+            // Check if new position is higher than the total number of lists a user has,
+            // and change new position to the last available position
+            if($request->getParam('position') > $list->countUserLists($list_owner->id)) {
+                $new_position = $list->countUserLists($list_owner->id) - 1; // Subtract 1 because the positions start at 0
+            }
+
+           $list->changePositions($list_owner->id, $list->id, $new_position);
         }
 
         $list->update([
             'title' => $request->getParam('title'),
-            'category' => $request->getParam('category'),
+            'category' => strtolower($request->getParam('category')),
             'content' => $request->getParam('content'),
-            'position' => strtolower($request->getParam('position'))
+            'position' => $new_position
         ]);
 
         $this->flash->addMessage('global_success', 'Your list has been updated');

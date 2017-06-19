@@ -269,4 +269,15 @@ class Lists extends Model
     {
         return Carbon::createFromTimeStamp(strtotime($this->{$field}))->format('j F Y h:i A T');
     }
+
+    /**
+     * Count the number of lists a user owns and returns the number.
+     *
+     * @param int $user_id
+     * @return int
+     */
+    public function countUserLists($user_id)
+    {
+        return $this->where('user_id', $user_id)->count();
+    }
 }
