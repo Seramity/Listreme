@@ -8,29 +8,44 @@
 
     <div class="section group page auth">
         <div class="col span_4_of_4">
-            <div class="col span_2_of_4 main form">
-                <div class="col span_2_of_2 header">
-                    <h2>Sign up</h2>
-                    <h4 class="muted">Create your account to get started</h4>
-                    <hr>
+            {% if app.registration_enabled %}
+
+                <div class="col span_2_of_4 main form">
+                    <div class="col span_2_of_2 header">
+                        <h2>Sign up</h2>
+                        <h4 class="muted">Create your account to get started</h4>
+                        <hr>
+                    </div>
+
+
+                    <form action="{{ path_for('auth.signup') }}" method="post" autocomplete="off" class="signup-form">
+                        <input type="email" name="email" id="email" placeholder="Email" value="{{ old_input.email }}">
+                        {% if errors.email %} <div class="form_errors">{{ errors.email | first }}</div> {% endif %}
+
+                        <input type="text" name="username" id="email" placeholder="Username" value="{{ old_input.username }}">
+                        {% if errors.username %} <div class="form_errors">{{ errors.username | first }}</div> {% endif %}
+
+                        <input type="password" name="password" id="password" placeholder="Password"">
+                        {% if errors.password %} <div class="form_errors">{{ errors.password | first }}</div> {% endif %}
+
+                        <input type="submit" value="Create Account" data-submit-value="Creating...">
+
+                        {{ csrf.field | raw }}
+                    </form>
                 </div>
 
+            {% else %}
 
-                <form action="{{ path_for('auth.signup') }}" method="post" autocomplete="off" class="signup-form">
-                    <input type="email" name="email" id="email" placeholder="Email" value="{{ old_input.email }}">
-                    {% if errors.email %} <div class="form_errors">{{ errors.email | first }}</div> {% endif %}
+                <div class="col span_2_of_4 main form">
+                    <div class="col span_2_of_2 header">
+                        <h2>Registration Closed</h2>
+                        <hr>
+                    </div>
 
-                    <input type="text" name="username" id="email" placeholder="Username" value="{{ old_input.username }}">
-                    {% if errors.username %} <div class="form_errors">{{ errors.username | first }}</div> {% endif %}
+                    <h3>Sorry, we are not accepting any more new accounts at this time.</h3>
+                </div>
 
-                    <input type="password" name="password" id="password" placeholder="Password"">
-                    {% if errors.password %} <div class="form_errors">{{ errors.password | first }}</div> {% endif %}
-
-                    <input type="submit" value="Create Account" data-submit-value="Creating...">
-
-                    {{ csrf.field | raw }}
-                </form>
-            </div>
+            {% endif %}
         </div>
     </div>
 

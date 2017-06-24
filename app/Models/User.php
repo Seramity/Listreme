@@ -33,6 +33,8 @@ class User extends Model
         'active',
         'active_hash',
         'recover_hash',
+        'remember_identifier',
+        'remember_token',
         'name',
         'bio',
         'gravatar',
@@ -81,6 +83,32 @@ class User extends Model
         $this->update([
             'active' => true,
             'active_hash' => NULL
+        ]);
+    }
+
+    /**
+     * Set remember me identifier and hash for user sign in.
+     * Keeps user signed in if asked.
+     *
+     * @param $identifier
+     * @param $hash
+     */
+    public function updateRemember($identifier, $hash)
+    {
+        $this->update([
+            'remember_identifier' => $identifier,
+            'remember_token' => $hash
+        ]);
+    }
+
+    /**
+     * Removes user remember login.
+     */
+    public function removeRemember()
+    {
+        $this->update([
+            'remember_identifier' => NULL,
+            'remember_token' => NULL
         ]);
     }
 

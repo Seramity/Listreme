@@ -25,6 +25,11 @@
                     <a href="{{ path_for('auth.recover') }}">Forgot my Password</a>
                     <input type="submit" value="Sign in" data-submit-value="Signing in...">
 
+                    <div class="custom_checkbox">
+                        <input type="checkbox" name="remember" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+
                     {{ csrf.field | raw }}
                 </form>
             </div>

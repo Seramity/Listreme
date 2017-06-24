@@ -20,7 +20,12 @@ $app = new \Slim\App([
         'app' => [
             'name' => getenv('APP_NAME'),
             'version' => getenv('APP_VERSION'),
-            'baseUrl' => getenv('APP_BASEURL')
+            'baseUrl' => getenv('APP_BASEURL'),
+            'registration_enabled' => filter_var(getenv('REGISTRATION'), FILTER_VALIDATE_BOOLEAN)
+        ],
+
+        'auth' => [
+            'remember' => 'user_r'
         ],
 
         'db' => [
@@ -56,6 +61,12 @@ $container['auth'] = function ($container) {
 
 $container['flash'] = function ($container) {
     return new \Slim\Flash\Messages;
+};
+
+
+// MODELS
+$container['user'] = function ($container) {
+    return new \App\Models\User;
 };
 
 
@@ -98,8 +109,17 @@ $container['HomeController'] = function ($container) {
 };
 
 // AUTH CONTROLLERS
-$container['AuthController'] = function ($container) {
-    return new \App\Controllers\Auth\AuthController($container);
+$container['SignInController'] = function ($container) {
+    return new \App\Controllers\Auth\SignInController($container);
+};
+$container['SignUpController'] = function ($container) {
+    return new \App\Controllers\Auth\SignUpController($container);
+};
+$container['SignOutController'] = function ($container) {
+    return new \App\Controllers\Auth\SignOutController($container);
+};
+$container['ActivateController'] = function ($container) {
+    return new \App\Controllers\Auth\ActivateController($container);
 };
 $container['PasswordController'] = function ($container) {
     return new \App\Controllers\Auth\PasswordController($container);
@@ -181,7 +201,6 @@ $container['securitylib'] = function ($container) {
     return new SecurityLib\Strength(SecurityLib\Strength::MEDIUM);
 };
 
-
 // MAILER
 $container['mailer'] = function ($container) {
     $mailer = new PHPMailer(true);
@@ -214,6 +233,7 @@ $container['mailer'] = function ($container) {
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \App\Middleware\FormInputMiddleware($container));
 $app->add(new \App\Middleware\CsrfMiddleware($container));
+$app->add(new \App\Middleware\RememberMeMiddleware($container));
 
 $app->add($container->csrf);
 
