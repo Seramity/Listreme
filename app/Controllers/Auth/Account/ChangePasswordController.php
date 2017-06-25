@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Controllers\Auth;
+namespace App\Controllers\Auth\Account;
 
 use App\Models\User;
 use App\Controllers\Controller;
 use Respect\Validation\Validator as v;
 
 
-class PasswordController extends Controller
+class ChangePasswordController extends Controller
 {
     public function getChangePassword($request, $response)
     {

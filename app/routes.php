@@ -27,8 +27,8 @@ $app->group('', function () use ($app) {
     $app->post('/account/picture', 'PictureSettingsController:postPictureSettings');
     $app->post('/account/picture/delete', 'PictureSettingsController:deletePicture')->setName('account.picture.delete');
     $app->post('/account/picture/change', 'PictureSettingsController:changePicture')->setName('account.picture.change');
-    $app->get('/account/password', 'PasswordController:getChangePassword')->setName('account.password');
-    $app->post('/account/password', 'PasswordController:postChangePassword');
+    $app->get('/account/password', 'ChangePasswordController:getChangePassword')->setName('account.password');
+    $app->post('/account/password', 'ChangePasswordController:postChangePassword');
 
     // LIST ROUTES
     $app->get('/list/new', 'NewListController:getNewList')->setName('list.new');
