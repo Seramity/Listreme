@@ -24,7 +24,7 @@ class ActivateController extends Controller
 
         $_SESSION['user'] = $user->id; // LOGIN
 
-        $this->flash->addMessage('global_success', 'Your account has been activated. Welcome to Lists!');
+        $this->flash->addMessage('global_success', "Your account has been activated. Welcome to {$this->container->get('settings')['app']['name']}!");
         return $response->WithRedirect($this->router->pathFor('home'));
 
     }

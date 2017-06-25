@@ -130,6 +130,7 @@ a {color: #ff6161;text-decoration:none;cursor:pointer;}
 p {line-height:1.5;}
 p.page-content {margin:15px 0;}
 .muted {color:#999 !important;}
+sup {vertical-align: super;}
 
 hr {
 	border: none;
