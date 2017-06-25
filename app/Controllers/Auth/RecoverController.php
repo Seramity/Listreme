@@ -5,6 +5,8 @@ namespace App\Controllers\Auth;
 use App\Models\User;
 use App\Controllers\Controller;
 use Respect\Validation\Validator as v;
+use App\Mail\Recover;
+use App\Mail\PasswordChanged;
 
 
 class RecoverController extends Controller
@@ -31,10 +33,7 @@ class RecoverController extends Controller
             'recover_hash' => $this->hash->hash($identifier)
         ]);
 
-        $this->mailer->send($response, 'mail/recover.twig', ['user' => $user, 'identifier' => $identifier], function ($message) use ($user) {
-            $message->to($user->email);
-            $message->subject('Reset Password');
-        });
+        $this->container->mail->to($user->email, $user->username)->send(new Recover($user, $identifier));
 
         $this->flash->addMessage('global_success', 'An email with instructions has been sent to the email address associated with your account.');
         return $response->withRedirect($this->router->pathFor('home'));
@@ -81,10 +80,7 @@ class RecoverController extends Controller
 
         $user->setPassword($password, true);
 
-        $this->mailer->send($response, 'mail/passwordchanged.twig', ['user' => $user], function ($message) use ($user) {
-            $message->to($user->email);
-            $message->subject('Password Changed');
-        });
+        $this->container->mail->to($user->email, $user->username)->send(new PasswordChanged($user));
 
         $this->flash->addMessage('global_success', 'Your password has been reset and you can now sign in.');
         return $response->withRedirect($this->router->pathFor('auth.signin'));

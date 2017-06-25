@@ -5,6 +5,7 @@ namespace App\Controllers\Auth\Account;
 use App\Models\User;
 use App\Controllers\Controller;
 use Respect\Validation\Validator as v;
+use App\Mail\PasswordChanged;
 
 
 class ChangePasswordController extends Controller
@@ -29,10 +30,9 @@ class ChangePasswordController extends Controller
 
         $this->auth->user()->setPassword($request->getParam('password_new'));
 
-        $this->mailer->send($response, 'mail/passwordchanged.twig', ['user' => $this->auth->user()], function ($message) {
-            $message->to($this->auth->user()->email);
-            $message->subject('Password Changed');
-        });
+        $user = $this->container->auth->user();
+
+        $this->container->mail->to($user->email, $user->username)->send(new PasswordChanged($user));
 
         $this->flash->addMessage('global_success', 'Your password has been changed');
         return $response->withRedirect($this->router->pathFor('account.password'));

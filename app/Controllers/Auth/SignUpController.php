@@ -6,6 +6,7 @@ use App\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserPermission;
 use Respect\Validation\Validator as v;
+use App\Mail\SignedUp;
 
 class SignUpController extends Controller
 {
@@ -48,10 +49,8 @@ class SignUpController extends Controller
 
         $user->permissions()->create(UserPermission::$defaults);
 
-        $this->mailer->send($response, 'mail/signedup.twig', ['user' => $user, 'identifier' => $identifier], function ($message) use ($user) {
-            $message->to($user->email);
-            $message->subject('Welcome to Lists!');
-        });
+
+        $this->mail->to($user->email, $user->username)->send(new SignedUp($user, $identifier, $this->container));
 
         $this->flash->addMessage('global_success', 'Your account has been created. An email was sent to you with a link to activate your account.');
         return $response->withRedirect($this->router->pathFor('home'));

@@ -4,6 +4,7 @@ use App\View\Factory;
 use Respect\Validation\Validator as v;
 use Dotenv\Dotenv as dotenv;
 use Illuminate\Pagination\Paginator;
+use App\Mail\Mailer\Mailer;
 
 session_start();
 
@@ -38,6 +39,17 @@ $app = new \Slim\App([
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
+        ],
+
+        'mail' => [
+            'host' => getenv('MAIL_HOST'),
+            'port' => getenv('MAIL_PORT'),
+            'from' => [
+                'name' => getenv('MAIL_FROMNAME'),
+                'address' => getenv('MAIL_FROM')
+            ],
+            'username' => getenv('MAIL_USERNAME'),
+            'password' => getenv('MAIL_PASSWORD')
         ]
     ]
 ]);
@@ -146,30 +158,17 @@ $container['securitylib'] = function ($container) {
 };
 
 // MAILER
-$container['mailer'] = function ($container) {
-    $mailer = new PHPMailer(true);
-    $mailer->IsSMTP();
+$container['mail'] = function ($container) {
+    $config = $container->get('settings')['mail'];
 
-    $mailer->Host = getenv('MAIL_HOST');
-    $mailer->SMTPAuth = true;
-    $mailer->SMTPSecure = getenv('MAIL_SMTPSECURE');
-    $mailer->Port = getenv('MAIL_PORT');
-    $mailer->Username = getenv('MAIL_USERNAME');
-    $mailer->Password = getenv('MAIL_PASSWORD');
-    $mailer->From = getenv('MAIL_FROM');
-    $mailer->FromName = getenv('MAIL_FROMNAME');
-    $mailer->isHTML(true);
+    $transport = (new Swift_SmtpTransport($config['host'], $config['port']))
+        ->setUsername($config['username'])
+        ->setPassword($config['password']);
 
-    //  PHP 5.6+ SSL fix
-    $mailer->SMTPOptions = array(
-        'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => false
-        )
-    );
+    $swift = new Swift_Mailer($transport);
 
-    return new \App\Mail\Mailer($container->view, $mailer);
+    return (new Mailer($swift, $container->view))
+        ->from($config['from']['address'], $config['from']['name']);
 };
 
 
