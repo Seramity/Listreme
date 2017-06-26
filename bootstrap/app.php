@@ -16,12 +16,13 @@ $dotenv->load();
 
 $app = new \Slim\App([
     'settings' => [
-        'displayErrorDetails' => true,
+        'displayErrorDetails' => filter_var(getenv('APP_DEBUG'), FILTER_VALIDATE_BOOLEAN) === TRUE,
 
         'app' => [
             'name' => getenv('APP_NAME'),
             'version' => getenv('APP_VERSION'),
             'baseUrl' => getenv('APP_BASEURL'),
+            'cache' => filter_var(getenv('APP_CACHE'), FILTER_VALIDATE_BOOLEAN),
             'registration_enabled' => filter_var(getenv('REGISTRATION'), FILTER_VALIDATE_BOOLEAN)
         ],
 
@@ -84,7 +85,7 @@ $container['user'] = function ($container) {
 
 // SET VIEWS TO TWIG
 $container['view'] = function ($container) {
-    $view = Factory::getEngine();
+    $view = Factory::getEngine($container);
 
     $view->addExtension(new \Slim\Views\TwigExtension(
         $container->router,
