@@ -27,7 +27,8 @@ class Lists extends Model
         'title',
         'content',
         'category',
-        'position'
+        'position',
+        'edited'
     ];
 
     /**
@@ -67,7 +68,6 @@ class Lists extends Model
         $listsPositions = $this->where('user_id', $auth->user()->id)->get()->pluck('position')->toArray();
         $positionNums = range(0, max($listsPositions));
         $missingNums = array_diff($positionNums, $listsPositions);
-
 
         if($missingNums) {
             $this->update(['position' => $missingNums[0]]); // Grabs the first missing number

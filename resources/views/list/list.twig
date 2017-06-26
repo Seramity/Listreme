@@ -18,7 +18,7 @@
                     </div>
                     <div class="col span_2_of_12">
                         <h5 class="category">
-                            <a href="{{ path_for('userProfile.category', {user : user.username, category : list.category}) }}">{{ list.category }}</a>
+                            [<a href="{{ path_for('userProfile.category', {user : user.username, category : list.category}) }}">{{ list.category }}</a>]
                         </h5>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     {{ list.owner().getAvatar({size : 70}) | raw }}
                     <h2 class="username">{{ list.owner().username }}</h2>
                 </a>
-                <div class="date" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.updated_at %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</div>
+                <div class="date" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.edited %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</div>
             </div>
 
             <div class="col span_2_of_4 buttons">

@@ -69,7 +69,8 @@ class EditListController extends Controller
             'title' => $request->getParam('title'),
             'category' => strtolower($request->getParam('category')),
             'content' => $request->getParam('content'),
-            'position' => $new_position
+            'position' => $new_position,
+            'edited' => TRUE
         ]);
 
         $this->flash->addMessage('global_success', 'Your list has been updated');

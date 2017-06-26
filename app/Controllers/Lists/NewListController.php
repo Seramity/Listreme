@@ -29,8 +29,8 @@ class NewListController extends Controller
         $list = $list->create([
             'user_id' => $this->auth->user()->id,
             'title' => $request->getParam('title'),
-            'category' => $request->getParam('category'),
-            'content' => strtolower($request->getParam('content'))
+            'category' => strtolower($request->getParam('category')),
+            'content' => $request->getParam('content')
         ]);
 
         $list->createPosition();
