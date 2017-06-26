@@ -1,5 +1,4 @@
 .idea
 /vendor
-/cache/views/*
 .env
 composer.lock

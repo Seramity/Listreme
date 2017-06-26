@@ -16,7 +16,7 @@ $dotenv->load();
 
 $app = new \Slim\App([
     'settings' => [
-        'displayErrorDetails' => filter_var(getenv('APP_DEBUG'), FILTER_VALIDATE_BOOLEAN) === TRUE,
+        'displayErrorDetails' => filter_var(getenv('APP_DEBUG'), FILTER_VALIDATE_BOOLEAN),
 
         'app' => [
             'name' => getenv('APP_NAME'),
