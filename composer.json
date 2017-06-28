@@ -18,7 +18,8 @@
         "robmorgan/phinx": "0.7.2",
         "coldume/imagecraft": "~1.0",
         "league/commonmark": "^0.15.4",
-        "swiftmailer/swiftmailer": "^6.0"
+        "swiftmailer/swiftmailer": "^6.0",
+        "symfony/var-dumper": "^3.3"
     },
     "autoload": {
         "psr-4": {

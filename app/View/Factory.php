@@ -26,6 +26,7 @@ class Factory
     public static function getEngine($container = NULL)
     {
         return new \Slim\Views\Twig(__DIR__ . '/../../resources/views', [
+            'debug' => $container['settings']['app']['debug'],
             'cache' => ($container['settings']['app']['cache'] ? __DIR__ . '/../../resources/cache/views' : FALSE)
         ]);
     }

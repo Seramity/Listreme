@@ -6,6 +6,11 @@ use Dotenv\Dotenv as dotenv;
 use Illuminate\Pagination\Paginator;
 use App\Mail\Mailer\Mailer;
 
+use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\{HtmlDumper, CliDumper};
+
+
 session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -22,6 +27,7 @@ $app = new \Slim\App([
             'name' => getenv('APP_NAME'),
             'version' => getenv('APP_VERSION'),
             'baseUrl' => getenv('APP_BASEURL'),
+            'debug' => filter_var(getenv('APP_DEBUG'), FILTER_VALIDATE_BOOLEAN),
             'cache' => filter_var(getenv('APP_CACHE'), FILTER_VALIDATE_BOOLEAN),
             'registration_enabled' => filter_var(getenv('REGISTRATION'), FILTER_VALIDATE_BOOLEAN)
         ],
@@ -94,7 +100,7 @@ $container['view'] = function ($container) {
 
     // APP GLOBALS
     $view->getEnvironment()->addGlobal('app', $container['settings']['app']);
-
+    $view->addExtension(new \App\View\DebugExtension);
 
     // SEND AUTH INTO VIEWS
     $view->getEnvironment()->addGlobal('auth', [
@@ -204,4 +210,22 @@ Paginator::currentPathResolver(function() {
 });
 Paginator::currentPageResolver(function() {
     return isset($_GET['page']) ? $_GET['page'] : 1;
+});
+
+
+// SYMFONY VARDUMPER
+VarDumper::setHandler(function ($var) {
+    $cloner = new VarCloner;
+
+    $htmlDumper = new HtmlDumper;
+    $htmlDumper->setStyles([
+        'default' => 'background-color:#fff; color:#FF8400; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all',
+        'public' => 'color:#555',
+        'protected' => 'color:#555',
+        'private' => 'color:#555',
+    ]);
+
+    $dumper = PHP_SAPI === 'cli' ? new CliDumper : $htmlDumper;
+
+    $dumper->dump($cloner->cloneVar($var));
 });
