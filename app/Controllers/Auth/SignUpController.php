@@ -27,7 +27,7 @@ class SignUpController extends Controller
 
         $validation = $this->validator->validate($request, [
             'email' => v::noWhitespace()->notEmpty()->email()->length(NULL, $user->MAX_EMAIL_CHAR)->emailAvailable(NULL), // NULL for no check on 'current' email (This is only used for registered users)
-            'username' => v::noWhitespace()->notEmpty()->length(3, $user->MAX_USERNAME_CHAR)->usernameAvailable(NULL),
+            'username' => v::noWhitespace()->notEmpty()->regex('/^[A-Za-z0-9_-]+$/')->length(3, $user->MAX_USERNAME_CHAR)->usernameAvailable(NULL),
             'password' => v::noWhitespace()->notEmpty()->length(6, null)
         ]);
 
