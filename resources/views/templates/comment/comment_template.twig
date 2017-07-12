@@ -1,16 +1,16 @@
 <div class="row comment{% if comment.isReply() %} reply{% endif %}" id="comment-{{comment.id}}">
-    <div class="col-12 comment-userinfo">
+    <div class="col-lg-12 comment-userinfo">
         <a href="{{ path_for('userProfile', {user : comment.owner().username }) }}">
             <span>{{ comment.owner().getAvatar({size : 40}) | raw }}</span>
             <h5 class="comment-userinfo-username">{{ comment.owner().username }}</h5>
         </a>
     </div>
 
-    <div class="col-12 comment-content">
+    <div class="col-lg-12 comment-content">
         {{ comment.markdownContent() | raw }}
     </div>
 
-    <div class="col-12 comment-footer">
+    <div class="col-lg-12 comment-footer">
         <span class="comment-timestamp text-muted" title="{{ comment.timestamp() }}">{{ comment.readableTime() }}</span>
         {% if not comment.isReply() and auth.check %}
              · [<a href="#comment-form" onclick="replyForm({{ comment.id }}, '{{comment.owner().username}}');" class="reply-button">Reply</a>]
@@ -21,7 +21,7 @@
     </div>
 
     {% if comment.hasReplies() %}
-        <div class="col-12 comment-replies">
+        <div class="col-lg-12 comment-replies">
             {% for comment in comment.replies('asc') %}
                 {% include 'templates/comment/comment_template.twig' %}
             {% endfor %}
