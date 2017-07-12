@@ -31,7 +31,7 @@ class RememberMeMiddleware extends Middleware
 
                 if ($user) {
                     if ($this->container->hash->hashCheck($token, $user->remember_token)) {
-                        $_SESSION['user'] = $user->id;
+                        $_SESSION['user'] = $user->auth_id;
                     } else {
                         $user->removeRemember();
                     }

@@ -22,7 +22,7 @@ class ActivateController extends Controller
 
         $user->activateAccount();
 
-        $_SESSION['user'] = $user->id; // LOGIN
+        $_SESSION['user'] = $user->auth_id; // LOGIN
 
         $this->flash->addMessage('global_success', "Your account has been activated. Welcome to {$this->container->get('settings')['app']['name']}!");
         return $response->WithRedirect($this->router->pathFor('home'));

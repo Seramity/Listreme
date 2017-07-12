@@ -39,7 +39,10 @@ class SignUpController extends Controller
         $generator = $this->randomlib->getGenerator($this->securitylib);
         $identifier = $generator->generateString(128, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
+        $authId = $user->generateAuthId();
+
         $user = $user->create([
+            'auth_id' => $authId,
             'email' => $request->getParam('email'),
             'username' => $request->getParam('username'),
             'password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT),

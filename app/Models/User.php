@@ -29,6 +29,7 @@ class User extends Model
      * @var array $fillable
      */
     protected $fillable = [
+        'auth_id',
         'username',
         'email',
         'password',
@@ -113,6 +114,23 @@ class User extends Model
             'remember_token' => NULL
         ]);
     }
+
+    /**
+     * Creates a random 32 character string for user auth.
+     *
+     * @return string
+     */
+    public function generateAuthId()
+    {
+        $factory = new \RandomLib\Factory;
+        $securitylib = new \SecurityLib\Strength(\SecurityLib\Strength::MEDIUM);
+
+        $generator = $factory->getGenerator($securitylib);
+        $string = $generator->generateString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+        return $string;
+    }
+
 
     /**
      * Returns HTML string for user avatar.

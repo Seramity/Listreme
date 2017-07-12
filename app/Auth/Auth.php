@@ -22,7 +22,7 @@ class Auth
      */
     public static function user()
     {
-        if(isset($_SESSION['user'])) return User::find($_SESSION['user']);
+        if(isset($_SESSION['user'])) return User::where('auth_id', $_SESSION['user'])->first();
     }
 
     /**
@@ -52,7 +52,8 @@ class Auth
         if(password_verify($password, $user->password)) {
             if(!$user->active) return $user;
 
-            $_SESSION['user'] = $user->id;
+            $_SESSION['user'] = $user->auth_id;
+
             return true;
         }
 
