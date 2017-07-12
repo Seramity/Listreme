@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Lists;
+use App\Models\ListFavorite;
 
 /**
  * Class User
@@ -50,7 +52,7 @@ class User extends Model
      * @var int $MAX_BIO_CHAR
      * @var int $MIN_PASSWORD_CHAR
      */
-    public $MAX_USERNAME_CHAR = 24;
+    public $MAX_USERNAME_CHAR = 15;
     public $MAX_EMAIL_CHAR = 128;
     public $MAX_NAME_CHAR = 64;
     public $MAX_BIO_CHAR = 1000;
@@ -123,6 +125,7 @@ class User extends Model
     {
         $container = new \Slim\Container;
         $size = isset($options['size']) ? $options['size'] : 45;
+        $profile = isset($options['profile']) ? $options['profile'] : false;
         $adminClass = "";
 
         if($this->gravatar) {
@@ -133,9 +136,35 @@ class User extends Model
         } else {
             $src = $container->request->getUri()->getBaseUrl() . "/assets/uploads/avatars/" . $this->uploaded_avatar;
         }
-        if($this->isAdmin()) $adminClass = 'class="admin_avatar"';
+        if($this->isAdmin()) $adminClass = 'admin_avatar';
 
-        return '<img id="user-avatar" '.$adminClass.' src="'.$src.'" alt="'.$this->username.'" style="width:'.$size.'px;">';
+        if($profile) {
+            return '<img class="card-img-top img-fluid" src="'.$src.'" alt="'.$this->username.'">';
+        } else {
+            return '<img id="user-avatar" class="'.$adminClass.'" src="'.$src.'" alt="'.$this->username.'" style="width:'.$size.'px;">';
+        }
+
+    }
+
+
+    /**
+     * Counts the number of lists a user has and returns it.
+     *
+     * @return int
+     */
+    public function countLists()
+    {
+        return Lists::where('user_id', $this->id)->count();
+    }
+
+    /**
+     * Counts the number of list favorites a user has and returns it.
+     *
+     * @return int
+     */
+    public function countListFavorites()
+    {
+        return ListFavorite::where('user_id', $this->id)->count();
     }
 
     /**

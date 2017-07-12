@@ -208,7 +208,7 @@ class Lists extends Model
             $favoriteIds[] = $favorite->list_id;
         }
 
-        $lists = $this->whereIn('id', $favoriteIds)->orderBy('title', 'asc')->simplePaginate($paginate);
+        $lists = $this->whereIn('id', $favoriteIds)->orderBy('title', 'asc')->paginate($paginate);
 
         return $lists;
     }

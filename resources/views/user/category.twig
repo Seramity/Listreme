@@ -4,15 +4,22 @@
 
 {% block profile_content %}
 
-    <h3><a href="{{ path_for('userProfile', {user : user.username}) }}" class="muted"><span class="icon ion-arrow-left-c"></span> Return to profile</a></h3>
-    <h1>Lists: {{ category }}</h1>
+    <div class="col-lg-10">
 
-    {% if not lists.isEmpty() %}
-        {% for list in lists %}
-            {% include 'templates/list/list_template.twig' %}
-        {% endfor %}
-    {% else %}
-        <h2>This user does not have any lists in that category.</h2>
-    {% endif %}
+        {% include 'user/partials/profile_nav.twig' %}
+
+        <h3>Lists: {{ category }}</h3>
+
+        {% if not lists.isEmpty() %}
+            <div class="row">
+                {% for list in lists %}
+                    {% include 'templates/list/list_template.twig' %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <h2>This user does not have any lists in that category.</h2>
+        {% endif %}
+
+    </div>
 
 {% endblock %}

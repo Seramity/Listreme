@@ -1,18 +1,38 @@
-<div class="col span_4_of_4 side settings-sidebar">
-    {{ auth.user.getAvatar({size : 50}) | raw }}
-    <h3>My Account</h3>
-    <hr>
-    <ul class="link-list">
-        <a href="{{ path_for('account.profile') }}"><li>Profile Settings</li></a>
-        <a href="{{ path_for('account.picture') }}"><li>Profile Picture</li></a>
-        <a href="#"><li>Privacy Settings</li></a>
-    </ul>
+<div class="col-md-2">
+    <div class="card" style="margin-bottom: 1rem;">
+        <div class="card-block">
 
-    <hr />
+            {{ auth.user.getAvatar({size : 50}) | raw }}
+            <h3>My Account</h3>
+            <hr>
 
-    <ul class="link-list">
-        <a href="#"><li>Account Settings</li></a>
-        <a href="{{ path_for('account.password') }}"><li>Change Password</li></a>
-        <a href="#"><li>Delete Account</li></a>
-    </ul>
+            <ul class="nav flex-column">
+                <h6 class="text-muted">Profile</h6>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path_for('account.profile') }}">Profile Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path_for('account.picture') }}">Profile Picture</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Privacy Settings</a>
+                </li>
+            </ul>
+
+            <ul class="nav flex-column">
+                <h6 class="text-muted">Account</h6>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Account Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path_for('account.password') }}">Change Password</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Delete Account</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
 </div>

@@ -4,13 +4,21 @@
 
 {% block content %}
 
-    {% include 'templates/partials/nav.twig' %}
+    <div class="row">
 
-    <div class="section group page">
-        <div class="col span_4_of_4" style="text-align:center;">
-            <h1>Oh no!</h1>
-            <h3>An unexpected error happened. Try refreshing the page? Or contact us if the problem continues.</h3>
+        <div class="col-md-6 mx-auto text-center">
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Oh no!</h3>
+                </div>
+                <div class="card-block">
+                    <p>An unexpected error happened. Try refreshing the page? Or contact us if the problem continues.</p>
+                </div>
+            </div>
+
         </div>
+
     </div>
 
 {% endblock %}

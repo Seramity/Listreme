@@ -1,75 +1,75 @@
-<div class="modalbox">
+<div class="modal fade bd-example-modal-lg" id="markdownHelpModal" tabindex="-1" role="dialog" aria-labelledby="markdownHelpModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="markdownHelpModalTitle">Markdown Help</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Markdown allows you to stylize your content with minimal formatting.
+                    Below are the following examples you can use to help format your content.
+                </p>
 
-    <div class="background"></div>
-
-    <!-- POST BOX -->
-    <div class="container markdown">
-        <div class="closeBox" onClick="closeModalBox('markdown')">X</div>
-        <div class="title">
-            <h1>Markdown Help</h1>
-        </div>
-
-        <div class="body">
-            <div class="section group page">
-                <div class="col span_4_of_4">
-                    <p>
-                        Markdown allows you to stylize your content with minimal formatting.
-                        Below are the following examples you can use to help format your content.
-                    </p>
-
-                    <table class="format-table">
-                        <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Result</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td data-label="Code">- item #1
-                            - item #2</td>
-                            <td data-label="Result"><ul><li>item #1</li><li>item #2</li></ul></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Code">1. numbered item #1
-                                2. numbered item #2</td>
-                            <td data-label="Result"><ol><li>numbered item #1</li><li>numbered item #2</li></ol></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Code"># Header 1
+                <table class="table table-striped markdownHelp-Table">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Result</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>- item #1
+                        - item #2</td>
+                        </td>
+                        <td><ul><li>item #1</li><li>item #2</li></ul></td>
+                    </tr>
+                    <tr>
+                        <td>1. numbered item #1
+                            2. numbered item #2</td>
+                        <td><ol><li>numbered item #1</li><li>numbered item #2</li></ol></td>
+                    </tr>
+                    <tr>
+                        <td># Header 1
                             ## Header 2
                             ### Header 3</td>
-                            <td data-label="Result"><h1>Header 1</h1><h2>Header 2</h2><h3>Header 3</h3></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Code">**bold**</td>
-                            <td data-label="Result"><strong>bold</strong></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Code">*italics*</td>
-                            <td data-label="Result"><em>italics</em></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Code">> I'm a quote!</td>
-                            <td data-label="Result"><blockquote>I'm a quote!</blockquote></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Code">[Google](https://google.com)</td>
-                            <td data-label="Result"><a href="https://google.com" target="_blank">Google</a></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Code">![Image Title](url/to/image)</td>
-                            <td data-label="Result"><img src="{{ base_url() }}/assets/favicon.png"></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Code">\*escape\*</td>
-                            <td data-label="Result">*escape*</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <td><h1>Header 1</h1><h2>Header 2</h2><h3>Header 3</h3></td>
+                    </tr>
+                    <tr>
+                        <td>**bold**</td>
+                        <td><strong>bold</strong></td>
+                    </tr>
+                    <tr>
+                        <td>*italics*</td>
+                        <td><em>italics</em></td>
+                    </tr>
+                    <tr>
+                        <td>> I'm a quote!</td>
+                        <td><blockquote>I'm a quote!</blockquote></td>
+                    </tr>
+                    <tr>
+                        <td>[Google](https://google.com)</td>
+                        <td><a href="https://google.com" target="_blank">Google</a></td>
+                    </tr>
+                    <tr>
+                        <td>![Image Title](url/to/image)</td>
+                        <td><img src="{{ base_url() }}/assets/favicon.png" style="width:50px;"></td>
+                    </tr>
+                    <tr>
+                        <td>\**escape\**</td>
+                        <td>**escape**
+                        (Escapes the asterisks so that "escape" does not become bold.)
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-
 </div>

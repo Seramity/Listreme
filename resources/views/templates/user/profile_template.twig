@@ -2,28 +2,35 @@
 
 {% block content %}
 
-    {% include 'templates/partials/nav.twig' %}
+    <div class="row">
+        <div class="col-lg-2 profile-main">
 
-    <div class="section group page profile">
-        <div class="col span_4_of_4 profile-main">
-            <div class="col span_1_of_7">
+            <div class="card" style="margin-bottom:1em;">
 
                 {% if auth.check and auth.user.id ==  user.id %}
                     <a href="{{ path_for('account.picture') }}">
                         <div class="avatar-container" data-content="Update Avatar">
-                            {{ user.getAvatar({size : 150}) | raw }}
+                            {{ user.getAvatar({size : 330, profile : true}) | raw }}
                         </div>
                     </a>
                 {% else %}
-                    {{ user.getAvatar({size : 150}) | raw }}
+                    {{ user.getAvatar({size : 330, profile : true}) | raw }}
                 {% endif %}
 
+                <div class="card-block">
+                    <h4 class="card-title">
+                        {{ user.username }}
+                        {% if user.isAdmin() %}<span class="badge badge-success" style="font-size: 0.6em;">Admin</span>{% endif %}
+                    </h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ user.name }}</h6>
+                    <p class="card-text">{{ user.bio }}</p>
+
+                    {% if auth.user.id == user.id %}
+                        <a href="{{ path_for('account.profile') }}" class="btn btn-outline-primary">Edit Profile</a>
+                    {% endif %}
+                </div>
             </div>
-            <div class="col span_6_of_7">
-                <h1 class="username">{{ user.username }}</h1>
-                <h3 class="name muted">{{ user.name }}</h3>
-                <p class="bio">{{ user.bio }}</p>
-            </div>
+
         </div>
 
         {% block profile_content %}{% endblock %}

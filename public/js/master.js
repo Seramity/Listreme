@@ -16,77 +16,50 @@ function notification(msg, type) {
 }
 
 //COMFIRM BOX
-var confirmBox = function(message, actionButton) {
-	$('.cd-popup').fadeOut(function(){
+var confirmBox = function(message, url) {
+	$('.modal').fadeOut(function(){
 		$(this).remove()
 	});
 
-	$('body').prepend('<div class="cd-popup" role="alert"><div class="cd-popup-container"><p>'+message+'</p><ul class="cd-buttons"><li>'+actionButton+'</li><li><a onClick="closeConfirmDelete();">Cancel</a></li></ul><a onClick="closeConfirmDelete();" class="cd-popup-close img-replace"></a></div></div>');
-	$('.cd-popup').fadeIn().addClass('is-visible');
+    $('body').prepend('' +
+        '<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="false">' +
+            '<div class="modal-dialog" role="document">' +
+                '<div class="modal-content">' +
+                    '<div class="modal-header">' +
+                        '<h5 class="modal-title" id="deleteModalTitle">Delete</h5>' +
+                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                    '</div>' +
+                    '<div class="modal-body">' +
+                        '<p>'+ message +'</p>' +
+                    '</div>' +
+                    '<div class="modal-footer">' +
+                        '<a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>' +
+                        '<a href="'+ url +'" class="btn btn-danger">Delete</a>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>');
 
-	$('.cd-popup').click(closeConfirmBox);
-	$('.cd-popup-close').click(closeConfirmBox);
-	$('#cd-popup-actionButton').click(closeConfirmBox);
-
+    $('#deleteModal').modal('show')
 }
 
-function closeConfirmBox(){
-	$('.cd-popup-container').fadeTo('fast', 0);
-	$('.cd-popup').fadeTo('fast', 0, function(){$(this).remove()});
-
-}
 var confirmDeleteList = function(id) {
-    confirmBox('Are you sure you want to delete this list?','<a href="'+BASEURL+'/list/delete/'+id+'" id="cd-popup-actionButton">Delete</a>');
+    confirmBox('Are you sure you want to delete this list?',''+BASEURL+'/list/delete/'+id+'');
 }
 var confirmDeleteComment = function(id) {
-    confirmBox('Are you sure you want to delete this comment?','<a href="'+BASEURL+'/comment/delete/'+id+'" id="cd-popup-actionButton">Delete</a>');
+    confirmBox('Are you sure you want to delete this comment?',''+BASEURL+'/comment/delete/'+id+'');
 }
 
 
-/* TOPBAR DROPDOWN */
+/* ADD RESPONSIVE CLASSES IF CONTENT CONTAINS iframe, embed, OR object */
 $(document).ready(function(){
-	$('header .avatar').click( function(event){
-	    event.stopPropagation();
-			$('.menu-item.avatar').toggleClass('active', true);
-	    $('.topbar_dropdown').fadeTo('fast', 1).toggleClass('fadeOut', false).toggleClass('animated slideInDown', true).css('animation-duration', '0.2s');
-	});
-
-	$(document).click(function(e){
-		if($(e.target).closest('.topbar_dropdown').length === 0) {
-			$('.menu-item.avatar').toggleClass('active', false);
-			$('.topbar_dropdown').toggleClass('slideInDown', false).toggleClass('fadeOut', true);
-    }
-	});
+    $('.card.list .card-block:has(iframe)', function() {
+        $('.card.list .card-block iframe').addClass('embed-responsive-item').wrap('<div class="embed-responsive embed-responsive-16by9"></div>');
+    });
+    $('.card.list .card-block:has(object)', function() {
+        $('.card.list .card-block object').addClass('embed-responsive-item').wrap('<div class="embed-responsive embed-responsive-16by9"></div>');
+    });
+    $('.card.list .card-block:has(embed)', function() {
+        $('.card.list .card-block embed').addClass('embed-responsive-item').wrap('<div class="embed-responsive embed-responsive-16by9"></div>');
+    });
 });
-
-
-function modalBox(name, background_close) {
-
-    $('.modalbox .container').toggleClass('visible', false).css('display', 'none').css('animation-duration', '0.6s');
-
-    $('.modalbox').fadeTo('fast', 1).addClass('visible');
-    $('.modalbox .background').css('display', 'block');
-
-    $('.modalbox .'+ name).fadeTo('fast', 1).addClass('visible');
-
-    if(background_close == true) {
-        $('.modalbox .background').click(function() {
-            closeModalBox(name);
-        });
-    }
-}
-
-function closeModalBox(name) {
-    $('.modalbox').fadeTo('fast', 0, function() {
-        $(this).removeAttr('class').attr('class', 'modalbox');
-        $('.modalbox .background').css('display', 'none');
-    });
-
-    $('.modalbox .'+ name).fadeTo('fast', 0, function() {
-        $(this).removeAttr('class').attr('class', 'container '+ name);
-        $(this).toggleClass('visible', false).css('display', 'none');
-    });
-}
-
-function markdownModalBox() { modalBox('markdown', true); }
-

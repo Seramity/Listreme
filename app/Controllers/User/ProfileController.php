@@ -40,7 +40,7 @@ class ProfileController extends Controller
         if(!$user) return $this->view->render($response, 'errors/404.twig')->withStatus(404);
 
         $favoriteLists = new Lists;
-        $lists = $favoriteLists->favoriteLists($user->id, 8);
+        $lists = $favoriteLists->favoriteLists($user->id, 6);
 
         $data = ['user' => $user, 'lists' => $lists];
         return $this->view->render($response, 'user/favorites.twig', $data);

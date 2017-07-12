@@ -1,28 +1,30 @@
-<div class="col span_2_of_2 commentbox {% if comment.isReply() %}reply{% endif %}" id="comment-{{comment.id}}">
-    <div class="col span_2_of_2 userbox">
+<div class="row comment{% if comment.isReply() %} reply{% endif %}" id="comment-{{comment.id}}">
+    <div class="col-12 comment-userinfo">
         <a href="{{ path_for('userProfile', {user : comment.owner().username }) }}">
-            {{ comment.owner().getAvatar({size : 30}) | raw }}
-            <h3 class="username">{{ comment.owner().username }}</h3>
+            <span>{{ comment.owner().getAvatar({size : 40}) | raw }}</span>
+            <h5 class="comment-userinfo-username">{{ comment.owner().username }}</h5>
         </a>
-        <h5 class="timestamp muted" title="{{ comment.timestamp() }}">({{ comment.readableTime() }})</h5>
-        {% if auth.user.id == comment.user_id or auth.user.isAdmin() %}
-            <a onclick="confirmDeleteComment({{ comment.id }});"><span class="icon ion-trash-b delete"></span></a>
-        {% endif %}
     </div>
 
-    <div class="col span_2_of_2 content">
+    <div class="col-12 comment-content">
         {{ comment.markdownContent() | raw }}
     </div>
 
-    {% if not comment.isReply() and auth.check %}
-        <div class="col span_2_of_2 footer">
-            [<a href="#form" onclick="replyForm({{ comment.id }}, '{{comment.owner().username}}');" class="reply-button">Reply</a>]
+    <div class="col-12 comment-footer">
+        <span class="comment-timestamp text-muted" title="{{ comment.timestamp() }}">{{ comment.readableTime() }}</span>
+        {% if not comment.isReply() and auth.check %}
+             · [<a href="#comment-form" onclick="replyForm({{ comment.id }}, '{{comment.owner().username}}');" class="reply-button">Reply</a>]
+        {% endif %}
+        {% if auth.user.id == comment.user_id or auth.user.isAdmin() %}
+             ·<a href="#" onclick="confirmDeleteComment({{ comment.id }});return false;" class="comment-delete-btn" title="Delete comment"><span class="icon ion-trash-b delete"></span> Delete</a>
+        {% endif %}
+    </div>
+
+    {% if comment.hasReplies() %}
+        <div class="col-12 comment-replies">
+            {% for comment in comment.replies('asc') %}
+                {% include 'templates/comment/comment_template.twig' %}
+            {% endfor %}
         </div>
     {% endif %}
-
-    <div class="col span_2_of_2">
-        {% for comment in comment.replies('asc') %}
-            {% include 'templates/comment/comment_template.twig' %}
-        {% endfor %}
-    </div>
 </div>

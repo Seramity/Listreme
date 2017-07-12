@@ -4,152 +4,156 @@
 
 
 {% block content %}
-    {% include 'templates/partials/nav.twig' %}
 
     {% include 'templates/modalboxes/markdown_help.twig' %}
 
+    <div class="row">
 
-    <div class="section group page list">
-        <div class="col span_2_of_4">
-            <div class="col listbox span_4_of_4">
-                <div class="header">
-                    <div class="col span_10_of_12">
-                        <h2 class="title muted">{{ list.title }}</h2>
-                    </div>
-                    <div class="col span_2_of_12">
-                        <h5 class="category">
-                            [<a href="{{ path_for('userProfile.category', {user : user.username, category : list.category}) }}">{{ list.category }}</a>]
-                        </h5>
-                    </div>
-                </div>
+        <div class="col-lg-6">
 
-
-                <div class="col span_2_of_2 content">{{ list.markdownContent() | raw }}</div>
-            </div>
-        </div>
-
-        <div class="col span_2_of_4 main statbox">
-            <div class="col span_2_of_4">
-                <a href="{{ path_for('userProfile', {user : list.owner().username}) }}">
-                    {{ list.owner().getAvatar({size : 70}) | raw }}
-                    <h2 class="username">{{ list.owner().username }}</h2>
-                </a>
-                <div class="date" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.edited %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</div>
-            </div>
-
-            <div class="col span_2_of_4 buttons">
-                {% if not list.favorite().exists(list.id, auth.user.id) %}
-                    <a href="{{ path_for('list.favorite', {id : list.id}) }}"><button class="notfaved" id="fav-button" title="Favorite"><span class="icon ion-star"></span></button></a>
-                {% else %}
-                    <a href="{{ path_for('list.unfavorite', {id : list.id}) }}"><button class="green faved" id="fav-button" title="Unfavorite"><span class="icon ion-star"></span> Favorited</button></a>
-                {% endif %}
-                {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
-                    <a href="{{ path_for('list.edit', {id : list.id}) }}"><button class="blue" title="Edit"><span class="icon ion-edit"></span></button></a>
-                    <a onclick="confirmDeleteList({{ list.id }});"><button class="red" title="Delete"><span class="icon ion-trash-b"></span></button></a>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="col span_2_of_4 main" style="float:right;">
-            <div class="col span_2_of_2 header">
-                <h2>Comments</h2>
-                <hr>
-            </div>
-
-            {% if list.hasComments() %}
-                <div id="comment-container">
-                    {% for comment in list.comments('asc') %}
-                        {% if not comment.isReply() %}
-                            {% include 'templates/comment/comment_template.twig' %}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% else %}
-                <h2 class="muted">There are no comments on this list</h2>
-            {% endif %}
-        </div>
-
-        <div class="col span_2_of_4 main form" id="form" style="float:right;">
-            {% if auth.check %}
-                    <div class="col span_2_of_2 header">
-                        <h2>New Comment</h2>
-                        <hr>
-                    </div>
-
-
-                    <form action="{{ path_for('comment.list', {id : list.id}) }}" method="post" autocomplete="off" class="comment-form" id="comment-form">
-                        <div class="col span_2_of_2">
-                            <textarea name="content" class="comment" id="content" placeholder="Comment on this list">{% if old_input.content %}{{ old_input.content }}{% else %}{% endif %}</textarea>
-                            {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
-                            <div style="text-align:right">Comments support <a onclick="markdownModalBox();">Markdown</a></div>
+            <div class="card list">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-9">
+                            <h3>{{ list.title }}</h3>
                         </div>
+                        <div class="col-3 text-right">
+                            [<a href="{{ path_for('userProfile.category', {user : user.username, category : list.category}) }}">{{ list.category }}</a>]
+                        </div>
+                    </div>
+                </div>
 
-                        <input type="hidden" name="reply_to" id="reply_to" value="">
+                <div class="card-block" style="height:auto;">
+                    {{ list.markdownContent() | raw }}
+                </div>
+            </div>
 
-                        <div class="col span_2_of_2">
-                            <input type="submit" value="Comment" data-submit-value="Creating...">
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card statbox">
+                <div class="card-block">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <a href="{{ path_for('userProfile', {user : list.owner().username}) }}">
+                                <div class="statbox-avatar">{{ list.owner().getAvatar({size : 70}) | raw }}</div>
+                                <h4 class="statbox-username align-bottom">{{ list.owner().username }}</h4>
+                            </a>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="statbox-buttons float-right">
+                                {% if not list.favorite().exists(list.id, auth.user.id) %}
+                                    <a href="{{ path_for('list.favorite', {id : list.id}) }}" class="btn btn-outline-success notfaved" id="fav-button" title="Favorite"><span class="icon ion-star"></span></a>
+                                {% else %}
+                                    <a href="{{ path_for('list.unfavorite', {id : list.id}) }}" class="btn btn-success faved" id="fav-button" title="Unfavorite"><span class="icon ion-star"> Favorited</span></a>
+                                {% endif %}
+
+                                {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
+                                    <a href="{{ path_for('list.edit', {id : list.id}) }}" class="btn btn-outline-primary" title="Edit list"><span class="icon ion-edit"></span></a>
+                                    <a href="#" onclick="confirmDeleteList({{ list.id }});" class="btn btn-outline-danger" title="Delete list"><span class="icon ion-trash-b"></span></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card commentbox">
+                <div class="card-header">
+                    <h4>Comments</h4>
+                </div>
+
+                <div class="card-block">
+                    {% if list.hasComments() %}
+                        <div id="commentbox-commentContainer">
+                            {% for comment in list.comments('asc') %}
+                                {% if not comment.isReply() %}
+                                    {% include 'templates/comment/comment_template.twig' %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <h5 class="text-muted">There are no comments on this list.</h5>
+                        {% if auth.check %}<h6 class="text-muted">Be the first to reply to this list!</h6>{% endif %}
+                    {% endif %}
+                </div>
+
+                <div class="card-footer" id="comment-form">
+                    {% if auth.check %}
+                        <h4>New Comment</h4>
+
+                        <form action="{{ path_for('comment.list', {id : list.id}) }}" method="post" autocomplete="off" class="comment-form" id="comment-form">
+
+                            <div class="form-group">
+                                <textarea name="content" class="form-control comment {% if errors.content %}error{% endif %}" id="content" placeholder="Comment on this list">{% if old_input.content %}{{ old_input.content }}{% else %}{% endif %}</textarea>
+                                {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
+                                <div id="categoryHelp" class="form-text text-right text-muted">Comments support <a href="#" data-toggle="modal" data-target="#markdownHelpModal">Markdown</a></div>
+                            </div>
+
+                            <input type="hidden" name="reply_to" id="reply_to" value="">
+
+                            <button type="submit" class="btn btn-outline-primary" data-submit-value="Creating...">Create</button>
 
                             {{ csrf.field | raw }}
-                        </div>
-                    </form>
-            {% else %}
-                <h2>Log in to comment on this list</h2>
-            {% endif %}
+                        </form>
+                    {% else %}
+                        <h4 class="text-muted">Log in to comment on this list</h4>
+                    {% endif %}
+                </div>
+            </div>
+
         </div>
+
     </div>
 
     <script type="text/javascript">
 
         function replyForm(comment_id, comment_user) {
             if(!$('.cancel-reply-button').length) {
-                $('input[type=submit]').after('<div class="cancel-reply-button"><a onclick="cancelReply();">Cancel reply</a></div>');
+                $('button[type=submit]').after('<div class="cancel-reply-button"><a href="#" onclick="cancelReply();return false;">Cancel reply</a></div>');
             }
             $('textarea').attr('placeholder','Reply to '+comment_user+'\'s comment');
             setTimeout(function() { $('textarea').focus(); }, 0); // Weird fix for focus not working on textarea
-            $('input[type=submit]').val("Reply");
+            $('button[type=submit]').text("Reply");
             $('#reply_to').val(comment_id);
         }
 
         function cancelReply() {
             $('textarea').attr('placeholder','Comment on this list');
             $('.cancel-reply-button').remove();
-            $('input[type=submit]').val("Comment");
+            $('button[type=submit]').text("Comment");
             $('#reply_to').val("");
 
         }
 
         $('.comment-form').on('submit', function() {
-
             var self = $(this),
-                button = self.find('input[type="submit"], button'),
+                button = self.find('button[type="submit"]'),
                 submitValue = button.data('submit-value');
 
-            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
-            document.getElementById("ajax-loader").style.visibility = "visible";
-
+            button.attr('disabled', 'disabled').text((submitValue) ? submitValue : 'Please Wait...');
         });
 
         $("#fav-button.notfaved")
             .mouseover(function() {
-                $('#fav-button').addClass('green');
-                $('#fav-button').empty();
                 $('#fav-button').html('<span class="icon ion-star"></span> Favorite');
             })
             .mouseout(function() {
-                $('#fav-button').removeClass('green');
-                $('#fav-button').empty();
                 $('#fav-button').html('<span class="icon ion-star"></span>');
             });
         $('#fav-button.faved')
             .mouseover(function() {
-                $('#fav-button').removeClass('green');
-                $('#fav-button').addClass('red');
+                $('#fav-button').removeClass('btn-success');
+                $('#fav-button').addClass('btn-danger');
                 $('#fav-button').empty();
                 $('#fav-button').html('<span class="icon ion-close-round"></span> Unfavorite');
             })
             .mouseout(function() {
-                $('#fav-button').removeClass('red');
-                $('#fav-button').addClass('green');
+                $('#fav-button').removeClass('btn-danger');
+                $('#fav-button').addClass('btn-success');
                 $('#fav-button').empty();
                 $('#fav-button').html('<span class="icon ion-star"></span> Favorited');
             });
@@ -194,7 +198,7 @@
         });
 
         // SCROLL COMMENTS TO THE BOTTOM
-        var div = document.getElementById('comment-container');
+        var div = document.getElementById('commentbox-commentContainer');
         div.scrollTop = div.scrollHeight;
     </script>
 {% endblock %}

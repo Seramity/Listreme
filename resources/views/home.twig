@@ -4,12 +4,11 @@
 
 {% block content %}
 
-    {% include 'templates/partials/nav.twig' %}
-
-    <div class="section group page">
-
-        <h1>Hello, {{ auth.user.username }}</h1>
-
+    <div class="card">
+        <div class="card-block">
+            <h1>Hello, {{ auth.user.username }}</h1>
+        </div>
     </div>
+
 
 {% endblock %}

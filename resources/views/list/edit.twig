@@ -4,84 +4,78 @@
 
 {% block content %}
 
-    {% include 'templates/partials/nav.twig' %}
-
     {% include 'templates/modalboxes/markdown_help.twig' %}
 
 
-    <div class="section group page">
+    <div class="row">
 
-        <div class="col span_4_of_4 main form">
-            <form action="{{ path_for('list.edit', {id : list.id}) }}" method="post" autocomplete="off" class="editlist-form">
+        <div class="col-md-7 mx-auto">
 
-                <div class="col span_2_of_2 header">
-                    <h2>Edit List</h2>
-                    <hr>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Edit List</h3>
                 </div>
 
-                <div class="col span_2_of_2">
-                    <div class="col span_1_of_3">
-                        <label>
-                            Title
-                            <input type="text" name="title" id="title" placeholder="A good, short title" value="{% if old_input.title %}{{ old_input.title }}{% else %}{{ list.title }}{% endif %}">
+            <form action="{{ path_for('list.edit', {id : list.id}) }}" method="post" autocomplete="off" class="editlist-form">
+                <div class="card-block">
+
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="form-control-label" for="title">Title</label>
+                            <input type="text" name="title" id="title" class="form-control{% if errors.title %} error{% endif %}" value="{% if old_input.title %}{{ old_input.title }}{% else %}{{ list.title }}{% endif %}">
                             {% if errors.title %} <div class="form_errors">{{ errors.title | first }}</div> {% endif %}
-                        </label>
-                    </div>
-                    <div class="col span_1_of_3">
-                        <label>
-                            Category
-                            <input type="text" name="category" id="category" placeholder="Organize this list with others" value="{% if old_input.category %}{{ old_input.category }}{% else %}{{ list.category }}{% endif %}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="category">Category</label>
+                            <input type="text" name="category" id="category" class="form-control{% if errors.category %} error{% endif %}" value="{% if old_input.category %}{{ old_input.category }}{% else %}{{ list.category }}{% endif %}">
                             {% if errors.category %} <div class="form_errors">{{ errors.category | first }}</div> {% endif %}
-                        </label>
-                    </div>
-                    <div class="col span_1_of_3">
-                        <label>
-                            Position  [<span class="tooltip-top" data-tooltip="The order of which your list is displayed on your profile (Ex: 0 = First list)">?</span>]
-                            <input name="position" list="positions" placeholder="Position of this list" value="{% if old_input.position %}{{ old_input.position }}{% else %}{{ list.position }}{% endif %}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="category">Postiton</label>
+                            <input type="text" name="position" list="positions" class="form-control{% if errors.position %} error{% endif %} aria-describedby="positionHelp" placeholder="Position of this list" value="{% if old_input.position %}{{ old_input.position }}{% else %}{{ list.position }}{% endif %}">
                             <datalist id="positions">
                                 {% for key, position in user_lists %}
-                                    <option value="{{ key }}">
+                                    <option value="{{ key }}"></option>
                                 {% endfor %}
                             </datalist>
                             {% if errors.position %} <div class="form_errors">{{ errors.position | first }}</div> {% endif %}
-                        </label>
+                            <small id="postionHelp" class="form-text text-muted">Which spot your list appears on your profile (in order).</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="Content">Content</label>
+                            <textarea name="content" id="content" class="form-control{% if errors.content %} error{% endif %}" rows="6">{% if old_input.content %}{{ old_input.content }}{% else %}{{ list.content }}{% endif %}</textarea>
+                            {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
+                            <div id="categoryHelp" class="form-text text-right text-muted">Lists support <a href="#" data-toggle="modal" data-target="#markdownHelpModal">Markdown</a></div>
+                        </div>
+
+                        {{ csrf.field | raw }}
+
                     </div>
+
                 </div>
 
-
-                <div class="col span_2_of_2">
-                    <label>
-                        Content
-                        <textarea name="content" id="content">{% if old_input.content %}{{ old_input.content }}{% else %}{{ list.content }}{% endif %}</textarea>
-                        {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
-                    </label>
-                    <div style="text-align:right">Lists support <a onclick="markdownModalBox();">Markdown</a></div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-outline-success" data-submit-value="Saving...">Save</button>
+                    <a href="{{ path_for('list', {user : list.owner().username, id : list.id}) }}" class="btn btn-outline-danger float-right">Cancel</a>
                 </div>
-
-                <div class="col span_2_of_2">
-                    <input type="submit" value="Save" data-submit-value="Saving...">
-
-                    {{ csrf.field | raw }}
-                </div>
-
             </form>
+
+            </div>
 
         </div>
 
     </div>
 
-
     <script type="text/javascript">
-
         $('.editlist-form').on('submit', function() {
-
             var self = $(this),
-                button = self.find('input[type="submit"], button'),
+                button = self.find('button[type="submit"]'),
                 submitValue = button.data('submit-value');
 
-            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
-            document.getElementById("ajax-loader").style.visibility = "visible";
-
+            button.attr('disabled', 'disabled').text((submitValue) ? submitValue : 'Please Wait...');
         });
 
         // TABBING IN TEXTAREAS

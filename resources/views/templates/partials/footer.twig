@@ -1,21 +1,17 @@
-<footer class="section group footer">
-    <div class="col span_4_of_4">
-        <div class="col span_1_of_3">
-            <h3>
-                {{ app.name }}
-                <a href="https://github.com/Seramity/Listreme" target="_blank">{{ app.version }}</a>
-            </h3>
-        </div>
-        <div class="col span_2_of_3">
-            <ul>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Help</a></li>
-                <li><a href="#">Guidelines</a></li>
-                <li><a href="#">Terms</a></li>
-                <li><a href="#">Privacy</a></li>
-            </ul>
+<footer class="footer">
+    <div class="container-fluid">
+        <h3 class="text-muted">
+            {{ app.name }}
+            <a href="https://github.com/Seramity/Listreme" target="_blank">{{ app.version }}</a>
+        </h3>
+
+        <div class="text-muted">
+            <a href="{{ path_for('page.about') }}">About</a> ·
+            <a href="#">Contact</a> ·
+            <a href="#">Help</a> ·
+            <a href="{{ path_for('page.guidelines') }}">Guidelines</a> ·
+            <a href="{{ path_for('page.terms') }}">Terms</a> ·
+            <a href="{{ path_for('page.privacy') }}">Privacy</a>
         </div>
     </div>
 </footer>

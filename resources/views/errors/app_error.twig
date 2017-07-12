@@ -4,19 +4,26 @@
 
 {% block content %}
 
-    {% include 'templates/partials/nav.twig' %}
+    <div class="row">
 
-    <div class="section group page">
-        <div class="col span_4_of_4" style="text-align:center;">
-            <h1>Woops</h1>
-            <h3>An unexpected error happened.</h3>
-            <h3>If the problem continues, please contact us and provide us the following error message:</h3>
+        <div class="col-md-6 mx-auto text-center">
 
-            <hr>
-            <p class="muted">{{ error }}</p>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Woops</h3>
+                    <h5 class="text-muted">An unexpected error happened.</h5>
+                </div>
+                <div class="card-block">
+                    <p>If the problem continues, please contact us and provide us the following error message:</p>
+                    <p class="text-muted">"{{ error }}"</p>
 
-            <a onclick="javascript:history.back(1)">Go Back</a>
+                    <hr>
+                    <a href="javascript:history.back(1)">Go Back</a>
+                </div>
+            </div>
+
         </div>
+
     </div>
 
 {% endblock %}

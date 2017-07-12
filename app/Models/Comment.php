@@ -59,6 +59,16 @@ class Comment extends Model
     }
 
     /**
+     * Checks if a comment has replies by counting the number of replies that exists.
+     *
+     * @return int
+     */
+    public function hasReplies()
+    {
+        return Comment::where('reply_to', $this->id)->count();
+    }
+
+    /**
      * Takes a timestamp and converts it to a user friendly timestamp.
      * Ex: "2 hours ago"
      *

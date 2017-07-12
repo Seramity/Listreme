@@ -4,39 +4,48 @@
 
 
 {% block content %}
-    {% include 'templates/partials/nav.twig' %}
 
-    <div class="section group page auth">
-        <div class="col span_4_of_4">
-            <div class="col span_2_of_4 main form">
-                <div class="col span_2_of_2 header">
-                    <h2>Recover Your Account</h2>
-                    <hr>
+    <div class="row">
+
+        <div class="col-lg-5 mx-auto">
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Recover Your Account</h3>
                 </div>
 
                 <form action="{{ path_for('auth.recover') }}" method="post" autocomplete="off" class="recover-form">
-                    <input type="text" name="identifier" id="identifier" placeholder="Email/Username" value="{{ old_input.identifier }}">
-                    {% if errors.identifier %} <div class="form_errors">{{ errors.identifier | first }}</div> {% endif %}
+                    <div class="card-block">
 
-                    <input type="submit" value="Send Recovery" data-submit-value="Sending...">
+                        <div class="form-group">
+                            <input type="text" class="form-control{% if errors.username %} error{% endif %}" id="identifier" name="identifier" value="{{ old_input.identifier }}" placeholder="Email / Username">
+                            {% if errors.identifier %} <div class="form_errors">{{ errors.identifier | first }}</div> {% endif %}
+                        </div>
 
-                    {{ csrf.field | raw }}
+                        {{ csrf.field | raw }}
+
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-outline-success" data-submit-value="Sending...">Send Recovery</button>
+
+                    </div>
                 </form>
+
             </div>
+
         </div>
+
     </div>
 
     <script type="text/javascript">
 
         $('.recover-form').on('submit', function() {
-
             var self = $(this),
-                button = self.find('input[type="submit"], button'),
+                button = self.find('button[type="submit"]'),
                 submitValue = button.data('submit-value');
 
-            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
-            document.getElementById("ajax-loader").style.visibility = "visible";
-
+            button.attr('disabled', 'disabled').text((submitValue) ? submitValue : 'Please Wait...');
         });
     </script>
 {% endblock %}

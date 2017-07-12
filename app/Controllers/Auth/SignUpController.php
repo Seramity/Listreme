@@ -12,7 +12,8 @@ class SignUpController extends Controller
 {
     public function getSignUp($request, $response)
     {
-        return $this->view->render($response, 'auth/signup.twig');
+        $user = new User();
+        return $this->view->render($response, 'auth/signup.twig', ['user' => $user]);
     }
 
     public function postSignUp($request, $response)

@@ -1,27 +1,53 @@
-<header>
-    <div class="topbar-responsive">
-        <a class="logo" href="{{ path_for('home') }}"><span class="name">{{ app.name }}</span><span class="icon ion-android-checkmark-circle light"></span></a>
-        <nav class="nav-collapse">
-            <ul>
-                {% if not auth.check %}
-                    <li class="menu-item"><a href="{{ path_for('auth.signin') }}"><span class="icon ion-log-in"></span> <span class="text">Login</span></a></li>
-                    <li class="menu-item"><a href="{{ path_for('auth.signup') }}"><span class="icon ion-person-add"></span> <span class="text">Register</span></a></li>
-                {% else %}
-                    <li class="menu-item"><a href="#"><span class="icon ion-home"></span> <span class="text">Home</span></a></li>
-                    <li class="menu-item"><a href="#"><span class="icon ion-compass"></span> <span class="text">Explore</span></a></li>
-                    <li class="menu-item"><a href="{{ path_for('list.new') }}"><span class="icon ion-compose"></span> <span class="text">New List</span></a></li>
+<nav class="navbar navbar-main navbar-inverse navbar-toggleable-md">
 
-                    <li class="menu-item avatar">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="{{ path_for('home') }}"><span class="icon ion-android-checkmark-circle"></span> Listreme</a>
 
-                        <a>{{ auth.user.getAvatar({size : 30}) | raw }} <span class="icon ion-android-arrow-dropdown"></span></a>
-                        <ul class="topbar_dropdown">
-                            <li class="dropdown-item"><a href="{{ path_for('userProfile', {user : auth.user.username}) }}"><span class="icon ion-person"></span> <span class="text">Profile</span></a></li>
-                            <li class="dropdown-item"><a href="{{ path_for('account.profile') }}"><span class="icon ion-gear-a"></span> <span class="text">Settings</span></a></li>
-                            <li class="dropdown-item"><a href="{{ path_for('auth.signout') }}"><span class="icon ion-android-exit"></span> <span class="text">Sign out</span></a></li>
-                        </ul>
-                    </li>
-                {% endif %}
+    {% if not auth.check %}
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path_for('auth.signin') }}"><span class="icon ion-log-in"></span> Log in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path_for('auth.signup') }}"><span class="icon ion-person-add"></span> Sign up</a>
+                </li>
             </ul>
-        </nav>
-    </div>
-</header>
+        </div>
+
+    {% else %}
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav mr-auto main-links">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path_for('home') }}"><span class="icon ion-home"></span> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><span class="icon ion-compass"></span> Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path_for('list.new') }}"><span class="icon ion-compose"></span> New List</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav my-2 my-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ auth.user.getAvatar({size : 35}) | raw }}
+                        {{ auth.user.username }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown04">
+                        <a class="dropdown-item" href="{{ path_for('userProfile', {user: auth.user.username}) }}"><span class="icon ion-person"></span> Profile</a>
+                        <a class="dropdown-item" href="{{ path_for('account.profile') }}"><span class="icon ion-gear-a"></span> Account Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path_for('auth.signout') }}"><span class="icon ion-log-out"></span> Sign out</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    {% endif %}
+
+</nav>

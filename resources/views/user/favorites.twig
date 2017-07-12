@@ -11,18 +11,22 @@
 
 {% block profile_content %}
 
-    {% include 'user/partials/profile_nav.twig' %}
+    <div class="col-lg-10">
 
-    <div class="col span_4_of_4">
+        {% include 'user/partials/profile_nav.twig' %}
+
         {% if not lists.isEmpty() %}
-            {% for list in lists %}
-                {% include 'templates/list/favorite_template.twig' %}
-            {% endfor %}
+            <div class="row">
+                {% for list in lists %}
+                    {% include 'templates/list/favorite_template.twig' %}
+                {% endfor %}
+            </div>
 
             {{ lists.links | raw }}
         {% else %}
             <h2>No favorites were found.</h2>
         {% endif %}
+
     </div>
 
 {% endblock %}

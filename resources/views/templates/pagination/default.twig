@@ -1,0 +1,44 @@
+{% if paginator.hasPages %}
+    <ul class="pagination">
+
+        {# PREVIOUS PAGE LINK #}
+        {% if paginator.onFirstPage %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="{{ paginator.previousPageUrl() }}" rel="prev">&laquo;</a></li>
+        {% endif %}
+
+        {# PAGINATION ELEMENTS #}
+        {% for element in elements %}
+
+            {# LINK SEPARATOR #}
+            {% if not element is iterable %}
+                <li class="page-item disabled"><span class="page-link">{{ element }}</span></li>
+            {% endif %}
+
+            {# ARRAY OF LINKS #}
+            {% if element is iterable %}
+
+                {% for page, url in element %}
+
+                    {% if page == paginator.currentPage %}
+                        <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ url }}">{{ page }}</a></li>
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endfor %}
+
+        {# NEXT PAGE LINK #}
+        {% if paginator.hasMorePages %}
+            <li class="page-item"><a class="page-link" href="{{ paginator.nextPageUrl }}" rel="next">&raquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+
+    </ul>
+{% endif %}

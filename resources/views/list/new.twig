@@ -4,72 +4,66 @@
 
 {% block content %}
 
-    {% include 'templates/partials/nav.twig' %}
-
     {% include 'templates/modalboxes/markdown_help.twig' %}
 
-    <div class="section group page">
+    <div class="row">
 
-        <div class="col span_4_of_4 main form">
-            <form action="{{ path_for('list.new') }}" method="post" autocomplete="off" class="newlist-form">
+        <div class="col-md-7 mx-auto">
 
-                <div class="col span_2_of_2 header">
-                    <h2>Create New List</h2>
-                    <hr>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Create New List</h3>
                 </div>
-                <div class="col span_2_of_2">
-                    <div class="col span_1_of_2 input_field">
-                        <label>
-                            Title
-                            <input type="text" name="title" id="title" placeholder="A good, short title" value="{% if old_input.title %}{{ old_input.title }}{% endif %}">
+
+                <form action="{{ path_for('list.new') }}" method="post" autocomplete="off" class="newlist-form">
+                    <div class="card-block">
+
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" class="form-control{% if errors.title %} error{% endif %}" aria-describedby="titleHelp" value="{% if old_input.title %}{{ old_input.title }}{% endif %}">
                             {% if errors.title %} <div class="form_errors">{{ errors.title | first }}</div> {% endif %}
-                        </label>
-                    </div>
-                    <div class="col span_1_of_2 input_field">
-                        <label>
-                            Category
-                            <input type="text" name="category" id="category" placeholder="Organize this list with others" value="{% if old_input.category %}{{ old_input.category }}{% endif %}">
-                            {% if errors.category %} <div class="form_errors">{{ errors.category | first }}</div> {% endif %}
-                        </label>
-                    </div>
-                </div>
+                            <small id="emailHelp" class="form-text text-muted">A good, short title for your list.</small>
+                        </div>
 
-                <div class="col span_2_of_2">
-                    <label>
-                        Content
-                        <textarea name="content" id="content">{% if old_input.content %}{{ old_input.content }}{% else %}- each list item starts with a dash
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <input type="text" name="category" id="category" class="form-control{% if errors.category %} error{% endif %}" aria-describedby="categoryHelp" value="{% if old_input.category %}{{ old_input.category }}{% endif %}">
+                            {% if errors.category %} <div class="form_errors">{{ errors.category | first }}</div> {% endif %}
+                            <small id="categoryHelp" class="form-text text-muted">Organize this list with others in a custom category (Ex: favorites, links, top10, etc.)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Content">Content</label>
+                            <textarea name="content" id="content" class="form-control{% if errors.content %} error{% endif %}">{% if old_input.content %}{{ old_input.content }}{% else %}- each list item starts with a dash
 - remove these to get started
 
 Or freely type whatever{% endif %}</textarea>
-                        {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
-                    </label>
-                    <div style="text-align:right">Lists support <a onclick="markdownModalBox();">Markdown</a></div>
-                </div>
+                            {% if errors.content %} <div class="form_errors">{{ errors.content | first }}</div> {% endif %}
+                            <div id="categoryHelp" class="form-text text-right text-muted">Lists support <a href="#" data-toggle="modal" data-target="#markdownHelpModal">Markdown</a></div>
+                        </div>
 
-                <div class="col span_2_of_2">
-                    <input type="submit" value="Create" data-submit-value="Creating...">
+                        {{ csrf.field | raw }}
 
-                    {{ csrf.field | raw }}
-                </div>
+                    </div>
 
-            </form>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-outline-primary" data-submit-value="Creating...">Create</button>
+                    </div>
+                </form>
+
+            </div>
 
         </div>
 
     </div>
 
-
     <script type="text/javascript">
-
         $('.newlist-form').on('submit', function() {
-
             var self = $(this),
-                button = self.find('input[type="submit"], button'),
+                button = self.find('button[type="submit"]'),
                 submitValue = button.data('submit-value');
 
-            button.attr('disabled', 'disabled').val((submitValue) ? submitValue : 'Please Wait...');
-            document.getElementById("ajax-loader").style.visibility = "visible";
-
+            button.attr('disabled', 'disabled').text((submitValue) ? submitValue : 'Please Wait...');
         });
 
         // TABBING IN TEXTAREAS
