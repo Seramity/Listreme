@@ -1,0 +1,39 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}About{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid">
+            <img src="{{ base_url() }}/assets/favicon.png" style="width:80px;">
+            <h1 class="display-4">{{ app.name }}</h1>
+            <hr class="my-4">
+            <h2>About</h2>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-block">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>About</h3>
+                    <p>
+                        {{ app.name }} is a listing platform that allows users to create various lists based on anything of their choosing.
+                        With {{ app.name }} , users can also interact with each other, where they can follow users, favorite lists, and much more.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h3><span class="icon ion-social-github"></span> Open Source</h3>
+                    <p>
+                        At {{ app.name }}, we believe that transparency is important. Therefore, {{ app.name }} is fully open source and anyone can look at the code
+                        and even help contribute to its development.
+                        If you are a developer, you can help contribute at our <a href="https://github.com/Seramity/Listreme" target="_blank">Github</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

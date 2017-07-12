@@ -57,3 +57,15 @@ $container['CommentController'] = function ($container) {
 };
 
 // GENERAL PAGES CONTROLLERS
+$container['AboutController'] = function ($container) {
+    return new \App\Controllers\Pages\About\AboutController($container);
+};
+$container['TermsController'] = function ($container) {
+    return new \App\Controllers\Pages\About\TermsController($container);
+};
+$container['PrivacyController'] = function ($container) {
+    return new \App\Controllers\Pages\About\PrivacyController($container);
+};
+$container['GuidelinesController'] = function ($container) {
+    return new \App\Controllers\Pages\About\GuidelinesController($container);
+};

@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.0-alpha] - 2017-07-11
+### Added
+- Twig caching
+- Added caching and debugging variable to .env
+- Added Symfony dump() function to Slim and Twig
+- CSS: responsize classes for embeds, iframes, and objects (Ex: Youtube embed in lists, etc.)
+- Added "edited" field to lists to resolve updated_at bug
+- Added about pages
+### Changed
+- Reworked CSS to Bootstrap 4
+- Changed mailer from PHPMailer to Swiftmailer
+- Reworked mailer classes
+- Removed controller includes from the app bootstrap file to a separate file
+- Renamed and moved ChangePassword controller
+- Changed app name in activation notification to the .env APP_NAME
+- Lowered User MAX_USERNAME_CHAR from 24 to 15
+
 ## [1.2.0-alpha] - 2017-06-24
 ### Added
 - "Remember me" login function

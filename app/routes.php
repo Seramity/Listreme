@@ -6,12 +6,20 @@ use App\Middleware\GuestMiddleware;
 // GENERAL PAGES
 $app->get('/', 'HomeController:index')->setName('home');
 
+
 // PROFILE ROUTES
 $app->get('/{user}','ProfileController:index')->setName('userProfile');
 $app->get('/{user}/category/{category}','ProfileController:category')->setName('userProfile.category');
 $app->get('/{user}/favorites[/{page}]', 'ProfileController:favorites')->setName('userProfile.favorites'); // [{ARG}] = optional
 
 $app->get('/{user}/list/{id}', 'ListController:index')->setName('list');
+
+
+// ABOUT PAGES
+$app->get('/a/about', 'AboutController:index')->setName('page.about');
+$app->get('/a/terms', 'TermsController:index')->setName('page.terms');
+$app->get('/a/privacy', 'PrivacyController:index')->setName('page.privacy');
+$app->get('/a/guidelines', 'GuidelinesController:index')->setName('page.guidelines');
 
 
 

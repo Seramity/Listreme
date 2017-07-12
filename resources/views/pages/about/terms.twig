@@ -1,0 +1,76 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Terms{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid">
+            <img src="{{ base_url() }}/assets/favicon.png" style="width:80px;">
+            <h1 class="display-4">{{ app.name }}</h1>
+            <hr class="my-4">
+            <h2>Terms of Service</h2>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-block">
+            <h2>1. Terms</h2>
+
+            <p>By accessing the website at <a href="{{ app.baseUrl }}">{{ app.baseUrl }}</a>, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.</p>
+
+            <h2>2. Use License</h2>
+
+            <ol type="a">
+                <li>
+                    Permission is granted to temporarily download one copy of the materials (information or software) on {{ app.name }}'s website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
+
+                    <ol type="i">
+                        <li>modify or copy the materials;</li>
+                        <li>use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li>
+                        <li>attempt to decompile or reverse engineer any software contained on {{ app.name }}'s website;</li>
+                        <li>remove any copyright or other proprietary notations from the materials; or</li>
+                        <li>transfer the materials to another person or "mirror" the materials on any other server.</li>
+                    </ol>
+                </li>
+                <li>This license shall automatically terminate if you violate any of these restrictions and may be terminated by {{ app.name }} at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.</li>
+            </ol>
+
+            <h2>3. Termination</h2>
+
+            <p>We may terminate your access to the Site, without cause or notice, which may result in the forfeiture and destruction of all information associated with you. All provisions of this Agreement that by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p>
+
+            <h2>4. Disclaimer</h2>
+
+            <ol type="a">
+                <li>The materials on {{ app.name }}'s website are provided on an 'as is' basis. {{ app.name }} makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</li>
+                <li>Further, {{ app.name }} does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.</li>
+            </ol>
+
+            <h2>5. Limitations</h2>
+
+            <p>In no event shall {{ app.name }} or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on {{ app.name }}'s website, even if {{ app.name }} or a {{ app.name }} authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.</p>
+
+            <h2>6. Accuracy of materials</h2>
+
+            <p>The materials appearing on {{ app.name }}'s website could include technical, typographical, or photographic errors. {{ app.name }} does not warrant that any of the materials on its website are accurate, complete or current. {{ app.name }} may make changes to the materials contained on its website at any time without notice. However {{ app.name }} does not make any commitment to update the materials.</p>
+
+            <h2>7. Links</h2>
+
+            <p>{{ app.name }} has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by {{ app.name }} of the site. Use of any such linked website is at the user's own risk.</p>
+
+            <h2>8. Modifications</h2>
+
+            <p>{{ app.name }} may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.</p>
+
+            <h2>9. Governing Law</h2>
+
+            <p>These terms and conditions are governed by and construed in accordance with the laws of Colorado and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
+
+            <hr>
+            <div style="font-style: italic;">Effective: July 3, 2017</div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Guidelines{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid">
+            <img src="{{ base_url() }}/assets/favicon.png" style="width:80px;">
+            <h1 class="display-4">{{ app.name }}</h1>
+            <hr class="my-4">
+            <h2>Guidelines</h2>
+            <h3 class="text-muted">Keeps these in mind while using {{ app.name }}</h3>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-block">
+            <p class="page-content">
+                We at {{ app.name }} not only strive to create a great and open platform, but we also strive to ensure the safety of all our users. This is a place for people to come together
+                and share, and in order to maintain this there are guidelines all users must follow.
+            </p>
+            <p class="text-muted">These guidelines are subject to change or be added onto.</p>
+
+            <hr class="my-4">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="text-muted">Do...</h2>
+                    <ul>
+                        <li>
+                            <strong>Remember the human</strong> - It is important to remember that you are talking to another human on the other side. Treat others how you'd like to be treated.
+                            (Unless they're, like, a dog. In which case...)
+                        </li>
+                        <li>
+                            <strong>Be open-minded</strong> - We all have our own views, opinions, and beliefs. Not everyone will agree with you, and you don't have to either.
+                        </li>
+                        <li>
+                            <strong>Correctly tag your lists</strong> - If a post is <a class="tooltip-bottom" data-tooltip="Any content that contains nudity, intense sexuality, or profanity.">NSFW</a>
+                            (Not Safe For Work), for example, it is REQUIRED to tag it as NSFW.
+                        </li>
+                        <li>
+                            <strong>Report</strong> - Please report users or posts that break any of the rules or guidelines.
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h2 class="text-muted">Do not...</h2>
+                    <ul>
+                        <li>
+                            <strong>Post illegal content</strong> - Do not post any content that may violate the law: illegal sexual content, copyright or trademark infringement, etc.
+                        </li>
+                        <li>
+                            <strong>Harass or discriminate</strong> - Harassment and discrimination, in no way, shape, or form has a place here on {{ app.name }}.
+                        </li>
+                        <li>
+                            <strong>Troll</strong> - <a href="https://en.wikipedia.org/wiki/Internet_troll">Trolling</a> adds nothing to conversations.
+                        </li>
+                        <li>
+                            <strong>Post a user's personal information</strong> - <a href="https://en.wikipedia.org/wiki/Doxing">Doxing</a> a user is not allowed.
+                            This includes links or pictures of websites such as Facebook. If an image of a Facebook page or similar is being used, blur or black out any profile
+                            pictures and personal information. Any users that are involved in this type of offence are subject to immediate account deletion.
+                        </li>
+                        <li>
+                            <strong>Report users or posts just because you don't like them</strong> - Only report users or post that break any rules or guidelines.
+                        </li>
+                        <li>
+                            <strong>Make lackluster comments</strong> - Phrases like "lol" and "this" are not original and do not add anything to the conversation.
+                        </li>
+                        <li>
+                            <strong>Use link shorteners to post content</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+{% endblock %}
