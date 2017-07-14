@@ -42,6 +42,21 @@ class Lists extends Model
     public $MAX_CONTENT_CHAR = 10000;
     public $MAX_CATEGORY_CHAR = 24;
 
+    /**
+     * The max number of characters in a list's content before content is
+     * shortened in the list template.
+     *
+     * @var int $MAX_SHORTENED_CHAR
+     */
+    public $MAX_SHORTEN_CHAR = 2000;
+
+    /**
+     * The allowed HTML tags when list content is striped and shortened.
+     *
+     * @var string $ALLOWED_TAGS
+     */
+    public $ALLOWED_TAGS = "<h1><h2><h3><h4><h5><h6><p><a><embed><iframe><object>";
+    
 
     /**
      * Prevents Eloquent setting 'updated_at' during List creation.

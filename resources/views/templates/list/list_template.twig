@@ -8,7 +8,20 @@
             </small>
         </div>
         <div class="card-block">
-            {{ list.markdownContent() | raw }}
+
+            {% if list.content|length > list.MAX_SHORTEN_CHAR %}
+
+                {{ list.markdownContent() | slice(0, (list.MAX_SHORTEN_CHAR / 4)) | striptags(list.ALLOWED_TAGS) | raw }}
+
+                <small> ... [This is too large]</small>
+                <div><a class="btn btn-primary" href="{{ path_for('list', {user : list.owner().username, id : list.id}) }}">Read more</a></div>
+
+            {% else %}
+
+                {{ list.markdownContent() | raw }}
+
+            {% endif %}
+
         </div>
         <div class="card-footer">
             <div class="mr-auto">

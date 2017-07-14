@@ -329,7 +329,7 @@ button:disabled {background-color: #8696A4 !important;border-color: #8696A4 !imp
 .row.comment .comment-delete-btn {margin-left: 0.5rem;}
 .row.comment .comment-replies {margin-top: 1rem;border-left: 3px solid #ccc;}
 
-.row.comment.reply {margin-left: 1rem;}
+.row.comment.reply {margin-left: 0rem;}
 
 
 /* USER STYLES */
