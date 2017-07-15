@@ -259,9 +259,43 @@ class Lists extends Model
             $favorite->delete();
         }
 
+        $comments = Comment::where('list_id', $this->id)->get();
+        foreach ($comments as $comment) {
+            $comment->delete();
+        }
+
+
         $this->deletePosition($this);
         $this->delete();
     }
+
+    /**
+     * Mass deletes all of the user's lists.
+     * Deletes any favorites and comments associated with the list too.
+     *
+     * @param int $user_id
+     */
+    public function deleteUserLists($user_id)
+    {
+        $lists = $this->where('user_id', $user_id)->get();
+
+        foreach ($lists as $list) {
+
+            $favorites = ListFavorite::where('list_id', $list->id)->get();
+            foreach ($favorites as $favorite) {
+                $favorite->delete();
+            }
+
+            $comments = Comment::where('list_id', $list->id)->get();
+            foreach ($comments as $comment) {
+                $comment->delete();
+            }
+
+            $list->delete();
+
+        }
+    }
+
 
     /**
      * Takes a timestamp and converts it to a user friendly timestamp.

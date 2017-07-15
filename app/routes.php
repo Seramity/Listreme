@@ -37,6 +37,8 @@ $app->group('', function () use ($app) {
     $app->post('/account/picture/change', 'PictureSettingsController:changePicture')->setName('account.picture.change');
     $app->get('/account/password', 'ChangePasswordController:getChangePassword')->setName('account.password');
     $app->post('/account/password', 'ChangePasswordController:postChangePassword');
+    $app->get('/account/delete', 'DeleteAccountController:getDeleteAccount')->setName('account.delete');
+    $app->post('/account/delete', 'DeleteAccountController:postDeleteAccount');
 
     // LIST ROUTES
     $app->get('/list/new', 'NewListController:getNewList')->setName('list.new');

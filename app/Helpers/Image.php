@@ -132,4 +132,14 @@ class Image
 
         return $gif->getContents();
     }
+
+    /**
+     * Deletes a user's avatar.
+     *
+     * @param string $file
+     */
+    public function deleteAvatar($file)
+    {
+        unlink($_SERVER['DOCUMENT_ROOT'] . $this->container->request->getUri()->getBasePath() . '/assets/uploads/avatars/' . $file);
+    }
 }

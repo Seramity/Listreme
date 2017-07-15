@@ -59,6 +59,30 @@ class Comment extends Model
     }
 
     /**
+     * Mass deletes all of the user's comments.
+     * Deletes any replies associated with the comments too.
+     *
+     * @param int $user_id
+     */
+    public function deleteUserComments($user_id)
+    {
+        $comments = $this->where('user_id', $user_id)->get();
+        foreach ($comments as $comment) {
+
+            if($comment->hasReplies()) {
+                $replies = $this->where('reply_to', $comment->id)->get();
+
+                foreach ($replies as $reply) {
+                    $reply->delete();
+                }
+            }
+
+            $comment->delete();
+
+        }
+    }
+
+    /**
      * Checks if a comment has replies by counting the number of replies that exists.
      *
      * @return int

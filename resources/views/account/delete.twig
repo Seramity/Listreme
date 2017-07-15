@@ -1,0 +1,75 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Delete Account{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        {% include 'account/partials/sidenav.twig' %}
+
+        <div class="col-md-10" style="margin-bottom:1em;">
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Delete Account</h3>
+                </div>
+
+                <form action="{{ path_for('account.delete') }}" method="post" autocomplete="off" class="delete-account-form">
+
+                    <div class="card-block">
+                        <h4>Is this our goodbye?</h4>
+                        <h5 class="text-muted">A couple of things to reconsider before you delete your account</h5>
+                        <p>
+                            You may delete your account and all of its content, but once it is done there is no way of reverting your choice.
+                            We will not keep anything associated with this account once it is deleted.
+                        </p>
+                        <p><strong>Deleting your account will do the following:</strong></p>
+                        <ul>
+                            <li>Delete your lists</li>
+                            <li>Delete your favorites</li>
+                            <li>Delete your comments</li>
+                            <li>Delete all personal information stored on this account</li>
+                        </ul>
+
+                        <hr>
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="password">Password</label>
+                            <input type="password" class="form-control{% if errors.password %} error{% endif %}" id="password" name="password" placeholder="Enter your current password">
+                            {% if errors.password %} <div class="form_errors">{{ errors.password | first }}</div> {% endif %}
+                        </div>
+
+
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-outline-danger" data-submit-value="Deleting...">Delete Account</button>
+
+                        {{ csrf.field | raw }}
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+
+        $('.delete-account-form').on('submit', function() {
+
+            var self = $(this),
+                button = self.find('button[type="submit"]'),
+                submitValue = button.data('submit-value');
+
+            button.attr('disabled', 'disabled').text((submitValue) ? submitValue : 'Please Wait...');
+            document.getElementById("ajax-loader").style.visibility = "visible";
+
+        });
+    </script>
+
+{% endblock %}

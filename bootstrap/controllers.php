@@ -29,6 +29,10 @@ $container['ProfileSettingsController'] = function ($container) {
 $container['PictureSettingsController'] = function ($container) {
     return new \App\Controllers\Auth\Account\PictureSettingsController($container);
 };
+$container['DeleteAccountController'] = function ($container) {
+    return new \App\Controllers\Auth\Account\DeleteAccountController($container);
+};
+
 
 // USER CONTROLLERS
 $container['ProfileController'] = function ($container) {

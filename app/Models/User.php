@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Helpers\Image;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Lists;
-use App\Models\ListFavorite;
+use App\Auth\Auth;
 
 /**
  * Class User
@@ -164,7 +164,6 @@ class User extends Model
 
     }
 
-
     /**
      * Counts the number of lists a user has and returns it.
      *
@@ -183,6 +182,46 @@ class User extends Model
     public function countListFavorites()
     {
         return ListFavorite::where('user_id', $this->id)->count();
+    }
+
+    /**
+     * Deletes a user's account.
+     * This goes through all of the content associated with the account and deletes them.
+     *
+     * @return bool
+     */
+    public function deleteAccount()
+    {
+        $auth = new Auth();
+
+        if(!$auth->user()) {
+            return false;
+        }
+
+        $lists = new Lists();
+        $lists->deleteUserLists($auth->user()->id);
+
+        $comments = new Comment();
+        $comments->deleteUserComments($auth->user()->id);
+
+        $favorites = ListFavorite::where('user_id', $auth->user()->id)->get();
+        foreach ($favorites as $favorite) {
+            $favorite->delete();
+        }
+
+        $user_permissions = UserPermission::where('user_id', $auth->user()->id)->firstOrFail();
+        $user_permissions->delete();
+
+
+        if($auth->user()->uploaded_avatar) {
+            $avatar = new Image();
+            $avatar->deleteAvatar($auth->user()->uploaded_avatar);
+        }
+
+        $auth->user()->delete();
+
+
+        return true;
     }
 
     /**
