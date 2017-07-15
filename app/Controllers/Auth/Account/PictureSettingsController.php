@@ -33,12 +33,13 @@ class PictureSettingsController extends Controller
         $img_ext = pathinfo($request->getUploadedFiles()['avatar']->getClientFilename(), PATHINFO_EXTENSION);
         $file_name = $this->auth->user()->id . "-" . mt_rand() . "." . $img_ext;
 
+        $image = new Image;
+
         // REMOVE OLD AVATAR IF EXISTS
         if($this->auth->user()->uploaded_avatar) {
-            unlink($_SERVER['DOCUMENT_ROOT'] . $this->container->request->getUri()->getBasePath() . '/assets/uploads/avatars/' . $this->auth->user()->uploaded_avatar);
+            $image->deleteAvatar($this->auth->user()->uploaded_avatar);
         }
 
-        $image = new Image;
         $image->upload($tmp_img, $file_name, 350);
 
 
@@ -54,7 +55,8 @@ class PictureSettingsController extends Controller
     public function deletePicture($request, $response)
     {
         if($this->auth->user()->uploaded_avatar) {
-            unlink($_SERVER['DOCUMENT_ROOT'] . $this->container->request->getUri()->getBasePath() . '/assets/uploads/avatars/' . $this->auth->user()->uploaded_avatar);
+            $image = new Image();
+            $image->deleteAvatar($this->auth->user()->uploaded_avatar);
 
             $this->auth->user()->update([
                 'gravatar' => true,
