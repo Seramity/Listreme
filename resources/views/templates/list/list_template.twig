@@ -1,38 +1,47 @@
-<div class="col-xl-4">
-    <div class="card list" id="list-{{list.id}}">
-        <div class="card-header">
-            <a href="{{ path_for('list', {user : list.owner().username, id : list.id}) }}"><h4 class="card-title">{{ list.title }}</h4></a>
-            <small>
-                {{ list.position + 1 }} · {# list position #}
-                [<a href="{{ path_for('userProfile.category', {user : list.owner().username, category : list.category}) }}">{{ list.category }}</a>]
-            </small>
-        </div>
-        <div class="card-block">
-
-            {% if list.content|length > list.MAX_SHORTEN_CHAR %}
-
-                {{ list.markdownContent() | slice(0, (list.MAX_SHORTEN_CHAR / 4)) | striptags(list.ALLOWED_TAGS) | raw }}
-
-                <small> ... [This is too large]</small>
-                <div><a class="btn btn-primary" href="{{ path_for('list', {user : list.owner().username, id : list.id}) }}">Read more</a></div>
-
-            {% else %}
-
-                {{ list.markdownContent() | raw }}
-
-            {% endif %}
-
-        </div>
-        <div class="card-footer">
-            <div class="mr-auto">
-                {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
-                    <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
-                    | <a class="deleteLink" onclick="confirmDeleteList({{ list.id }});">Delete</a> |
-                {% endif %}
-                {% if not list.favorite().exists(list.id, auth.user.id) %}<a href="{{ path_for('list.favorite', {id : list.id}) }}">Favorite</a>{% else %}<a href="{{ path_for('list.unfavorite', {id : list.id}) }}">Unfavorite</a>{% endif %}
+<div class="card list" id="list-{{list.id}}">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-9">
+                <a href="{{ path_for('list', {user : list.owner().username, id : list.id}) }}"><h4 class="card-title">{{ list.title }}</h4></a>
             </div>
-
-            <small class="text-muted ml-auto" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.edited %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</small>
+            <div class="col-3 text-right">
+                <small>
+                    {% if isUserProfile %}
+                        <div>{{ list.position + 1 }}</div> {# list position #}
+                    {% endif %}
+                    [<a href="{{ path_for('userProfile.category', {user : list.owner().username, category : list.category}) }}">{{ list.category }}</a>]
+                </small>
+            </div>
+            <div class="col-12">
+                <small class="text-muted">{{ list.favorites().count() }} Favorites</small>
+            </div>
         </div>
+    </div>
+    <div class="card-block">
+
+        {% if list.content|length > list.MAX_SHORTEN_CHAR %}
+
+            {{ list.markdownContent() | slice(0, (list.MAX_SHORTEN_CHAR / 4)) | striptags(list.ALLOWED_TAGS) | raw }}
+
+            <small> ... [This is too large]</small>
+            <div><a class="btn btn-primary" href="{{ path_for('list', {user : list.owner().username, id : list.id}) }}">Read more</a></div>
+
+        {% else %}
+
+            {{ list.markdownContent() | raw }}
+
+        {% endif %}
+
+    </div>
+    <div class="card-footer">
+        <div class="mr-auto">
+            {% if auth.user.id == list.user_id or auth.user.isAdmin() %}
+                <a href="{{ path_for('list.edit', {id : list.id}) }}">Edit</a>
+                | <a class="deleteLink" onclick="confirmDeleteList({{ list.id }});">Delete</a> |
+            {% endif %}
+            {% if not list.favorite().exists(list.id, auth.user.id) %}<a href="{{ path_for('list.favorite', {id : list.id}) }}">Favorite</a>{% else %}<a href="{{ path_for('list.unfavorite', {id : list.id}) }}">Unfavorite</a>{% endif %}
+        </div>
+
+        <small class="text-muted ml-auto" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.edited %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</small>
     </div>
 </div>

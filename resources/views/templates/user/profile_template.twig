@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-lg-2 profile-main">
 
-            <div class="card" style="margin-bottom:1em;">
+            <div class="card mb-4">
 
                 {% if auth.check and auth.user.id ==  user.id %}
                     <a href="{{ path_for('account.picture') }}">

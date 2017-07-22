@@ -1,0 +1,82 @@
+{% extends 'templates/app.twig' %}
+
+{% block pageTitle %}Explore - Random{% endblock pageTitle %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Explore: Random</h2>
+                    <h5 class="lead text-muted">Discover random content on {{ app.name }}</h5>
+                </div>
+
+                <div class="card-block pb-0">
+
+                    <ul class="nav page-nav nav-pills flex-column flex-sm-row">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path_for('explore') }}">New</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path_for('explore') }}">Random</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Popular lists</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ path_for('explore.popular', {time : 'week'}) }}">This Week</a>
+                                <a class="dropdown-item" href="{{ path_for('explore.popular', {time : 'month'}) }}">This month</a>
+                                <a class="dropdown-item" href="{{ path_for('explore.popular', {time : 'year'}) }}">This Year</a>
+                                <a class="dropdown-item" href="{{ path_for('explore.popular', {time : 'all-time'}) }}">All time</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 my-4">
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Random lists</h3>
+                </div>
+            </div>
+
+            {% if not random_lists is empty %}
+                {% for list in random_lists %}
+                    <div class="col-12 px-0">
+                        {% include 'templates/list/small_list_template.twig' %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h5 class="test-muted">Couldn't find any lists.</h5>
+            {% endif %}
+
+        </div>
+
+        <div class="col-md-6 my-4">
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Random users</h3>
+                </div>
+            </div>
+
+            {% if not random_users is empty %}
+                {% for user in random_users %}
+                    <div class="col-12 px-0">
+                        {% include 'templates/user/user_box_template.twig' %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h5 class="test-muted">Couldn't find any users.</h5>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+<div class="card favorite" id="list-{{list.id}}">
+    <div class="card-header">
+        <a href="{{ path_for('userProfile', {user : list.owner().username}) }}">{{ list.owner().getAvatar({size: 50}) | raw }}</a>
+        <h5 class="card-subtitle d-inline"><a href="{{ path_for('userProfile', {user : list.owner().username}) }}">{{ list.owner().username }}</a></h5>
+        <h4 class="card-title mt-3">{{ list.title }}</h4>
+        <small >[<a href="{{ path_for('userProfile.category', {user : list.owner().username, category : list.category}) }}">{{ list.category }}</a>]</small>
+    </div>
+    <div class="card-block">
+        <a class="btn btn-primary" href="{{ path_for('list', {user : list.owner().username, id : list.id}) }}">Read list</a>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted" title="{{ list.timestamp('created_at') }}">{{ list.readableTime('created_at') }}{% if list.edited %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</small>
+    </div>
+</div>

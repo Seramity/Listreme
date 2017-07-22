@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Image;
 use Illuminate\Database\Eloquent\Model;
 use App\Auth\Auth;
+use Carbon\Carbon;
 
 /**
  * Class User
@@ -222,6 +223,14 @@ class User extends Model
 
 
         return true;
+    }
+
+    /*
+     * Returns the date when a user joined in a readable difference (Ex: Joined 2 weeks ago).
+     */
+    public function joinedDate()
+    {
+        return Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans();
     }
 
     /**

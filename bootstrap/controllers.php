@@ -60,6 +60,11 @@ $container['CommentController'] = function ($container) {
     return new \App\Controllers\Comment\CommentController($container);
 };
 
+// EXPLORE CONTROLLERS
+$container['ExploreController'] = function($container) {
+    return new \App\Controllers\Explore\ExploreController($container);
+};
+
 // GENERAL PAGES CONTROLLERS
 $container['AboutController'] = function ($container) {
     return new \App\Controllers\Pages\About\AboutController($container);

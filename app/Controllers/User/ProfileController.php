@@ -17,7 +17,7 @@ class ProfileController extends Controller
 
         $lists = Lists::where('user_id', $user->id)->orderBy('position', 'asc')->get();
 
-        $data = ['user' => $user, 'lists' => $lists];
+        $data = ['user' => $user, 'lists' => $lists, 'isUserProfile' => TRUE];
         return $this->view->render($response, 'user/profile.twig', $data);
     }
 

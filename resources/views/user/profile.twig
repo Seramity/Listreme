@@ -17,7 +17,9 @@
         {% if not lists.isEmpty() %}
             <div class="row">
                 {% for list in lists %}
-                    {% include 'templates/list/list_template.twig' %}
+                    <div class="col-lg-4">
+                        {% include 'templates/list/list_template.twig' %}
+                    </div>
                 {% endfor %}
             </div>
         {% else %}

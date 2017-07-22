@@ -19,6 +19,7 @@
                         </div>
                         <div class="col-3 text-right">
                             [<a href="{{ path_for('userProfile.category', {user : user.username, category : list.category}) }}">{{ list.category }}</a>]
+                            <small class="text-muted" title="{{ list.timestamp('created_at') }}" style="display: block;">{{ list.readableTime('created_at') }}{% if list.edited %}<span class="updated" title="Edited: {{ list.readableTime('updated_at') }}">*</span>{% endif %}</small>
                         </div>
                     </div>
                 </div>

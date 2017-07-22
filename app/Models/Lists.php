@@ -228,6 +228,44 @@ class Lists extends Model
         return $lists;
     }
 
+    public function popularLists($time, $paginate)
+    {
+        switch($time) {
+            case 'week':
+                $timeDiff =  Carbon::now()->subWeek();
+            break;
+            case 'month':
+                $timeDiff =  Carbon::now()->subMonth();
+            break;
+            case 'year':
+                $timeDiff =  Carbon::now()->subYear();
+            break;
+            case 'all-time':
+                $timeDiff =  Carbon::now()->subYear(40); // A little trick to get all lists
+            break;
+            default:
+                $timeDiff =  Carbon::now()->subWeek();
+            break;
+        }
+
+        $lists = $this->leftJoin('list_favorites','lists.id','=','list_favorites.list_id')
+            ->selectRaw('lists.*, count(list_favorites.list_id) AS `count`')
+            ->where('lists.created_at', '>=', $timeDiff)
+            ->where('lists.created_at', '<=', Carbon::now())
+            ->groupBy('lists.id')
+            ->orderBy('count', 'desc')
+            ->simplePaginate($paginate);
+
+        // REMOVE ALL LISTS THAT HAVE ZERO FAVORITES
+        foreach ($lists as $key => $list) {
+            if ($list->favorites()->count() <= 0) {
+                $lists->forget($key);
+            }
+        }
+
+        return $lists;
+    }
+
     /**
      * Finds comments associated with a list and then allows access through the Lists model.
      *
@@ -328,5 +366,13 @@ class Lists extends Model
     public function countUserLists($user_id)
     {
         return $this->where('user_id', $user_id)->count();
+    }
+
+    /**
+     * Creates relation with ListFavorites and returns the model.
+     */
+    public function favorites()
+    {
+        return $this->hasMany('App\Models\ListFavorite', 'list_id');
     }
 }

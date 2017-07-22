@@ -1,0 +1,9 @@
+<div class="card mb-4">
+    <div class="card-block">
+        <a href="{{ path_for('userProfile', {user : user.username}) }}">
+            {{ user.getAvatar({size: 50}) | raw }}
+            <h4 class="card-title d-inline">{{ user.username }}</h4>
+        </a>
+        <p class="text-muted ml-5">(Joined {{ user.joinedDate() }})</p>
+    </div>
+</div>
