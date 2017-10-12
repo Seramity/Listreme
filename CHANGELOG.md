@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.0-alpha] - 2017-10-12
+### Added
+- Explore page
+    - View new, random, or popular lists based on time (week, month, year, all time)
+- Delete account
+    - Deletes all info, lists, comments, and favorites associated with the account 
+- List content check to render a "Read more" button when content is too long
+### Changed
+- Replaced User id with auth_id for more secure authentication
+- Replaced "unlink" with Image deleteAvatar function in Picture Settings controller
+- Improved list comment styles to fit better in mobile
+- Renamed "favorite_template.twig" to "small_list_template.twig"
+
 ## [1.3.0-alpha] - 2017-07-11
 ### Added
 - Twig caching
